@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useMapStore } from '../../store/mapStore';
+import logoNovasoil from '../../assets/images/logonovasoil.png';
 
 const SplashScreen = () => {
   const { isLoaded, map } = useMapStore();
@@ -106,16 +107,11 @@ const SplashScreen = () => {
             <div className="w-24 h-24 border-b-4 border-r-4 border-amber-400 absolute bottom-0 right-0 animate-pulse" 
                  style={{animationDelay: "0.5s"}}></div>
             
-            <svg className="w-28 h-28 text-green-200 relative z-10" viewBox="0 0 24 24" fill="none">
-              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" 
-                    stroke="currentColor" strokeWidth="1.5" />
-              <path d="M12 2V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M19.5 12H4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19Z" 
-                    stroke="currentColor" strokeWidth="1.5" />
-              <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" 
-                    fill="currentColor" fillOpacity="0.2" />
-            </svg>
+            <img 
+              src={logoNovasoil} 
+              alt="Novasoil Logo" 
+              className="w-28 h-28 relative z-10 object-contain filter drop-shadow-lg"
+            />
           </div>
           
           <h1 className="text-white text-3xl sm:text-4xl font-bold mb-2">
