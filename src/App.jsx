@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MapContainer from './components/Map/MapContainer';
 import FloatingMenu from './components/Controls/FloatingMenu';
 import SplashScreen from './components/SplashScreen/SplashScreen';
+import Model3DLayer from './components/Map/Model3DLayer';
 import './App.css';
 
 const theme = createTheme({
@@ -21,6 +22,7 @@ function App() {
       <CssBaseline />
       <div className="app">
         <MapContainer />
+        <Model3DLayer />
         <FloatingMenu />
                 <SplashScreen />
       </div>
