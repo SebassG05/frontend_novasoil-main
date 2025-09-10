@@ -11,7 +11,7 @@ export const MAP_STYLES = {
 };
 
 export const DEFAULT_VIEWPORT = {
-    longitude: -3.7038,
-    latitude: 40.4168,
-    zoom: 10
+    longitude: 10.0,
+    latitude: 45.0,
+    zoom: 4.5
 };
