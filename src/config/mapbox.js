@@ -10,8 +10,30 @@ export const MAP_STYLES = {
     satelliteStreets: 'mapbox://styles/mapbox/satellite-streets-v12'
 };
 
+// Vista inicial centrada en Europa
 export const DEFAULT_VIEWPORT = {
     longitude: 10.0,
-    latitude: 45.0,
-    zoom: 4.5
+    latitude: 54.0,
+    zoom: 4
+};
+
+// Configuración específica para el área de estudio (Parque Tamarguillo)
+export const STUDY_AREA = {
+    center: [-5.911, 37.406],
+    bounds: [
+        [-5.925, 37.395], // southwest
+        [-5.900, 37.420]  // northeast
+    ],
+    zoom: {
+        default: 13,
+        detail: 16,
+        overview: 11
+    }
+};
+
+// Vista inicial centrada en Europa
+export const EUROPE_VIEW = {
+    longitude: 10.0,
+    latitude: 54.0,
+    zoom: 4
 };

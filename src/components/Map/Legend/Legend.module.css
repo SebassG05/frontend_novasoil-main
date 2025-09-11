@@ -350,6 +350,77 @@
   }
 }
 
+/* Estilos para controles de capas geoespaciales */
+.layerControl {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.layerTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.layerItem {
+  margin-bottom: 0.5rem;
+}
+
+.layerLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.layerLabel:hover {
+  color: #333;
+}
+
+.layerCheckbox {
+  margin-right: 0.5rem;
+  accent-color: #007bff;
+}
+
+.layerSymbol {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.layerInfo {
+  margin-top: 0.25rem;
+  margin-left: 2.5rem;
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.infoText {
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.4;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #007bff;
+}
+
+.infoText p {
+  margin: 0.25rem 0;
+}
+
 /* Animaciones */
 @keyframes overlayFadeIn {
   from {

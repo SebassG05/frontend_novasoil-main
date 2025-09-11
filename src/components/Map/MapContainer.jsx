@@ -1,8 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
+import { useGeoData } from '../../hooks/useGeoData';
 import { MAPBOX_TOKEN } from '../../config/mapbox';
 import MiniMap from '../Controls/MiniMap';
+import SampleHoverInfo from './SampleInfo/SampleHoverInfo';
+import GeoDataLoader from './SampleInfo/GeoDataLoader';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -15,6 +18,9 @@ const MapContainer = () => {
         setMap,
         setIsLoaded
     } = useMapStore();
+
+    // Usar el hook de datos geoespaciales
+    const { isLoadingGeoData } = useGeoData();
 
     useEffect(() => {
         if (!mapContainer.current) return;
@@ -51,12 +57,13 @@ const MapContainer = () => {
     }, [map, mapStyle]);
 
     return (
-        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <div
-                ref={mapContainer}
-                style={{ width: '100%', height: '100%' }}
-            />
-            <MiniMap /> {/* ✅ AGREGAR ESTA LÍNEA */}
+        <div className="relative w-full h-full">
+            <div ref={mapContainer} className="w-full h-full" />
+            
+            {/* Componentes de UI superpuestos */}
+            <SampleHoverInfo />
+            <GeoDataLoader />
+            <MiniMap />
         </div>
     );
 };

@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
+import { useMapStore } from '../../../store/mapStore';
+import { useGeoData } from '../../../hooks/useGeoData';
 import styles from './Legend.module.css';
 
 const Legend = ({ isOpen, onClose }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const totalPages = 3; // Total de páginas de la leyenda
+  const totalPages = 4; // Aumentamos las páginas para incluir datos geoespaciales
+  
+  const { 
+    shapefileData, 
+    samplingData, 
+    layersVisibility, 
+    isLoadingGeoData 
+  } = useMapStore();
+  
+  const { toggleLayerVisibility } = useGeoData();
 
   if (!isOpen) return null;
 
@@ -209,6 +220,106 @@ const Legend = ({ isOpen, onClose }) => {
                   <span className={styles.imageLabel}>Resilience to natural hazards</span>
                 </div>
               </div>
+            </div>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            {/* Datos Geoespaciales Section */}
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Datos Geoespaciales</h2>
+              
+              {isLoadingGeoData ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mr-3"></div>
+                  <span>Cargando datos...</span>
+                </div>
+              ) : (
+                <>
+                  {/* Shapefile Layer Control */}
+                  <div className={styles.layerControl}>
+                    <h3 className={styles.layerTitle}>Área de Estudio</h3>
+                    <div className={styles.layerItem}>
+                      <label className={styles.layerLabel}>
+                        <input
+                          type="checkbox"
+                          checked={layersVisibility.shapefile}
+                          onChange={() => toggleLayerVisibility('shapefile')}
+                          className={styles.layerCheckbox}
+                        />
+                        <div className={styles.layerSymbol} style={{ backgroundColor: '#088', opacity: 0.3 }}></div>
+                        <span>Límites del parque Tamarguillo</span>
+                      </label>
+                      {shapefileData && (
+                        <div className={styles.layerInfo}>
+                          <small>{shapefileData.features?.length || 0} geometrías cargadas</small>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Sampling Points Layer Control */}
+                  <div className={styles.layerControl}>
+                    <h3 className={styles.layerTitle}>Puntos de Muestreo</h3>
+                    <div className={styles.layerItem}>
+                      <label className={styles.layerLabel}>
+                        <input
+                          type="checkbox"
+                          checked={layersVisibility.samplingPoints}
+                          onChange={() => toggleLayerVisibility('samplingPoints')}
+                          className={styles.layerCheckbox}
+                        />
+                        <div className={styles.layerSymbol} style={{ backgroundColor: '#ff6b6b' }}></div>
+                        <span>Muestras CHE</span>
+                      </label>
+                    </div>
+                    <div className={styles.layerItem}>
+                      <label className={styles.layerLabel}>
+                        <input
+                          type="checkbox"
+                          checked={layersVisibility.samplingPoints}
+                          onChange={() => toggleLayerVisibility('samplingPoints')}
+                          className={styles.layerCheckbox}
+                        />
+                        <div className={styles.layerSymbol} style={{ backgroundColor: '#4ecdc4' }}></div>
+                        <span>Muestras CHE-BIO</span>
+                      </label>
+                    </div>
+                    {samplingData && (
+                      <div className={styles.layerInfo}>
+                        <small>{samplingData.features?.length || 0} puntos de muestreo</small>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Labels Control */}
+                  <div className={styles.layerControl}>
+                    <h3 className={styles.layerTitle}>Etiquetas</h3>
+                    <div className={styles.layerItem}>
+                      <label className={styles.layerLabel}>
+                        <input
+                          type="checkbox"
+                          checked={layersVisibility.samplingLabels}
+                          onChange={() => toggleLayerVisibility('samplingLabels')}
+                          className={styles.layerCheckbox}
+                        />
+                        <span>Códigos de muestras</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Información adicional */}
+                  <div className={styles.section}>
+                    <h3 className={styles.layerTitle}>Información</h3>
+                    <div className={styles.infoText}>
+                      <p>• Pasa el cursor sobre los puntos para ver los detalles</p>
+                      <p>• Haz clic en un punto para ver información completa</p>
+                      <p>• Los colores indican el tipo de muestreo</p>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </>
         );
