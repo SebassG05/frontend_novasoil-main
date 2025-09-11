@@ -1,8 +1,41 @@
 /* Contenedor principal del carrusel */
 .carouselContainer {
   width: 85%;
-  margin: 2rem auto 0;
+  margin: 0.5rem auto 0;
   position: relative;
+}
+
+/* Contenedor de logos */
+.logosContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.logoItem:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.logoImage {
+  height: 60px;
+  width: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.logoItem:hover .logoImage {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 }
 
 .carousel {
@@ -228,6 +261,16 @@
   .imageDescription {
     font-size: 0.9rem;
   }
+  
+  .logosContainer {
+    gap: 2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .logoImage {
+    height: 50px;
+    width: 50px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -265,6 +308,16 @@
   .ctaLink {
     font-size: 0.95rem;
     padding: 0.7rem 1.6rem;
+  }
+  
+  .logosContainer {
+    gap: 1.5rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .logoImage {
+    height: 45px;
+    width: 45px;
   }
 }
 
