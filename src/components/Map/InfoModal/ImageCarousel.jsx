@@ -165,6 +165,19 @@ const ImageCarousel = () => {
           />
         </div>
       </div>
+      
+      {/* Call to action elegante */}
+      <div className={styles.callToAction}>
+        <p className={styles.ctaText}>
+          More information about the case study
+        </p>
+        <button className={styles.ctaLink} onClick={() => {
+          // Aquí puedes agregar la lógica para abrir más información
+          console.log('Opening case study details...');
+        }}>
+          click here
+        </button>
+      </div>
     </div>
   );
 };
