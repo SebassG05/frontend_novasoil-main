@@ -15,8 +15,8 @@ const Model3DLayer = () => {
   useEffect(() => {
     if (!map) return;
 
-    // Coordenadas de Sevilla
-    const coordinates = [-5.9845, 37.3891];
+  // Coordenadas del Tamarguillo
+  const coordinates = [-5.9305, 37.4142];
     const ZOOM_THRESHOLD = 6; // Zoom donde cambia del círculo al modelo 3D (menor = aparece antes)
 
     // Crear marcador como capa de Mapbox (círculo rojo fijo)
