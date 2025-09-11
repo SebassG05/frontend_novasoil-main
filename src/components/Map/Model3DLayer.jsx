@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
+import ImageCarousel from './InfoModal/ImageCarousel';
+import styles from './InfoModal/InfoModal.module.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import mapboxgl from 'mapbox-gl';
@@ -235,6 +237,11 @@ const Model3DLayer = () => {
   return (
     <>
       <InfoModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <div className={styles.modalHeader}>
+          <h1 className={styles.modalTitle}>CO2-Land Initiative in Seville</h1>
+          <h2 className={styles.modalSubtitle}>(Parque Tamarguillo)</h2>
+        </div>
+        <ImageCarousel />
       </InfoModal>
     </>
   );

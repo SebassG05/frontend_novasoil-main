@@ -55,3 +55,32 @@
   flex-direction: column;
   align-items: center;
 }
+
+/* Estilos para el título del modal */
+.modalHeader {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modalTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2c3e50, #3498db, #27ae60);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.modalSubtitle {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
