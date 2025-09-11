@@ -14,7 +14,7 @@ export const MAP_STYLES = {
 export const DEFAULT_VIEWPORT = {
     longitude: 10.0,
     latitude: 50.0,
-    zoom: 4
+    zoom: 4.2
 };
 
 // Configuración específica para el área de estudio (Parque Tamarguillo)
@@ -35,5 +35,5 @@ export const STUDY_AREA = {
 export const EUROPE_VIEW = {
     longitude: 10.0,
     latitude: 50.0,
-    zoom: 4
+    zoom: 4.2
 };

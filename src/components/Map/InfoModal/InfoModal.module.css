@@ -9,8 +9,8 @@
   background: transparent;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: 6%;
+  
+  padding-left: 15%;
   z-index: 1000;
   pointer-events: none;
   animation: overlayFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
