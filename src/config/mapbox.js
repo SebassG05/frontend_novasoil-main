@@ -13,7 +13,7 @@ export const MAP_STYLES = {
 // Vista inicial centrada en Europa
 export const DEFAULT_VIEWPORT = {
     longitude: 10.0,
-    latitude: 54.0,
+    latitude: 50.0,
     zoom: 4
 };
 
@@ -34,6 +34,6 @@ export const STUDY_AREA = {
 // Vista inicial centrada en Europa
 export const EUROPE_VIEW = {
     longitude: 10.0,
-    latitude: 54.0,
+    latitude: 50.0,
     zoom: 4
 };

@@ -259,56 +259,6 @@ const Legend = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  {/* Sampling Points Layer Control */}
-                  <div className={styles.layerControl}>
-                    <h3 className={styles.layerTitle}>Puntos de Muestreo</h3>
-                    <div className={styles.layerItem}>
-                      <label className={styles.layerLabel}>
-                        <input
-                          type="checkbox"
-                          checked={layersVisibility.samplingPoints}
-                          onChange={() => toggleLayerVisibility('samplingPoints')}
-                          className={styles.layerCheckbox}
-                        />
-                        <div className={styles.layerSymbol} style={{ backgroundColor: '#ff6b6b' }}></div>
-                        <span>Muestras CHE</span>
-                      </label>
-                    </div>
-                    <div className={styles.layerItem}>
-                      <label className={styles.layerLabel}>
-                        <input
-                          type="checkbox"
-                          checked={layersVisibility.samplingPoints}
-                          onChange={() => toggleLayerVisibility('samplingPoints')}
-                          className={styles.layerCheckbox}
-                        />
-                        <div className={styles.layerSymbol} style={{ backgroundColor: '#4ecdc4' }}></div>
-                        <span>Muestras CHE-BIO</span>
-                      </label>
-                    </div>
-                    {samplingData && (
-                      <div className={styles.layerInfo}>
-                        <small>{samplingData.features?.length || 0} puntos de muestreo</small>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Labels Control */}
-                  <div className={styles.layerControl}>
-                    <h3 className={styles.layerTitle}>Etiquetas</h3>
-                    <div className={styles.layerItem}>
-                      <label className={styles.layerLabel}>
-                        <input
-                          type="checkbox"
-                          checked={layersVisibility.samplingLabels}
-                          onChange={() => toggleLayerVisibility('samplingLabels')}
-                          className={styles.layerCheckbox}
-                        />
-                        <span>Códigos de muestras</span>
-                      </label>
-                    </div>
-                  </div>
-
                   {/* Información adicional */}
                   <div className={styles.section}>
                     <h3 className={styles.layerTitle}>Información</h3>
