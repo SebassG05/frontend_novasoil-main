@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
+import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import styles from './InfoModal/InfoModal.module.css';
 import * as THREE from 'three';
@@ -15,6 +16,7 @@ const Model3DLayer = () => {
     currentZoom: 0
   });
   const [modalVisible, setModalVisible] = useState(false);
+  const [legendVisible, setLegendVisible] = useState(false);
 
   useEffect(() => {
     if (!map) return;
@@ -71,6 +73,7 @@ const Model3DLayer = () => {
         // Añadir evento de clic al círculo rojo
         map.on('click', 'marker-circle', () => {
           setModalVisible(true);
+          setLegendVisible(true);
         });
       }
 
@@ -243,6 +246,11 @@ const Model3DLayer = () => {
         </div>
         <ImageCarousel />
       </InfoModal>
+      
+      <Legend 
+        isOpen={legendVisible} 
+        onClose={() => setLegendVisible(false)} 
+      />
     </>
   );
 };
