@@ -117,16 +117,16 @@ const Model3DLayer = () => {
           loader.load('/round_3d_location.glb', (gltf) => {
             this.scene.add(gltf.scene);
             map.triggerRepaint();
-            // Detectar clic en el canvas del modelo 3D
-            const canvas = map.getCanvasContainer().querySelector('canvas');
-            if (canvas) {
-              canvas.addEventListener('click', (e) => {
-                // Solo mostrar si el modelo está visible (zoom alto)
-                if (map.getZoom() >= ZOOM_THRESHOLD) {
-                  setModalVisible(true);
-                }
-              });
-            }
+            // Detectar clic específicamente en el modelo 3D (desactivado para evitar conflictos)
+            // const canvas = map.getCanvasContainer().querySelector('canvas');
+            // if (canvas) {
+            //   canvas.addEventListener('click', (e) => {
+            //     // Solo mostrar si el modelo está visible (zoom alto)
+            //     if (map.getZoom() >= ZOOM_THRESHOLD) {
+            //       setModalVisible(true);
+            //     }
+            //   });
+            // }
           }, undefined, (error) => {
             console.error('Error cargando modelo 3D:', error);
           });

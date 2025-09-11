@@ -144,9 +144,9 @@ class MapLayerService {
      */
     setupSamplingPointsInteraction(map, onHover, onLeave) {
         try {
-            // Cambiar el cursor al pasar sobre los puntos
+            // Cambiar el cursor al pasar sobre los puntos (sin indicar que es clickeable)
             map.on('mouseenter', this.LAYER_IDS.SAMPLING_POINTS, (e) => {
-                map.getCanvas().style.cursor = 'pointer';
+                map.getCanvas().style.cursor = 'default';
                 if (onHover && e.features.length > 0) {
                     onHover(e.features[0], e);
                 }
@@ -159,43 +159,10 @@ class MapLayerService {
                 }
             });
 
-            // Evento de click
-            map.on('click', this.LAYER_IDS.SAMPLING_POINTS, (e) => {
-                if (e.features.length > 0) {
-                    const feature = e.features[0];
-                    const coordinates = feature.geometry.coordinates.slice();
-                    const properties = feature.properties;
-
-                    // Crear popup con información de la muestra
-                    const popup = new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(this.createSamplePopupContent(properties))
-                        .addTo(map);
-                }
-            });
-
-            console.log('Interacciones de puntos de muestreo configuradas');
+            console.log('Interacciones de hover para puntos de muestreo configuradas');
         } catch (error) {
             console.error('Error configurando interacciones:', error);
         }
-    }
-
-    /**
-     * Crea el contenido HTML para el popup de una muestra
-     */
-    createSamplePopupContent(properties) {
-        return `
-            <div class="sample-popup">
-                <h3 class="font-bold text-lg mb-2">${properties.code}</h3>
-                <div class="space-y-1 text-sm">
-                    <p><strong>Fecha:</strong> ${properties.date}</p>
-                    <p><strong>Tipo:</strong> ${properties.samplingType}</p>
-                    <p><strong>Litología:</strong> ${properties.lithologyDescription}</p>
-                    <p><strong>Coordenadas:</strong> ${properties.coordinates.longitude.toFixed(6)}, ${properties.coordinates.latitude.toFixed(6)}</p>
-                    ${properties.observations ? `<p><strong>Observaciones:</strong> ${properties.observations}</p>` : ''}
-                </div>
-            </div>
-        `;
     }
 
     /**
