@@ -110,17 +110,107 @@ const Legend = ({ isOpen, onClose }) => {
         );
       case 2:
         return (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Page 2 Content</h2>
-            <p className={styles.placeholder}>Contenido de la página 2 - Aquí puedes agregar más secciones</p>
-          </div>
+          <>
+            {/* Business Models Section */}
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Ecosystem Services</h2>
+              <div className={styles.imageGrid}>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585769/unnamed-removebg-preview_5_mf8cuf.png" 
+                    alt="Biodiversity"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Biodiversity</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585860/unnamed-removebg-preview_6_gm4mwz.png" 
+                    alt="Carbon Storage"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Carbon Storage</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585933/unnamed-removebg-preview_7_wtiibk.png" 
+                    alt="Water Quantity"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Water Quantity</span>
+                </div>
+
+
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586023/unnamed-removebg-preview_8_srp4yt.png" 
+                    alt="Soil Quality"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Soil Quality</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586884/unnamed-removebg-preview_9_n9kw60.png" 
+                    alt="Landscape and Scenery"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Landscape and Scenery</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586960/unnamed-removebg-preview_10_cznjsg.png" 
+                    alt="Rural viability"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Rural viability</span>
+                </div>
+              </div>
+            </div>
+          </>
         );
       case 3:
         return (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Page 3 Content</h2>
-            <p className={styles.placeholder}>Contenido de la página 3 - Aquí puedes agregar más secciones</p>
-          </div>
+          <>
+            {/* Business Models Section */}
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Ecosystem Services</h2>
+              <div className={styles.imageGrid}>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587058/unnamed-removebg-preview_11_tr2mh5.png" 
+                    alt="Cultural heritage"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Cultural heritage</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587209/unnamed-removebg-preview_12_xhci7y.png" 
+                    alt="Water quality"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Water quality</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587793/unnamed-removebg-preview_13_x0rnjr.png" 
+                    alt="Recreational Access"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Recreational Access</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757588087/unnamed-removebg-preview_14_wvmi00.png" 
+                    alt="Resilience to natural hazards"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Resilience to natural hazards</span>
+                </div>
+              </div>
+            </div>
+          </>
         );
       default:
         return null;
