@@ -9,20 +9,35 @@ const MiniMap = () => {
     const { map } = useMapStore();
 
     useEffect(() => {
-        if (!map || !miniMapRef.current) return;
+        if (!map || !miniMapRef.current) {
+            console.log('MiniMap: Esperando mapa principal o ref...');
+            return;
+        }
+
+        console.log('MiniMap: Inicializando minimapa...');
+        console.log('Token disponible:', !!MAPBOX_TOKEN);
+
+        // Configurar token
+        mapboxgl.accessToken = MAPBOX_TOKEN;
 
         // Crear mini-mapa
         miniMapInstance.current = new mapboxgl.Map({
             container: miniMapRef.current,
-            style: 'mapbox://styles/mapbox/satellite-streets-v12',
+            style: 'mapbox://styles/mapbox/streets-v12',
             center: map.getCenter(),
             zoom: Math.max(map.getZoom() - 4, 0),
             interactive: false,
             attributionControl: false
         });
 
+        // Manejar errores
+        miniMapInstance.current.on('error', (e) => {
+            console.error('Error en MiniMap:', e);
+        });
+
         // Eliminar logo de Mapbox
         miniMapInstance.current.on('load', () => {
+            console.log('MiniMap: Cargado exitosamente');
             const logoElements = miniMapRef.current.querySelectorAll('.mapboxgl-ctrl-logo');
             logoElements.forEach(el => {
                 el.style.display = 'none';
@@ -115,7 +130,7 @@ const MiniMap = () => {
     }, [map]);
 
     return (
-        <div className="absolute bottom-4 right-4 w-[220px] h-[220px] sm:w-[250px] sm:h-[250px] md:w-[280px] md:h-[280px] z-40 shadow-lg overflow-hidden rounded-lg bg-white">
+        <div className="absolute bottom-4 right-4 w-[240px] h-[220px] sm:w-[300px] sm:h-[250px] md:w-[340px] md:h-[280px] z-40 shadow-lg overflow-hidden rounded-lg bg-white">
             <div ref={miniMapRef} className="w-full h-full"></div>
             <div className="absolute inset-0 pointer-events-none rounded-lg border border-gray-200"></div>
         </div>
