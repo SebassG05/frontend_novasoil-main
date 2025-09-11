@@ -147,8 +147,7 @@
   padding: 0.3rem;
   border-radius: 6px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(52, 152, 219, 0.1);
+  background: transparent;
 }
 
 .imageItem:hover {
