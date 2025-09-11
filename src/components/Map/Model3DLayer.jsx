@@ -49,7 +49,7 @@ const Model3DLayer = () => {
           type: 'circle',
           source: 'marker-source',
           paint: {
-            'circle-radius': 10,
+            'circle-radius': 7,
             'circle-color': '#ff0000',
             'circle-stroke-width': 2,
             'circle-stroke-color': '#ffffff',
