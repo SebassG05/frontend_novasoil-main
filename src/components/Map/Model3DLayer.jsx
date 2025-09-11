@@ -235,9 +235,6 @@ const Model3DLayer = () => {
   return (
     <>
       <InfoModal visible={modalVisible} onClose={() => setModalVisible(false)}>
-        <h2>Información del punto</h2>
-        <p>Este punto representa la ubicación de muestreo en el Parque Tamarguillo, Sevilla.</p>
-        <p>Puedes añadir aquí más detalles relevantes.</p>
       </InfoModal>
     </>
   );
