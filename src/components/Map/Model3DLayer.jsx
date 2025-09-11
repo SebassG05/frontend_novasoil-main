@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import InfoModal from './InfoModal/InfoModal';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import mapboxgl from 'mapbox-gl';
@@ -11,6 +12,7 @@ const Model3DLayer = () => {
     model3D: null,
     currentZoom: 0
   });
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (!map) return;
@@ -19,8 +21,8 @@ const Model3DLayer = () => {
   const coordinates = [-5.9305, 37.4142];
     const ZOOM_THRESHOLD = 6; // Zoom donde cambia del círculo al modelo 3D (menor = aparece antes)
 
-    // Crear marcador como capa de Mapbox (círculo rojo fijo)
-    const createHtmlMarker = () => {
+  // Crear marcador como capa de Mapbox (círculo rojo fijo)
+  const createHtmlMarker = () => {
       // Asegurar que el mapa esté listo
       if (!map || !map.isStyleLoaded()) {
         console.log('Mapa no está listo, reintentando...');
@@ -42,6 +44,7 @@ const Model3DLayer = () => {
         });
       }
 
+
       // Añadir capa de círculo
       if (!map.getLayer('marker-circle')) {
         map.addLayer({
@@ -56,14 +59,25 @@ const Model3DLayer = () => {
             'circle-opacity': 1
           }
         });
+        // Cambiar cursor a pointer (manita) cuando se pasa por encima del círculo rojo
+        map.on('mouseenter', 'marker-circle', () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'marker-circle', () => {
+          map.getCanvas().style.cursor = '';
+        });
+        // Añadir evento de clic al círculo rojo
+        map.on('click', 'marker-circle', () => {
+          setModalVisible(true);
+        });
       }
 
       console.log('Círculo rojo creado correctamente');
       return true; // Retornamos true para indicar que se creó correctamente
     };
 
-    // Crear modelo 3D
-    const create3DModel = () => {
+  // Crear modelo 3D
+  const create3DModel = () => {
       const modelAltitude = 0;
       const modelRotate = [Math.PI / 2, 0, 0];
 
@@ -98,6 +112,16 @@ const Model3DLayer = () => {
           loader.load('/round_3d_location.glb', (gltf) => {
             this.scene.add(gltf.scene);
             map.triggerRepaint();
+            // Detectar clic en el canvas del modelo 3D
+            const canvas = map.getCanvasContainer().querySelector('canvas');
+            if (canvas) {
+              canvas.addEventListener('click', (e) => {
+                // Solo mostrar si el modelo está visible (zoom alto)
+                if (map.getZoom() >= ZOOM_THRESHOLD) {
+                  setModalVisible(true);
+                }
+              });
+            }
           }, undefined, (error) => {
             console.error('Error cargando modelo 3D:', error);
           });
@@ -208,7 +232,15 @@ const Model3DLayer = () => {
     };
   }, [map]);
 
-  return null;
+  return (
+    <>
+      <InfoModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <h2>Información del punto</h2>
+        <p>Este punto representa la ubicación de muestreo en el Parque Tamarguillo, Sevilla.</p>
+        <p>Puedes añadir aquí más detalles relevantes.</p>
+      </InfoModal>
+    </>
+  );
 };
 
 export default Model3DLayer;
