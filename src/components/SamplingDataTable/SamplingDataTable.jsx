@@ -298,7 +298,7 @@ const SamplingDataTable = ({ visible, onClose }) => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>
-            Análisis de Muestreo
+            Sampling Analysis
           </h2>
           <button 
             className={styles.closeBtn} 
@@ -313,13 +313,13 @@ const SamplingDataTable = ({ visible, onClose }) => {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Código de Muestra</th>
-                <th>Tipo</th>
-                <th>Coordenadas</th>
+                <th>Sample code</th>
+                <th>Type</th>
+                <th>Coordinates</th>
                 <th>pH</th>
-                <th>Carbono Orgánico</th>
-                <th>Nitrógeno</th>
-                <th>Fósforo</th>
+                <th>Organic Carbon</th>
+                <th>Nitrogen</th>
+                <th>Phosphorus</th>
               </tr>
             </thead>
             <tbody>
@@ -358,7 +358,7 @@ const SamplingDataTable = ({ visible, onClose }) => {
           <div className={styles.stats}>
             <div className={styles.statItem}>
               <span className={styles.statNumber}>{totalSamples}</span>
-              <span className={styles.statLabel}>Muestras</span>
+              <span className={styles.statLabel}>Samples</span>
             </div>
             <div className={styles.statItem}>
               <span className={styles.statNumber}>{cheSamples}</span>
@@ -373,9 +373,9 @@ const SamplingDataTable = ({ visible, onClose }) => {
             <button 
               className={styles.actionBtn} 
               onClick={exportToCSV}
-              title="Exportar datos a archivo CSV"
+              title="Export data to CSV file"
             >
-              📥 Exportar Datos
+              📥 Export Data
             </button>
             <button 
               className={`${styles.actionBtn} ${isUpdating ? styles.actionBtnLoading : ''}`}
@@ -386,10 +386,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
               {isUpdating ? (
                 <>
                   <span className={styles.spinner}></span>
-                  Actualizando...
+                  Updating...
                 </>
               ) : (
-                '🔄 Actualizar'
+                '🔄 Update'
               )}
             </button>
           </div>
