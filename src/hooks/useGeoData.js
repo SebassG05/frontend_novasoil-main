@@ -15,11 +15,13 @@ export const useGeoData = () => {
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
+        isChangingStyle,
         setShapefileData,
         setSamplingData,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
+        setIsChangingStyle,
         clearGeoData
     } = useMapStore();
 
@@ -138,31 +140,79 @@ export const useGeoData = () => {
         }
     }, [map, isLoaded]);
 
-    // Efecto para manejar cambios en la visibilidad de capas
+    // Efecto para manejar cambios de estilo y re-añadir capas
     useEffect(() => {
-        if (!map) return;
+        if (!map || !isChangingStyle) return;
 
-        Object.entries(layersVisibility).forEach(([layerType, visible]) => {
-            let layerId;
-            switch (layerType) {
-                case 'shapefile':
-                    layerId = mapLayerService.LAYER_IDS.SHAPEFILE;
-                    break;
-                case 'samplingPoints':
-                    layerId = mapLayerService.LAYER_IDS.SAMPLING_POINTS;
-                    break;
-                case 'samplingLabels':
-                    layerId = mapLayerService.LAYER_IDS.SAMPLING_LABELS;
-                    break;
-                default:
-                    return;
-            }
+        const handleStyleLoad = () => {
+            console.log('Estilo cargado, re-añadiendo capas...');
+            
+            // Re-añadir las capas después de un breve delay
+            setTimeout(() => {
+                if (shapefileData) {
+                    mapLayerService.addShapefileLayer(map, shapefileData);
+                }
 
-            if (map.getLayer(layerId)) {
-                map.setLayoutProperty(layerId, 'visibility', visible ? 'visible' : 'none');
-            }
-        });
-    }, [map, layersVisibility]);
+                if (samplingData) {
+                    mapLayerService.addSamplingPointsLayer(map, samplingData);
+                    
+                    // Re-configurar interacciones de hover
+                    mapLayerService.setupSamplingPointsInteraction(
+                        map,
+                        (feature) => {
+                            setHoveredSample(feature.properties);
+                        },
+                        () => {
+                            setHoveredSample(null);
+                        }
+                    );
+                }
+
+                // Aplicar configuraciones de visibilidad
+                Object.entries(layersVisibility).forEach(([layerType, visible]) => {
+                    let layerId, relatedLayerIds = [];
+                    
+                    switch (layerType) {
+                        case 'shapefile':
+                            layerId = mapLayerService.LAYER_IDS.SHAPEFILE;
+                            relatedLayerIds = [mapLayerService.LAYER_IDS.SHAPEFILE_FILL];
+                            break;
+                        case 'samplingPoints':
+                            layerId = mapLayerService.LAYER_IDS.SAMPLING_POINTS;
+                            break;
+                        case 'samplingLabels':
+                            layerId = mapLayerService.LAYER_IDS.SAMPLING_LABELS;
+                            break;
+                    }
+
+                    if (layerId && map.getLayer(layerId)) {
+                        map.setLayoutProperty(layerId, 'visibility', visible ? 'visible' : 'none');
+                    }
+                    
+                    relatedLayerIds.forEach(relatedId => {
+                        if (map.getLayer(relatedId)) {
+                            map.setLayoutProperty(relatedId, 'visibility', visible ? 'visible' : 'none');
+                        }
+                    });
+                });
+
+                // Marcar que el cambio de estilo ha terminado
+                setIsChangingStyle(false);
+                console.log('Capas re-añadidas correctamente después del cambio de estilo');
+            }, 100);
+        };
+
+        // Escuchar cuando el estilo se haya cargado completamente
+        if (map.isStyleLoaded()) {
+            handleStyleLoad();
+        } else {
+            map.once('styledata', handleStyleLoad);
+        }
+
+        return () => {
+            map.off('styledata', handleStyleLoad);
+        };
+    }, [map, isChangingStyle, shapefileData, samplingData, layersVisibility]);
 
     return {
         // Estados

@@ -50,11 +50,7 @@ const MapContainer = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (map && mapStyle) {
-            map.setStyle(mapStyle);
-        }
-    }, [map, mapStyle]);
+    // El cambio de estilo ahora se maneja en el store para preservar las capas personalizadas
 
     return (
         <div className="relative w-full h-full">

@@ -19,6 +19,9 @@ export const useMapStore = create((set, get) => ({
     geoDataError: null,
     hoveredSample: null,
 
+    // Flag para indicar cuando se está cambiando el estilo
+    isChangingStyle: false,
+
     // Visibilidad de capas
     layersVisibility: {
         shapefile: true,
@@ -31,14 +34,15 @@ export const useMapStore = create((set, get) => ({
     setViewport: (viewport) => set({ viewport }),
     setMapStyle: (style) => {
         const { map } = get();
+        set({ isChangingStyle: true, mapStyle: style });
         if (map) {
             map.setStyle(style);
         }
-        set({ mapStyle: style });
     },
     setIsLoaded: (loaded) => set({ isLoaded: loaded }),
     setShowControls: (show) => set({ showControls: show }),
     setSelectedTool: (tool) => set({ selectedTool: tool }),
+    setIsChangingStyle: (changing) => set({ isChangingStyle: changing }),
 
     // Acciones de datos geoespaciales
     setShapefileData: (data) => set({ shapefileData: data }),

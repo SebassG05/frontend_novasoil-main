@@ -32,7 +32,7 @@ class MapLayerService {
                 data: geojsonData
             });
 
-            // Añadir capa de relleno (solo visible a partir de zoom 10)
+            // Añadir capa de relleno (visible desde zoom 8)
             map.addLayer({
                 id: this.LAYER_IDS.SHAPEFILE_FILL,
                 type: 'fill',
@@ -44,10 +44,10 @@ class MapLayerService {
                 layout: {
                     'visibility': 'visible'
                 },
-                minzoom: 10
+                minzoom: 8
             });
 
-            // Añadir capa de contorno (solo visible a partir de zoom 10)
+            // Añadir capa de contorno (visible desde zoom 6)
             map.addLayer({
                 id: this.LAYER_IDS.SHAPEFILE,
                 type: 'line',
@@ -60,7 +60,7 @@ class MapLayerService {
                 layout: {
                     'visibility': 'visible'
                 },
-                minzoom: 10
+                minzoom: 6
             });
 
             console.log('Shapefile layer añadida correctamente');
@@ -74,8 +74,16 @@ class MapLayerService {
      */
     addSamplingPointsLayer(map, geojsonData) {
         try {
+            console.log('Añadiendo capa de puntos de muestreo...', geojsonData);
+            
             // Remover capas existentes si existen
             this.removeSamplingPointsLayer(map);
+
+            // Verificar que tenemos datos válidos
+            if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+                console.warn('No hay datos válidos para los puntos de muestreo');
+                return;
+            }
 
             // Añadir fuente de datos
             map.addSource(this.SOURCE_IDS.SAMPLING, {
@@ -83,7 +91,9 @@ class MapLayerService {
                 data: geojsonData
             });
 
-            // Añadir capa de puntos (solo visible a partir de zoom 10)
+            console.log('Fuente de datos añadida:', this.SOURCE_IDS.SAMPLING);
+
+            // Añadir capa de puntos (visible desde zoom 6)
             map.addLayer({
                 id: this.LAYER_IDS.SAMPLING_POINTS,
                 type: 'circle',
@@ -93,6 +103,7 @@ class MapLayerService {
                         'interpolate',
                         ['linear'],
                         ['zoom'],
+                        6, 4,
                         10, 6,
                         15, 12,
                         20, 20
@@ -110,10 +121,12 @@ class MapLayerService {
                 layout: {
                     'visibility': 'visible'
                 },
-                minzoom: 10
+                minzoom: 6
             });
 
-            // Añadir capa de etiquetas (solo visible a partir de zoom 12)
+            console.log('Capa de puntos añadida:', this.LAYER_IDS.SAMPLING_POINTS);
+
+            // Añadir capa de etiquetas (visible desde zoom 10)
             map.addLayer({
                 id: this.LAYER_IDS.SAMPLING_LABELS,
                 type: 'symbol',
@@ -130,10 +143,11 @@ class MapLayerService {
                     'text-halo-color': '#ffffff',
                     'text-halo-width': 1
                 },
-                minzoom: 12
+                minzoom: 10
             });
 
-            console.log('Sampling points layer añadida correctamente');
+            console.log('Capa de etiquetas añadida:', this.LAYER_IDS.SAMPLING_LABELS);
+            console.log('Sampling points layer añadida correctamente por encima de todas las capas');
         } catch (error) {
             console.error('Error añadiendo capa de puntos de muestreo:', error);
         }
@@ -189,14 +203,19 @@ class MapLayerService {
      */
     removeSamplingPointsLayer(map) {
         try {
+            console.log('Removiendo capas de puntos de muestreo...');
+            
             if (map.getLayer(this.LAYER_IDS.SAMPLING_POINTS)) {
                 map.removeLayer(this.LAYER_IDS.SAMPLING_POINTS);
+                console.log('Capa de puntos removida:', this.LAYER_IDS.SAMPLING_POINTS);
             }
             if (map.getLayer(this.LAYER_IDS.SAMPLING_LABELS)) {
                 map.removeLayer(this.LAYER_IDS.SAMPLING_LABELS);
+                console.log('Capa de etiquetas removida:', this.LAYER_IDS.SAMPLING_LABELS);
             }
             if (map.getSource(this.SOURCE_IDS.SAMPLING)) {
                 map.removeSource(this.SOURCE_IDS.SAMPLING);
+                console.log('Fuente removida:', this.SOURCE_IDS.SAMPLING);
             }
         } catch (error) {
             console.error('Error removiendo capa de puntos de muestreo:', error);
