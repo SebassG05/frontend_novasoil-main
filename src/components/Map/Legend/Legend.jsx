@@ -3,7 +3,7 @@ import { useMapStore } from '../../../store/mapStore';
 import { useGeoData } from '../../../hooks/useGeoData';
 import styles from './Legend.module.css';
 
-const Legend = ({ isOpen, onClose }) => {
+const Legend = ({ isOpen, onClose, isClosing }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const totalPages = 4; // Aumentamos las páginas para incluir datos geoespaciales
@@ -279,8 +279,8 @@ const Legend = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className={`${styles.overlay} ${isClosing ? styles.overlayClosing : ''}`}>
+      <div className={`${styles.modal} ${isClosing ? styles.modalClosing : ''}`}>
         <button 
           className={styles.closeBtn} 
           onClick={onClose}

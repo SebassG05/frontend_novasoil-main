@@ -376,6 +376,32 @@
 }
 
 .ctaLink:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  animation: buttonClick 0.3s ease;
+}
+
+/* Animación para el clic del botón */
+@keyframes buttonClick {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(1px) scale(0.98);
+  }
+  100% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+/* Animación ripple para el botón */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
 }

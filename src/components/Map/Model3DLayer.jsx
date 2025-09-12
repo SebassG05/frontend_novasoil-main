@@ -17,6 +17,18 @@ const Model3DLayer = () => {
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [legendVisible, setLegendVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  // Función para cerrar ambos: modal y leyenda con animación
+  const closeModalAndLegend = () => {
+    setIsClosing(true);
+    // Después de la animación, cerrar realmente los componentes
+    setTimeout(() => {
+      setModalVisible(false);
+      setLegendVisible(false);
+      setIsClosing(false);
+    }, 300); // Duración de la animación
+  };
 
   useEffect(() => {
     if (!map) return;
@@ -239,17 +251,22 @@ const Model3DLayer = () => {
 
   return (
     <>
-      <InfoModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+      <InfoModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)}
+        isClosing={isClosing}
+      >
         <div className={styles.modalHeader}>
           <h1 className={styles.modalTitle}>CO2-Land Initiative in Seville</h1>
           <h2 className={styles.modalSubtitle}>(Parque Tamarguillo)</h2>
         </div>
-        <ImageCarousel />
+        <ImageCarousel onCloseAll={closeModalAndLegend} />
       </InfoModal>
       
       <Legend 
         isOpen={legendVisible} 
-        onClose={() => setLegendVisible(false)} 
+        onClose={() => setLegendVisible(false)}
+        isClosing={isClosing}
       />
     </>
   );

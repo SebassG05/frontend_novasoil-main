@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './ImageCarousel.module.css';
 import { CAROUSEL_IMAGES, FALLBACK_IMAGES } from '../../../config/cloudinary';
 
-const ImageCarousel = () => {
+const ImageCarousel = ({ onCloseAll }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [usesFallback, setUsesFallback] = useState(false);
@@ -196,9 +196,44 @@ const ImageCarousel = () => {
         <p className={styles.ctaText}>
           More information about the case study
         </p>
-        <button className={styles.ctaLink} onClick={() => {
-          // Aquí puedes agregar la lógica para abrir más información
-          console.log('Opening case study details...');
+        <button className={styles.ctaLink} onClick={(e) => {
+          // Crear efecto ripple
+          const button = e.currentTarget;
+          const ripple = document.createElement('span');
+          const rect = button.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+          `;
+          
+          button.style.position = 'relative';
+          button.style.overflow = 'hidden';
+          button.appendChild(ripple);
+          
+          // Remover el ripple después de la animación
+          setTimeout(() => {
+            if (ripple.parentNode) {
+              ripple.parentNode.removeChild(ripple);
+            }
+          }, 600);
+          
+          // Cerrar tanto el modal como la leyenda
+          if (onCloseAll) {
+            onCloseAll();
+          }
+          console.log('Modal y leyenda cerrados');
         }}>
           click here
         </button>

@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './InfoModal.module.css';
 
-const InfoModal = ({ visible, onClose, children }) => {
+const InfoModal = ({ visible, onClose, children, isClosing }) => {
   if (!visible) return null;
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className={`${styles.overlay} ${isClosing ? styles.overlayClosing : ''}`}>
+      <div className={`${styles.modal} ${isClosing ? styles.modalClosing : ''}`}>
         <button className={styles.closeBtn} onClick={onClose}>&times;</button>
         <div className={styles.content}>{children}</div>
         <div className={styles.companyLogo}>
