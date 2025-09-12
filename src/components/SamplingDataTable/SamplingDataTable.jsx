@@ -12,8 +12,7 @@ const SamplingDataTable = ({ visible, onClose }) => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>
-            <span className={styles.titleIcon}>🌱</span>
-            Análisis de Datos de Muestreo
+            Análisis de Muestreo
           </h2>
           <button 
             className={styles.closeBtn} 
