@@ -81,12 +81,15 @@
   background: none;
   border: none;
   font-size: 2rem;
-  color: #333;
+  color: #6ba82f;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .closeBtn:hover {
-  color: #e74c3c;
+  color: #8bc34a;
+  text-shadow: 0 0 10px rgba(107, 168, 47, 0.6);
+  transform: scale(1.1);
 }
 
 .content {
@@ -109,24 +112,36 @@
 
 .modalTitle {
   font-size: 2.5rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #2c3e50, #3498db, #27ae60);
+  font-weight: 900;
+  background: 
+    linear-gradient(
+      135deg,
+      rgba(45, 80, 22, 0.3) 0%,
+      rgba(13, 20, 8, 0.8) 30%,
+      rgba(31, 47, 23, 0.6) 70%,
+      rgba(29, 46, 17, 0.4) 100%
+    ),
+    radial-gradient(circle at 30% 20%, rgba(107, 168, 47, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 70% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  letter-spacing: -0.02em;
+  text-shadow: none;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   line-height: 1.2;
+  animation: titleGlow 3s ease-in-out infinite alternate;
 }
 
 .modalSubtitle {
   font-size: 1.4rem;
   font-weight: 400;
-  color: #7f8c8d;
+  color: #6ba82f;
   font-style: italic;
   margin-top: 0.5rem;
   opacity: 0.9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Logo de la empresa alineado con el botón */
@@ -290,5 +305,15 @@
   
   .companyLogoImage {
     height: 35px;
+  }
+}
+
+/* Animación para el título */
+@keyframes titleGlow {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 5px rgba(107, 168, 47, 0.3));
+  }
+  100% {
+    filter: brightness(1.1) drop-shadow(0 0 15px rgba(107, 168, 47, 0.6));
   }
 }

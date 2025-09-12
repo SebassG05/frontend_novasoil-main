@@ -338,7 +338,7 @@
 }
 
 .ctaLink {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4a7c23 0%, #2d5016 100%);
   color: white;
   border: none;
   padding: 0.8rem 2rem;
@@ -349,7 +349,7 @@
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-decoration: none;
   display: inline-block;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 124, 35, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -371,13 +371,13 @@
 
 .ctaLink:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  box-shadow: 0 8px 25px rgba(107, 168, 47, 0.4);
+  background: linear-gradient(135deg, #6ba82f 0%, #4a7c23 100%);
 }
 
 .ctaLink:active {
   transform: translateY(0) scale(0.98);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 124, 35, 0.3);
   animation: buttonClick 0.3s ease;
 }
 
