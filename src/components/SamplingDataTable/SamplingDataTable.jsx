@@ -16,7 +16,6 @@ const SamplingDataTable = ({ visible, onClose }) => {
       'Fecha',
       'Tipo',
       'Litología',
-      'Estado',
       'pH',
       'Carbono Orgánico',
       'Nitrógeno',
@@ -32,7 +31,6 @@ const SamplingDataTable = ({ visible, onClose }) => {
         sample.date,
         sample.type,
         `"${sample.lithology}"`,
-        sample.status,
         sample.ph,
         sample.organicCarbon,
         sample.nitrogen,
@@ -103,11 +101,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '7.2',
-      organicCarbon: '2.1%',
-      nitrogen: '0.15%',
-      phosphorus: '12 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM10_25',
@@ -116,11 +113,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.8',
-      organicCarbon: '3.4%',
-      nitrogen: '0.22%',
-      phosphorus: '18 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM11_25',
@@ -129,11 +125,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '7.5',
-      organicCarbon: '2.8%',
-      nitrogen: '0.18%',
-      phosphorus: '15 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM12_25',
@@ -142,11 +137,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.9',
-      organicCarbon: '4.1%',
-      nitrogen: '0.28%',
-      phosphorus: '22 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM13_25',
@@ -155,11 +149,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Pending',
-      ph: '7.1',
-      organicCarbon: '1.9%',
-      nitrogen: '0.12%',
-      phosphorus: '10 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM14_25',
@@ -168,11 +161,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.5',
-      organicCarbon: '3.7%',
-      nitrogen: '0.25%',
-      phosphorus: '19 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM15_25',
@@ -181,11 +173,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Failed',
-      ph: '8.1',
-      organicCarbon: '1.2%',
-      nitrogen: '0.08%',
-      phosphorus: '7 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM16_25',
@@ -194,11 +185,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '21/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.2',
-      organicCarbon: '5.3%',
-      nitrogen: '0.35%',
-      phosphorus: '28 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM2_25',
@@ -207,11 +197,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '7.3',
-      organicCarbon: '2.6%',
-      nitrogen: '0.17%',
-      phosphorus: '14 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM3_25',
@@ -220,11 +209,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.7',
-      organicCarbon: '3.2%',
-      nitrogen: '0.21%',
-      phosphorus: '17 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM4_25',
@@ -233,11 +221,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Pending',
-      ph: '7.8',
-      organicCarbon: '1.5%',
-      nitrogen: '0.09%',
-      phosphorus: '9 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM5_25',
@@ -246,11 +233,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.4',
-      organicCarbon: '4.5%',
-      nitrogen: '0.31%',
-      phosphorus: '25 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM6_25',
@@ -259,11 +245,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '5.9',
-      organicCarbon: '3.8%',
-      nitrogen: '0.26%',
-      phosphorus: '20 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM7_25',
@@ -272,11 +257,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '7.6',
-      organicCarbon: '2.3%',
-      nitrogen: '0.14%',
-      phosphorus: '11 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM8_25',
@@ -285,11 +269,10 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHEBIO',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '6.1',
-      organicCarbon: '4.8%',
-      nitrogen: '0.33%',
-      phosphorus: '26 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     },
     {
       code: 'STAM9_25',
@@ -298,18 +281,17 @@ const SamplingDataTable = ({ visible, onClose }) => {
       date: '13/12/2023',
       type: 'CHE',
       lithology: 'CANTOS RODADOS,ARENA Y ARCILLAS',
-      status: 'Completed',
-      ph: '7.4',
-      organicCarbon: '2.7%',
-      nitrogen: '0.16%',
-      phosphorus: '13 ppm'
+      ph: 'no info',
+      organicCarbon: 'no info',
+      nitrogen: 'no info',
+      phosphorus: 'no info'
     }
   ];
 
   // Calcular estadísticas
   const totalSamples = sampleData.length;
-  const analyzedSamples = sampleData.filter(sample => sample.status === 'Completed').length;
-  const pendingSamples = sampleData.filter(sample => sample.status === 'Pending').length;
+  const cheSamples = sampleData.filter(sample => sample.type === 'CHE').length;
+  const chebioSamples = sampleData.filter(sample => sample.type === 'CHEBIO').length;
 
   return (
     <div className={styles.overlay}>
@@ -338,13 +320,12 @@ const SamplingDataTable = ({ visible, onClose }) => {
                 <th>Carbono Orgánico</th>
                 <th>Nitrógeno</th>
                 <th>Fósforo</th>
-                <th>Estado</th>
               </tr>
             </thead>
             <tbody>
               {sampleData.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className={styles.emptyState}>
+                  <td colSpan="7" className={styles.emptyState}>
                     <div className={styles.emptyContent}>
                       <div className={styles.emptyIcon}>📊</div>
                       <p className={styles.emptyText}>No hay datos disponibles</p>
@@ -366,11 +347,6 @@ const SamplingDataTable = ({ visible, onClose }) => {
                     <td>{sample.organicCarbon}</td>
                     <td>{sample.nitrogen}</td>
                     <td>{sample.phosphorus}</td>
-                    <td>
-                      <span className={`${styles.status} ${styles[`status${sample.status}`]}`}>
-                        {sample.status}
-                      </span>
-                    </td>
                   </tr>
                 ))
               )}
@@ -385,12 +361,12 @@ const SamplingDataTable = ({ visible, onClose }) => {
               <span className={styles.statLabel}>Muestras</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statNumber}>{analyzedSamples}</span>
-              <span className={styles.statLabel}>Analizadas</span>
+              <span className={styles.statNumber}>{cheSamples}</span>
+              <span className={styles.statLabel}>CHE</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statNumber}>{pendingSamples}</span>
-              <span className={styles.statLabel}>Pendientes</span>
+              <span className={styles.statNumber}>{chebioSamples}</span>
+              <span className={styles.statLabel}>CHEBIO</span>
             </div>
           </div>
           <div className={styles.actions}>
