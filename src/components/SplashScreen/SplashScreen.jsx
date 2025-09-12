@@ -117,7 +117,7 @@ const SplashScreen = () => {
         </div>
         
         {/* Barra de progreso */}
-        <div className="w-64 sm:w-80 h-3 bg-gray-200/80 rounded-full overflow-hidden mb-4 backdrop-blur-sm border border-green-800/30">
+        <div className="w-64 sm:w-80 h-3 bg-gray-200/80 rounded-full overflow-hidden mb-4 backdrop-blur-sm border border-green-800/30 mx-auto">
           <div 
             className="h-full bg-gradient-to-r from-green-800 to-green-600 rounded-full transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
