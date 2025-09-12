@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
+import InfoModalYellow from './InfoModal/InfoModalYellow/InfoModalYellow';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
@@ -17,6 +18,7 @@ const Model3DLayer = () => {
     currentZoom: 0
   });
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalYellowVisible, setModalYellowVisible] = useState(false);
   const [legendVisible, setLegendVisible] = useState(false);
   const [tableVisible, setTableVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -143,7 +145,7 @@ const Model3DLayer = () => {
       });
       // Añadir evento de clic al círculo amarillo
       map.on('click', 'yellow-marker-circle', () => {
-        setModalVisible(true);
+        setModalYellowVisible(true);
         setLegendVisible(true);
       });
     }
@@ -336,6 +338,11 @@ const Model3DLayer = () => {
         </div>
         <ImageCarousel onCloseAll={closeModalAndLegend} />
       </InfoModal>
+      <InfoModalYellow
+        visible={modalYellowVisible}
+        onClose={() => setModalYellowVisible(false)}
+        isClosing={isClosing}
+      />
       
       <Legend 
         isOpen={legendVisible} 
