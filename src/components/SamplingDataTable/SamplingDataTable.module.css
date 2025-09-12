@@ -204,6 +204,19 @@
   color: #e8f5e8;
   font-size: 0.9rem;
   border-bottom: 1px solid rgba(61, 74, 50, 0.5);
+  transition: all 0.3s ease;
+}
+
+.table td:first-child {
+  font-weight: 600;
+  color: var(--novasoil-accent);
+  font-family: 'Courier New', monospace;
+}
+
+.table td:nth-child(3) {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: rgba(232, 245, 232, 0.9);
 }
 
 .emptyState {
@@ -324,6 +337,12 @@
 .badgeCHEBIO {
   background: linear-gradient(135deg, var(--novasoil-accent), var(--novasoil-light));
   color: white;
+}
+
+.badgeCHEBIO {
+  background: linear-gradient(135deg, #00ff88, var(--novasoil-accent));
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 255, 136, 0.3);
 }
 
 .status {
