@@ -315,7 +315,8 @@ const SamplingDataTable = ({ visible, onClose }) => {
               <tr>
                 <th>Sample code</th>
                 <th>Type</th>
-                <th>Coordinates</th>
+                <th>coordinate X</th>
+                <th>coordinate Y</th>
                 <th>pH</th>
                 <th>Organic Carbon</th>
                 <th>Nitrogen</th>
@@ -334,21 +335,26 @@ const SamplingDataTable = ({ visible, onClose }) => {
                   </td>
                 </tr>
               ) : (
-                sampleData.map((sample, index) => (
-                  <tr key={index} className={styles.dataRow}>
-                    <td>{sample.code}</td>
-                    <td>
-                      <span className={`${styles.badge} ${styles[`badge${sample.type}`]}`}>
-                        {sample.type}
-                      </span>
-                    </td>
-                    <td>{sample.coordinates}</td>
-                    <td>{sample.ph}</td>
-                    <td>{sample.organicCarbon}</td>
-                    <td>{sample.nitrogen}</td>
-                    <td>{sample.phosphorus}</td>
-                  </tr>
-                ))
+                sampleData.map((sample, index) => {
+                  // Separar coordenadas en X e Y
+                  const [coordX, coordY] = sample.coordinates.split(',').map(c => c.trim());
+                  return (
+                    <tr key={index} className={styles.dataRow}>
+                      <td>{sample.code}</td>
+                      <td>
+                        <span className={`${styles.badge} ${styles[`badge${sample.type}`]}`}>
+                          {sample.type}
+                        </span>
+                      </td>
+                      <td>{coordX}</td>
+                      <td>{coordY}</td>
+                      <td>{sample.ph}</td>
+                      <td>{sample.organicCarbon}</td>
+                      <td>{sample.nitrogen}</td>
+                      <td>{sample.phosphorus}</td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
