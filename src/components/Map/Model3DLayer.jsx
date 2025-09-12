@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
+import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
 import styles from './InfoModal/InfoModal.module.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -17,16 +18,21 @@ const Model3DLayer = () => {
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [legendVisible, setLegendVisible] = useState(false);
+  const [tableVisible, setTableVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
-  // Función para cerrar ambos: modal y leyenda con animación
+  // Función para cerrar ambos: modal y leyenda con animación, luego mostrar tabla
   const closeModalAndLegend = () => {
     setIsClosing(true);
-    // Después de la animación, cerrar realmente los componentes
+    // Después de la animación, cerrar realmente los componentes y mostrar la tabla
     setTimeout(() => {
       setModalVisible(false);
       setLegendVisible(false);
       setIsClosing(false);
+      // Mostrar la tabla después de un pequeño delay
+      setTimeout(() => {
+        setTableVisible(true);
+      }, 200);
     }, 300); // Duración de la animación
   };
 
@@ -267,6 +273,11 @@ const Model3DLayer = () => {
         isOpen={legendVisible} 
         onClose={() => setLegendVisible(false)}
         isClosing={isClosing}
+      />
+      
+      <SamplingDataTable 
+        visible={tableVisible}
+        onClose={() => setTableVisible(false)}
       />
     </>
   );
