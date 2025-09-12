@@ -99,6 +99,58 @@ const Model3DLayer = () => {
       return true; // Retornamos true para indicar que se creó correctamente
     };
 
+  // Crear marcador como capa de Mapbox (círculo amarillo en otra coordenada)
+  const createYellowMarker = () => {
+    const yellowCoordinates = [9.060, 48.281];
+    if (!map || !map.isStyleLoaded()) {
+      console.log('Mapa no está listo, reintentando...');
+      setTimeout(() => createYellowMarker(), 50);
+      return false;
+    }
+    // Añadir fuente de datos para el círculo amarillo
+    if (!map.getSource('yellow-marker-source')) {
+      map.addSource('yellow-marker-source', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: yellowCoordinates
+          }
+        }
+      });
+    }
+    // Añadir capa de círculo amarillo
+    if (!map.getLayer('yellow-marker-circle')) {
+      map.addLayer({
+        id: 'yellow-marker-circle',
+        type: 'circle',
+        source: 'yellow-marker-source',
+        paint: {
+          'circle-radius': 7,
+          'circle-color': '#FFD600',
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff',
+          'circle-opacity': 1
+        }
+      });
+      // Cambiar cursor a pointer cuando se pasa por encima del círculo amarillo
+      map.on('mouseenter', 'yellow-marker-circle', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'yellow-marker-circle', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      // Añadir evento de clic al círculo amarillo
+      map.on('click', 'yellow-marker-circle', () => {
+        setModalVisible(true);
+        setLegendVisible(true);
+      });
+    }
+    console.log('Círculo amarillo creado correctamente');
+    return true;
+  };
+
   // Crear modelo 3D
   const create3DModel = () => {
       const modelAltitude = 0;
@@ -184,9 +236,9 @@ const Model3DLayer = () => {
       const currentZoom = map.getZoom();
       
       if (currentZoom >= ZOOM_THRESHOLD) {
-        // Zoom alto: mostrar modelo 3D, ocultar círculo
+        // Zoom alto: mostrar modelo 3D, ocultar círculos
         if (markersRef.current.htmlMarker) {
-          // Remover capa de círculo
+          // Remover capa de círculo rojo
           if (map.getLayer('marker-circle')) {
             map.removeLayer('marker-circle');
           }
@@ -195,12 +247,19 @@ const Model3DLayer = () => {
           }
           markersRef.current.htmlMarker = null;
         }
+        // Remover círculo amarillo si existe
+        if (map.getLayer('yellow-marker-circle')) {
+          map.removeLayer('yellow-marker-circle');
+        }
+        if (map.getSource('yellow-marker-source')) {
+          map.removeSource('yellow-marker-source');
+        }
         if (!markersRef.current.model3D) {
           markersRef.current.model3D = create3DModel();
           map.addLayer(markersRef.current.model3D);
         }
       } else {
-        // Zoom bajo: mostrar círculo, ocultar modelo 3D
+        // Zoom bajo: mostrar círculos, ocultar modelo 3D
         if (markersRef.current.model3D) {
           if (map.getLayer('3d-model-layer')) {
             map.removeLayer('3d-model-layer');
@@ -210,6 +269,8 @@ const Model3DLayer = () => {
         if (!markersRef.current.htmlMarker) {
           markersRef.current.htmlMarker = createHtmlMarker();
         }
+        // Crear círculo amarillo
+        createYellowMarker();
       }
       
       markersRef.current.currentZoom = currentZoom;
@@ -239,13 +300,20 @@ const Model3DLayer = () => {
     // Cleanup
     return () => {
       if (markersRef.current.htmlMarker) {
-        // Remover capa de círculo
+        // Remover capa de círculo rojo
         if (map.getLayer('marker-circle')) {
           map.removeLayer('marker-circle');
         }
         if (map.getSource('marker-source')) {
           map.removeSource('marker-source');
         }
+      }
+      // Remover círculo amarillo
+      if (map.getLayer('yellow-marker-circle')) {
+        map.removeLayer('yellow-marker-circle');
+      }
+      if (map.getSource('yellow-marker-source')) {
+        map.removeSource('yellow-marker-source');
       }
       if (markersRef.current.model3D && map.getLayer('3d-model-layer')) {
         map.removeLayer('3d-model-layer');
