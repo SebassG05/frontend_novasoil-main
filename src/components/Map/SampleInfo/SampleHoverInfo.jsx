@@ -35,12 +35,12 @@ const SampleHoverInfo = () => {
                 
                 <div className={styles.infoGrid}>
                     <div className={styles.infoItem}>
-                        <span className={styles.label}>Fecha:</span>
+                        <span className={styles.label}>Date:</span>
                         <span className={styles.value}>{hoveredSample.date}</span>
                     </div>
                     
                     <div className={styles.infoItem}>
-                        <span className={styles.label}>Tipo de muestreo:</span>
+                        <span className={styles.label}>Sampling Type:</span>
                         <span className={`${styles.badge} ${
                             hoveredSample.samplingType === 'CHE' 
                                 ? styles.badgeCHE 
@@ -53,21 +53,24 @@ const SampleHoverInfo = () => {
                     </div>
                     
                     <div className={styles.infoItem}>
-                        <span className={styles.label}>Litología:</span>
+                        <span className={styles.label}>Lithology:</span>
                         <span className={styles.value}>{hoveredSample.lithologyDescription}</span>
                     </div>
                     
                     <div className={styles.infoItem}>
-                        <span className={styles.label}>Coordenadas:</span>
+                        <span className={styles.label}>Coordinates:</span>
                         <span className={`${styles.value} ${styles.coordinates}`}>
-                            {hoveredSample.coordinates?.longitude?.toFixed(6)}, {hoveredSample.coordinates?.latitude?.toFixed(6)}
+                            {hoveredSample.coordinates && typeof hoveredSample.coordinates === 'object' && hoveredSample.coordinates.longitude && hoveredSample.coordinates.latitude
+                                ? `${hoveredSample.coordinates.longitude.toFixed(6)} ${hoveredSample.coordinates.latitude.toFixed(6)}`
+                                : hoveredSample.coordinates?.toString().replace(/[{}",]/g, '').replace(/longitude:|latitude:/g, '') || 'N/A'
+                            }
                         </span>
                     </div>
                 </div>
                 
                 {hoveredSample.observations && (
                     <div className={styles.observations}>
-                        <span className={styles.label}>Observaciones:</span>
+                        <span className={styles.label}>Observations:</span>
                         <p className={styles.observationText}>
                             {hoveredSample.observations}
                         </p>
