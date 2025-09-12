@@ -23,13 +23,12 @@
     linear-gradient(-45deg, transparent 49%, rgba(139, 195, 74, 0.03) 50%, transparent 51%),
     #0a1205;
   background-size: 50px 50px, 30px 30px, 20px 20px, 20px 20px, 100% 100%;
-  animation: backgroundMove 20s ease-in-out infinite;
+  animation: backgroundMove 8s ease-in-out infinite, overlayFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1002;
   padding: 2rem;
-  animation: overlayFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .container {
@@ -356,19 +355,19 @@
 
 @keyframes backgroundMove {
   0% {
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+    background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0 0;
   }
   25% {
-    background-position: 25px 0, -15px 15px, 10px -5px, -10px 5px, 0 0;
-  }
-  50% {
     background-position: 50px 25px, -30px 30px, 20px -10px, -20px 10px, 0 0;
   }
+  50% {
+    background-position: 100px 50px, -60px 60px, 40px -20px, -40px 20px, 0 0;
+  }
   75% {
-    background-position: 25px 50px, -15px 45px, 10px -15px, -10px 15px, 0 0;
+    background-position: 150px 25px, -30px 90px, 60px -10px, -60px 30px, 0 0;
   }
   100% {
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+    background-position: 200px 0px, 0px 120px, 80px 0px, -80px 40px, 0 0;
   }
 }
 
