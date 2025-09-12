@@ -1,8 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SamplingDataTable.module.css';
 
 const SamplingDataTable = ({ visible, onClose }) => {
   if (!visible) return null;
+
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString('es-ES'));
+
+  // Función para exportar datos a CSV
+  const exportToCSV = () => {
+    const headers = [
+      'Código',
+      'ID',
+      'Coordenadas',
+      'Fecha',
+      'Tipo',
+      'Litología',
+      'Estado',
+      'pH',
+      'Carbono Orgánico',
+      'Nitrógeno',
+      'Fósforo'
+    ];
+
+    const csvContent = [
+      headers.join(','),
+      ...sampleData.map(sample => [
+        sample.code,
+        sample.id,
+        `"${sample.coordinates}"`,
+        sample.date,
+        sample.type,
+        `"${sample.lithology}"`,
+        sample.status,
+        sample.ph,
+        sample.organicCarbon,
+        sample.nitrogen,
+        sample.phosphorus
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `tamarguillo_muestreo_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Mostrar notificación de éxito
+    console.log('✅ Archivo CSV exportado correctamente');
+    
+    // Opcional: Mostrar notificación del navegador
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('NovaSOIL - Exportación Exitosa', {
+        body: `Se han exportado ${sampleData.length} muestras a CSV`,
+        icon: '/favicon.ico'
+      });
+    }
+  };
+
+  // Función para simular actualización de datos
+  const updateData = async () => {
+    setIsUpdating(true);
+    
+    try {
+      // Simular llamada a API con delay realista
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setLastUpdated(new Date().toLocaleString('es-ES'));
+      console.log('🔄 Datos actualizados correctamente');
+      
+      // Mostrar notificación de éxito
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('NovaSOIL - Actualización Exitosa', {
+          body: `${sampleData.length} muestras actualizadas - ${new Date().toLocaleTimeString('es-ES')}`,
+          icon: '/favicon.ico'
+        });
+      }
+    } catch (error) {
+      console.error('❌ Error al actualizar datos:', error);
+      
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('NovaSOIL - Error', {
+          body: 'Error al actualizar los datos. Inténtalo de nuevo.',
+          icon: '/favicon.ico'
+        });
+      }
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   // Datos reales del muestreo Tamarguillo Park
   const sampleData = [
@@ -304,11 +394,27 @@ const SamplingDataTable = ({ visible, onClose }) => {
             </div>
           </div>
           <div className={styles.actions}>
-            <button className={styles.actionBtn}>
+            <button 
+              className={styles.actionBtn} 
+              onClick={exportToCSV}
+              title="Exportar datos a archivo CSV"
+            >
               📥 Exportar Datos
             </button>
-            <button className={styles.actionBtn}>
-              🔄 Actualizar
+            <button 
+              className={`${styles.actionBtn} ${isUpdating ? styles.actionBtnLoading : ''}`}
+              onClick={updateData}
+              disabled={isUpdating}
+              title={`Última actualización: ${lastUpdated}`}
+            >
+              {isUpdating ? (
+                <>
+                  <span className={styles.spinner}></span>
+                  Actualizando...
+                </>
+              ) : (
+                '🔄 Actualizar'
+              )}
             </button>
           </div>
         </div>
