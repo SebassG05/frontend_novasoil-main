@@ -11,7 +11,7 @@ import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
 
 const Model3DLayer = () => {
-  const { map } = useMapStore();
+  const { map, setSelectedAreaName } = useMapStore();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -94,6 +94,7 @@ const Model3DLayer = () => {
         map.on('click', 'marker-circle', () => {
           setModalVisible(true);
           setLegendVisible(true);
+          setSelectedAreaName('Límites del parque Tamarguillo');
         });
       }
 
@@ -145,8 +146,9 @@ const Model3DLayer = () => {
       });
       // Añadir evento de clic al círculo amarillo
       map.on('click', 'yellow-marker-circle', () => {
-        setModalYellowVisible(true);
-        setLegendVisible(true);
+  setModalYellowVisible(true);
+  setLegendVisible(true);
+  setSelectedAreaName('Área de estudio Alemania');
       });
     }
     console.log('Círculo amarillo creado correctamente');

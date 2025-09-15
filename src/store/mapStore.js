@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { MAP_STYLES, DEFAULT_VIEWPORT, STUDY_AREA, EUROPE_VIEW } from '../config/mapbox';
 
 export const useMapStore = create((set, get) => ({
+    // Área de estudio seleccionada (solo nombre)
+    selectedAreaName: 'Límites del parque Tamarguillo',
+    setSelectedAreaName: (name) => set({ selectedAreaName: name }),
     // Estado del mapa
     map: null,
     viewport: DEFAULT_VIEWPORT,

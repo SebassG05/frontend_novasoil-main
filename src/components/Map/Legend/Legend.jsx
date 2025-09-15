@@ -12,7 +12,8 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
     shapefileData, 
     samplingData, 
     layersVisibility, 
-    isLoadingGeoData 
+    isLoadingGeoData,
+    selectedAreaName
   } = useMapStore();
   
   const { toggleLayerVisibility } = useGeoData();
@@ -249,7 +250,7 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
                           className={styles.layerCheckbox}
                         />
                         <div className={styles.layerSymbol} style={{ backgroundColor: '#088', opacity: 0.3 }}></div>
-                        <span>Límites del parque Tamarguillo</span>
+                        <span>{selectedAreaName}</span>
                       </label>
                       {shapefileData && (
                         <div className={styles.layerInfo}>
