@@ -129,13 +129,15 @@ class MapLayerService {
             // Interacción: mostrar tooltip al pasar el ratón por los puntos de Alemania
             map.on('mouseenter', this.LAYER_IDS.GERMANY_POINTS, (e) => {
                 map.getCanvas().style.cursor = 'pointer';
-                if (e.features.length > 0) {
+                if (e.features.length > 0 && window.setHoveredSample) {
                     const feature = e.features[0];
-                    // Aquí puedes mostrar un tooltip o información
+                    // Marcar como punto de Alemania para el pop-up
+                    window.setHoveredSample({ ...feature.properties, _germany: true });
                 }
             });
             map.on('mouseleave', this.LAYER_IDS.GERMANY_POINTS, () => {
                 map.getCanvas().style.cursor = '';
+                window.setHoveredSample && window.setHoveredSample(null);
             });
             // No ajustar la vista automáticamente, la vista inicial será Europa
             console.log('[Alemania] Capa de puntos de Alemania añadida correctamente');

@@ -6,6 +6,7 @@ import { MAPBOX_TOKEN } from '../../config/mapbox';
 import MiniMap from '../Controls/MiniMap';
 import SampleHoverInfo from './SampleInfo/SampleHoverInfo';
 import GeoDataLoader from './SampleInfo/GeoDataLoader';
+import GermanyHoverInfo from './SampleInfoGermany/GermanyHoverInfo';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -32,6 +33,9 @@ const MapContainer = () => {
             zoom: viewport.zoom,
             attributionControl: false
         });
+
+        // Exponer setHoveredSample para los eventos de Alemania
+        window.setHoveredSample = useMapStore.getState().setHoveredSample;
 
         // Agregar controles de navegación
         mapInstance.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -65,9 +69,11 @@ const MapContainer = () => {
     return (
         <div className="relative w-full h-full">
             <div ref={mapContainer} className="w-full h-full" />
-            
-            {/* Componentes de UI superpuestos */}
-            <SampleHoverInfo />
+            {/* Solo mostrar un pop-up según el tipo de punto */}
+            {/* Mostrar pop-up de Sevilla solo si hoveredSample existe y no es de Alemania */}
+            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && <SampleHoverInfo />}
+            {/* Mostrar pop-up de Alemania solo si hoveredSample existe y es de Alemania */}
+            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._germany && <GermanyHoverInfo />}
             <GeoDataLoader />
             <MiniMap />
         </div>
