@@ -21,21 +21,43 @@ const Model3DLayer = () => {
   const [modalYellowVisible, setModalYellowVisible] = useState(false);
   const [legendVisible, setLegendVisible] = useState(false);
   const [tableVisible, setTableVisible] = useState(false);
+  const [tableData, setTableData] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
 
   // Función para cerrar ambos: modal y leyenda con animación, luego mostrar tabla
-  const closeModalAndLegend = () => {
+  // Datos de Sevilla (ya definidos en SamplingDataTable.jsx)
+  const sevillaData = undefined; // Si quieres, puedes importarlos o dejarlos como undefined para usar los internos
+
+  // Datos de Alemania (primeros 10 registros del CSV)
+  const germanyData = [
+    { code: 'CO2-land_data 1', coordinates: "48° 17' 59.40'' N;  9° 4' 55.37'' O", date: '7/5/2022', nitrogen: '0,42', phosphorus: '2,62', potassium: '27,39', magnesium: '7,1', ph: '7,6' },
+    { code: 'CO2-land_data 2', coordinates: "48° 18' 19.97'' N;  9° 4' 26.54'' O", date: '7/5/2022', nitrogen: '0,38', phosphorus: '0,87', potassium: '18,26', magnesium: '7,4', ph: '7,5' },
+    { code: 'CO2-land_data 3', coordinates: "48° 18' 18.90'' N;  9° 4' 22.97'' O", date: '7/5/2022', nitrogen: '0,38', phosphorus: '0,87', potassium: '17,43', magnesium: '7', ph: '7,5' },
+    { code: 'CO2-land_data 4', coordinates: "48° 18' 27.99'' N;  9° 5' 26.58'' O", date: '7/5/2022', nitrogen: '0,51', phosphorus: '1,75', potassium: '18,26', magnesium: '7,9', ph: '7,5' },
+    { code: 'CO2-land_data 5', coordinates: "48° 17' 18.85'' N;  9° 4' 25.07'' O", date: '7/5/2022', nitrogen: '0,45', phosphorus: '0,87', potassium: '12,45', magnesium: '6,5', ph: '7,5' },
+    { code: 'CO2-land_data 6', coordinates: "48° 16' 43.92'' N;  9° 4' 2.203'' O", date: '7/5/2022', nitrogen: '0,47', phosphorus: '<0,44', potassium: '9,96', magnesium: '7,9', ph: '7,2' },
+    { code: 'CO2-land_data 7', coordinates: "48° 16' 41.01'' N;  9° 4' 3.632'' O", date: '7/5/2022', nitrogen: '0,41', phosphorus: '0,44', potassium: '9,13', magnesium: '6,9', ph: '7,2' },
+    { code: 'CO2-land_data 8', coordinates: "48° 16' 56.66'' N;  9° 3' 0.831'' O", date: '7/5/2022', nitrogen: '0,44', phosphorus: '0,87', potassium: '9,96', magnesium: '8', ph: '7,2' },
+    { code: 'CO2-land_data 9', coordinates: "48° 16' 52.05'' N;  9° 3' 20.69'' O", date: '7/5/2022', nitrogen: '0,52', phosphorus: '0,44', potassium: '10,79', magnesium: '7,4', ph: '7,2' },
+    { code: 'CO2-land_data 10', coordinates: "48° 16' 48.14'' N;  9° 3' 27.26'' O", date: '7/5/2022', nitrogen: '0,44', phosphorus: '0,87', potassium: '18,26', magnesium: '8,7', ph: '7,1' }
+  ];
+
+  const closeModalAndLegend = (showGermanyTable = false) => {
     setIsClosing(true);
-    // Después de la animación, cerrar realmente los componentes y mostrar la tabla
     setTimeout(() => {
       setModalVisible(false);
+      setModalYellowVisible(false);
       setLegendVisible(false);
       setIsClosing(false);
-      // Mostrar la tabla después de un pequeño delay
       setTimeout(() => {
+        if (showGermanyTable) {
+          setTableData(germanyData);
+        } else {
+          setTableData(sevillaData);
+        }
         setTableVisible(true);
       }, 200);
-    }, 300); // Duración de la animación
+    }, 300);
   };
 
   useEffect(() => {
@@ -344,7 +366,7 @@ const Model3DLayer = () => {
         visible={modalYellowVisible}
         onClose={() => setModalYellowVisible(false)}
         isClosing={isClosing}
-        onCloseAll={closeModalAndLegend}
+        onCloseAll={() => closeModalAndLegend(true)}
       />
       
       <Legend 
@@ -356,7 +378,13 @@ const Model3DLayer = () => {
       <SamplingDataTable 
         visible={tableVisible}
         onClose={() => setTableVisible(false)}
+        data={tableData}
       />
+      {/* Tabla Alemania, solo visible tras cerrar modal amarillo */}
+      {/* <SamplingDataTableGermany 
+        visible={tableGermanyVisible}
+        onClose={() => setTableGermanyVisible(false)}
+      /> */}
     </>
   );
 };
