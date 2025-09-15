@@ -344,6 +344,7 @@ const Model3DLayer = () => {
         visible={modalYellowVisible}
         onClose={() => setModalYellowVisible(false)}
         isClosing={isClosing}
+        onCloseAll={closeModalAndLegend}
       />
       
       <Legend 

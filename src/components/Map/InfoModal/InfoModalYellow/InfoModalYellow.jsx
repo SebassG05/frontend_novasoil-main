@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './InfoModal.module.css';
 import ImageCarouselYellow from './ImageCarouselYellow';
 
-const InfoModalYellow = ({ visible, onClose, isClosing, children }) => {
+const InfoModalYellow = ({ visible, onClose, isClosing, children, onCloseAll }) => {
   if (!visible) return null;
   return (
     <div className={styles.overlay}>
@@ -13,7 +13,7 @@ const InfoModalYellow = ({ visible, onClose, isClosing, children }) => {
           <h1 className={styles.modalTitle}>CO2-Land Initiative in Germany</h1>
         </div>
         <div className={styles.content}>
-          <ImageCarouselYellow onCloseAll={onClose} />
+          <ImageCarouselYellow onCloseAll={onCloseAll} />
           {children}
         </div>
       </div>
