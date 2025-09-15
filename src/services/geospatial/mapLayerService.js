@@ -137,26 +137,7 @@ class MapLayerService {
             map.on('mouseleave', this.LAYER_IDS.GERMANY_POINTS, () => {
                 map.getCanvas().style.cursor = '';
             });
-            // Ajustar la vista del mapa automáticamente a los puntos de Alemania
-            if (geojsonData.features && geojsonData.features.length > 0) {
-                let minLng = Infinity, minLat = Infinity;
-                let maxLng = -Infinity, maxLat = -Infinity;
-                geojsonData.features.forEach(feature => {
-                    if (feature.geometry.type === 'Point') {
-                        const [lng, lat] = feature.geometry.coordinates;
-                        minLng = Math.min(minLng, lng);
-                        maxLng = Math.max(maxLng, lng);
-                        minLat = Math.min(minLat, lat);
-                        maxLat = Math.max(maxLat, lat);
-                    }
-                });
-                const padding = 50;
-                console.log('[Alemania] fitBounds:', minLng, minLat, maxLng, maxLat);
-                map.fitBounds([
-                    [minLng, minLat],
-                    [maxLng, maxLat]
-                ], { padding });
-            }
+            // No ajustar la vista automáticamente, la vista inicial será Europa
             console.log('[Alemania] Capa de puntos de Alemania añadida correctamente');
         } catch (error) {
             console.error('[Alemania] Error añadiendo capa de puntos de muestreo de Alemania:', error);

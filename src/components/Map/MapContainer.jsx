@@ -39,6 +39,16 @@ const MapContainer = () => {
 
         mapInstance.on('load', () => {
             setIsLoaded(true);
+            // Forzar vista de Europa al cargar
+            setTimeout(() => {
+                if (mapInstance) {
+                    mapInstance.flyTo({
+                        center: [10.0, 50.0],
+                        zoom: 4.2,
+                        duration: 0
+                    });
+                }
+            }, 100);
         });
 
         setMap(mapInstance);

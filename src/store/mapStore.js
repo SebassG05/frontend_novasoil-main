@@ -7,7 +7,7 @@ export const useMapStore = create((set, get) => ({
     setSelectedAreaName: (name) => set({ selectedAreaName: name }),
     // Estado del mapa
     map: null,
-    viewport: DEFAULT_VIEWPORT,
+    viewport: EUROPE_VIEW,
     mapStyle: MAP_STYLES.streets,
     isLoaded: false,
 
