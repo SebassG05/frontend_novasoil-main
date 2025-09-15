@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
 import InfoModalYellow from './InfoModal/InfoModalYellow/InfoModalYellow';
+import InfoModalBulgaria from './InfoModal/InfoModalBulgaria/InfoModalBulgaria';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
@@ -22,6 +23,7 @@ const Model3DLayer = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalYellowVisible, setModalYellowVisible] = useState(false);
   const [legendVisible, setLegendVisible] = useState(false);
+  const [modalBulgariaVisible, setModalBulgariaVisible] = useState(false);
   const [tableVisible, setTableVisible] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
@@ -216,8 +218,9 @@ const Model3DLayer = () => {
       });
       // Añadir evento de clic al círculo verde
       map.on('click', 'bulgaria-marker-circle', (e) => {
-  setLegendVisible(true);
-  setSelectedAreaName('Caso de muestreo Bulgaria');
+        setLegendVisible(true);
+        setModalBulgariaVisible(true);
+        setSelectedAreaName('Caso de muestreo Bulgaria');
         // Marcar hoveredSample como Bulgaria para mostrar el tooltip
         useMapStore.getState().setHoveredSample({ _bulgaria: true });
       });
@@ -423,7 +426,15 @@ const Model3DLayer = () => {
         onClose={() => setLegendVisible(false)}
         isClosing={isClosing}
       />
-      
+      <InfoModalBulgaria
+        visible={modalBulgariaVisible}
+        onClose={() => setModalBulgariaVisible(false)}
+        isClosing={isClosing}
+        onCloseAll={() => {
+          setModalBulgariaVisible(false);
+          setLegendVisible(false);
+        }}
+      />
       <SamplingDataTable 
         visible={tableVisible}
         onClose={() => setTableVisible(false)}
