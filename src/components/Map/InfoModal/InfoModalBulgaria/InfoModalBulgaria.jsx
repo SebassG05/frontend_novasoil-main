@@ -9,7 +9,7 @@ const InfoModalYellow = ({ visible, onClose, isClosing, children, onCloseAll }) 
       <div className={isClosing ? `${styles.modal} ${styles.modalClosing}` : styles.modal}>
         <button className={styles.closeBtn} onClick={onClose} aria-label="Cerrar modal">×</button>
         <div className={styles.modalHeader}>
-          <h1 className={styles.modalTitle}>CO2-Land Initiative in Germany</h1>
+          <h1 className={styles.modalTitle}>Data for soils in Plovdiv District_Bulgaria</h1>
         </div>
         <div className={styles.content}>
           <ImageCarouselYellow onCloseAll={onCloseAll} />
