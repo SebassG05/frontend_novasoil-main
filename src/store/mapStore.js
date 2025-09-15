@@ -18,6 +18,7 @@ export const useMapStore = create((set, get) => ({
     // Datos geoespaciales
     shapefileData: null,
     samplingData: null,
+    samplingDataGermany: null,
     isLoadingGeoData: false,
     geoDataError: null,
     hoveredSample: null,
@@ -50,6 +51,7 @@ export const useMapStore = create((set, get) => ({
     // Acciones de datos geoespaciales
     setShapefileData: (data) => set({ shapefileData: data }),
     setSamplingData: (data) => set({ samplingData: data }),
+    setSamplingDataGermany: (data) => set({ samplingDataGermany: data }),
     setIsLoadingGeoData: (loading) => set({ isLoadingGeoData: loading }),
     setGeoDataError: (error) => set({ geoDataError: error }),
     setHoveredSample: (sample) => set({ hoveredSample: sample }),

@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import styles from './SamplingDataTable.module.css';
 
 const SamplingDataTable = ({ visible, onClose, data }) => {
+  // Lista de columnas a ocultar solo para Alemania
+  const hiddenGermanyColumns = [
+    'nitrates_mgkg',
+    'total_cadmium_mgkg',
+    'total_aluminum_al_mgkg',
+    'total_lead_pb_mgkg',
+    'total_zinc_zn_mgkg',
+    'sulfur_s_mgkg'
+  ];
   if (!visible) return null;
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -63,38 +72,34 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
     }
   };
 
-  // Determinar qué columnas tienen información
-  const columns = [
-    { key: 'code', label: 'Código' },
-    { key: 'id', label: 'ID' },
-    { key: 'coordX', label: 'Coordenada X' },
-    { key: 'coordY', label: 'Coordenada Y' },
-    { key: 'date', label: 'Fecha' },
-    { key: 'type', label: 'Tipo' },
-    { key: 'lithology', label: 'Litología' },
-    { key: 'ph', label: 'pH' },
-    { key: 'organicCarbon', label: 'Carbono Orgánico' },
-    { key: 'nitrogen', label: 'Nitrógeno' },
-    { key: 'phosphorus', label: 'Fósforo' },
-  ];
+  // Detectar todas las claves presentes en los datos
+  const allKeys = sampleData.reduce((keys, row) => {
+    Object.keys(row).forEach(k => {
+      if (!keys.includes(k)) keys.push(k);
+    });
+    return keys;
+  }, []);
 
-  // Preprocesar sampleData para coordX/coordY
+  // Generar columnas dinámicas
+  // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id'
+  const isGermany = allKeys.includes('co2_land_novasoil_id');
+  const visibleColumns = allKeys
+    .filter(key =>
+      sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
+      (!isGermany || !hiddenGermanyColumns.includes(key))
+    )
+    .map(key => ({ key, label: key }));
+
+  // Preprocesar sampleData para coordX/coordY si existen
   const processedData = sampleData.map(sample => {
-    let coordX = '';
-    let coordY = '';
+    let coordX = sample.coordX || '';
+    let coordY = sample.coordY || '';
+    // Si hay una columna coordinates tipo string con ;
     if (typeof sample.coordinates === 'string' && sample.coordinates.includes(';')) {
       [coordX, coordY] = sample.coordinates.split(';').map(c => c.trim());
-    } else {
-      coordX = sample.coordinates || '';
-      coordY = '';
     }
     return { ...sample, coordX, coordY };
   });
-
-  // Calcular columnas visibles (al menos un valor no vacío/no 'no info')
-  const visibleColumns = columns.filter(col =>
-    processedData.some(row => row[col.key] && row[col.key] !== 'no info' && row[col.key] !== '')
-  );
 
   return (
     <div className={styles.overlay}>

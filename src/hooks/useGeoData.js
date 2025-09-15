@@ -12,18 +12,35 @@ export const useGeoData = () => {
         isLoaded,
         shapefileData,
         samplingData,
+        samplingDataGermany,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
         isChangingStyle,
         setShapefileData,
         setSamplingData,
+        setSamplingDataGermany,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
         setIsChangingStyle,
         clearGeoData
     } = useMapStore();
+    /**
+     * Carga los datos de muestreo de Alemania
+     */
+    const loadGermanyData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const germanyData = await geoDataService.makeRequest('/sampling/germany');
+            setSamplingDataGermany(germanyData.data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
 
     /**
      * Carga todos los datos geoespaciales
@@ -218,6 +235,7 @@ export const useGeoData = () => {
         // Estados
         shapefileData,
         samplingData,
+        samplingDataGermany,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -225,6 +243,7 @@ export const useGeoData = () => {
         // Funciones
         loadGeoData,
         reloadGeoData,
+        loadGermanyData,
         toggleLayerVisibility,
         focusOnSample,
         getSamplingStats

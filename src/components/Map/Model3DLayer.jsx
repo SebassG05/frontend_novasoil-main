@@ -9,9 +9,11 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
+import { useGeoData } from '../../hooks/useGeoData';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName } = useMapStore();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany } = useMapStore();
+  const { loadGermanyData } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -25,35 +27,24 @@ const Model3DLayer = () => {
   const [isClosing, setIsClosing] = useState(false);
 
   // Función para cerrar ambos: modal y leyenda con animación, luego mostrar tabla
-  // Datos de Sevilla (ya definidos en SamplingDataTable.jsx)
-  const sevillaData = undefined; // Si quieres, puedes importarlos o dejarlos como undefined para usar los internos
-
-  // Datos de Alemania (primeros 10 registros del CSV)
-  const germanyData = [
-    { code: 'CO2-land_data 1', coordinates: "48° 17' 59.40'' N;  9° 4' 55.37'' O", date: '7/5/2022', nitrogen: '0,42', phosphorus: '2,62', potassium: '27,39', magnesium: '7,1', ph: '7,6' },
-    { code: 'CO2-land_data 2', coordinates: "48° 18' 19.97'' N;  9° 4' 26.54'' O", date: '7/5/2022', nitrogen: '0,38', phosphorus: '0,87', potassium: '18,26', magnesium: '7,4', ph: '7,5' },
-    { code: 'CO2-land_data 3', coordinates: "48° 18' 18.90'' N;  9° 4' 22.97'' O", date: '7/5/2022', nitrogen: '0,38', phosphorus: '0,87', potassium: '17,43', magnesium: '7', ph: '7,5' },
-    { code: 'CO2-land_data 4', coordinates: "48° 18' 27.99'' N;  9° 5' 26.58'' O", date: '7/5/2022', nitrogen: '0,51', phosphorus: '1,75', potassium: '18,26', magnesium: '7,9', ph: '7,5' },
-    { code: 'CO2-land_data 5', coordinates: "48° 17' 18.85'' N;  9° 4' 25.07'' O", date: '7/5/2022', nitrogen: '0,45', phosphorus: '0,87', potassium: '12,45', magnesium: '6,5', ph: '7,5' },
-    { code: 'CO2-land_data 6', coordinates: "48° 16' 43.92'' N;  9° 4' 2.203'' O", date: '7/5/2022', nitrogen: '0,47', phosphorus: '<0,44', potassium: '9,96', magnesium: '7,9', ph: '7,2' },
-    { code: 'CO2-land_data 7', coordinates: "48° 16' 41.01'' N;  9° 4' 3.632'' O", date: '7/5/2022', nitrogen: '0,41', phosphorus: '0,44', potassium: '9,13', magnesium: '6,9', ph: '7,2' },
-    { code: 'CO2-land_data 8', coordinates: "48° 16' 56.66'' N;  9° 3' 0.831'' O", date: '7/5/2022', nitrogen: '0,44', phosphorus: '0,87', potassium: '9,96', magnesium: '8', ph: '7,2' },
-    { code: 'CO2-land_data 9', coordinates: "48° 16' 52.05'' N;  9° 3' 20.69'' O", date: '7/5/2022', nitrogen: '0,52', phosphorus: '0,44', potassium: '10,79', magnesium: '7,4', ph: '7,2' },
-    { code: 'CO2-land_data 10', coordinates: "48° 16' 48.14'' N;  9° 3' 27.26'' O", date: '7/5/2022', nitrogen: '0,44', phosphorus: '0,87', potassium: '18,26', magnesium: '8,7', ph: '7,1' }
-  ];
+  // Eliminar datos hardcodeados y usar los datos reales del store
 
   const closeModalAndLegend = (showGermanyTable = false) => {
     setIsClosing(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setModalVisible(false);
       setModalYellowVisible(false);
       setLegendVisible(false);
       setIsClosing(false);
-      setTimeout(() => {
+      setTimeout(async () => {
         if (showGermanyTable) {
-          setTableData(germanyData);
+          // Si no hay datos cargados, cargar Alemania
+          if (!samplingDataGermany) {
+            await loadGermanyData();
+          }
+          setTableData(Array.isArray(samplingDataGermany) ? samplingDataGermany : []);
         } else {
-          setTableData(sevillaData);
+          setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         }
         setTableVisible(true);
       }, 200);
