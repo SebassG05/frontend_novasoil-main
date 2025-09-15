@@ -163,12 +163,66 @@ const Model3DLayer = () => {
       });
       // Añadir evento de clic al círculo amarillo
       map.on('click', 'yellow-marker-circle', () => {
-  setModalYellowVisible(true);
-  setLegendVisible(true);
-  setSelectedAreaName('Área de estudio Alemania');
+        setModalYellowVisible(true);
+        setLegendVisible(true);
+        setSelectedAreaName('Área de estudio Alemania');
       });
     }
     console.log('Círculo amarillo creado correctamente');
+    return true;
+  };
+
+  // Crear marcador como capa de Mapbox (círculo verde bandera Bulgaria)
+  const createBulgariaMarker = () => {
+    const bulgariaCoordinates = [24.675, 42.231];
+    if (!map || !map.isStyleLoaded()) {
+      console.log('Mapa no está listo, reintentando...');
+      setTimeout(() => createBulgariaMarker(), 50);
+      return false;
+    }
+    // Añadir fuente de datos para el círculo verde
+    if (!map.getSource('bulgaria-marker-source')) {
+      map.addSource('bulgaria-marker-source', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: bulgariaCoordinates
+          }
+        }
+      });
+    }
+    // Añadir capa de círculo verde
+    if (!map.getLayer('bulgaria-marker-circle')) {
+      map.addLayer({
+        id: 'bulgaria-marker-circle',
+        type: 'circle',
+        source: 'bulgaria-marker-source',
+        paint: {
+          'circle-radius': 7,
+          'circle-color': '#2d5016',
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff',
+          'circle-opacity': 1
+        }
+      });
+      // Cambiar cursor a pointer cuando se pasa por encima del círculo verde
+      map.on('mouseenter', 'bulgaria-marker-circle', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'bulgaria-marker-circle', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      // Añadir evento de clic al círculo verde
+      map.on('click', 'bulgaria-marker-circle', (e) => {
+  setLegendVisible(true);
+  setSelectedAreaName('Caso de muestreo Bulgaria');
+        // Marcar hoveredSample como Bulgaria para mostrar el tooltip
+        useMapStore.getState().setHoveredSample({ _bulgaria: true });
+      });
+    }
+    console.log('Círculo verde Bulgaria creado correctamente');
     return true;
   };
 
@@ -290,6 +344,7 @@ const Model3DLayer = () => {
           markersRef.current.htmlMarker = createHtmlMarker();
         }
         createYellowMarker();
+        createBulgariaMarker();
         // NO añadir ni remover sampling points layers aquí
       }
       
