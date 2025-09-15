@@ -257,9 +257,8 @@ const Model3DLayer = () => {
       const currentZoom = map.getZoom();
       
       if (currentZoom >= ZOOM_THRESHOLD) {
-        // Zoom alto: mostrar modelo 3D, ocultar círculos
+        // Zoom alto: mostrar modelo 3D, ocultar solo los marcadores custom, NO los puntos de muestreo
         if (markersRef.current.htmlMarker) {
-          // Remover capa de círculo rojo
           if (map.getLayer('marker-circle')) {
             map.removeLayer('marker-circle');
           }
@@ -268,19 +267,19 @@ const Model3DLayer = () => {
           }
           markersRef.current.htmlMarker = null;
         }
-        // Remover círculo amarillo si existe
         if (map.getLayer('yellow-marker-circle')) {
           map.removeLayer('yellow-marker-circle');
         }
         if (map.getSource('yellow-marker-source')) {
           map.removeSource('yellow-marker-source');
         }
+        // NO remover capas de puntos de muestreo (sampling-points-layer, germany-sampling-points-layer)
         if (!markersRef.current.model3D) {
           markersRef.current.model3D = create3DModel();
           map.addLayer(markersRef.current.model3D);
         }
       } else {
-        // Zoom bajo: mostrar círculos, ocultar modelo 3D
+        // Zoom bajo: mostrar círculos custom, ocultar modelo 3D
         if (markersRef.current.model3D) {
           if (map.getLayer('3d-model-layer')) {
             map.removeLayer('3d-model-layer');
@@ -290,8 +289,8 @@ const Model3DLayer = () => {
         if (!markersRef.current.htmlMarker) {
           markersRef.current.htmlMarker = createHtmlMarker();
         }
-        // Crear círculo amarillo
         createYellowMarker();
+        // NO añadir ni remover sampling points layers aquí
       }
       
       markersRef.current.currentZoom = currentZoom;

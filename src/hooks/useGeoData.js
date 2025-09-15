@@ -27,7 +27,7 @@ export const useGeoData = () => {
         clearGeoData
     } = useMapStore();
     /**
-     * Carga los datos de muestreo de Alemania
+     * Carga los datos de muestreo de Alemania y añade la capa al mapa
      */
     const loadGermanyData = async () => {
         try {
@@ -35,6 +35,10 @@ export const useGeoData = () => {
             setGeoDataError(null);
             const germanyData = await geoDataService.makeRequest('/sampling/germany');
             setSamplingDataGermany(germanyData.data);
+            // Añadir capa de puntos de Alemania si el mapa está listo
+            if (map && germanyData.data && germanyData.data.length > 0) {
+                mapLayerService.addGermanySamplingPointsLayer(map, germanyData.data);
+            }
         } catch (error) {
             setGeoDataError(error.message);
         } finally {
@@ -154,6 +158,8 @@ export const useGeoData = () => {
     useEffect(() => {
         if (map && isLoaded && !shapefileData && !samplingData && !isLoadingGeoData) {
             loadGeoData();
+            // Cargar y mostrar puntos de Alemania
+            loadGermanyData();
         }
     }, [map, isLoaded]);
 
