@@ -38,11 +38,15 @@ const Model3DLayer = () => {
       setIsClosing(false);
       setTimeout(async () => {
         if (showGermanyTable) {
-          // Si no hay datos cargados, cargar Alemania
-          if (!samplingDataGermany) {
+          // Si no hay datos cargados, cargar Alemania y esperar a que termine
+          let germanyData = samplingDataGermany;
+          if (!germanyData || germanyData.length === 0) {
             await loadGermanyData();
+            // Esperar a que el store se actualice (pequeño delay)
+            await new Promise(resolve => setTimeout(resolve, 200));
+            germanyData = useMapStore.getState().samplingDataGermany;
           }
-          setTableData(Array.isArray(samplingDataGermany) ? samplingDataGermany : []);
+          setTableData(Array.isArray(germanyData) ? germanyData : []);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         }
