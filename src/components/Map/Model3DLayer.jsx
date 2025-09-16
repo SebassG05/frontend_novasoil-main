@@ -214,7 +214,7 @@ const Model3DLayer = () => {
         source: 'bulgaria-marker-source',
         paint: {
           'circle-radius': 7,
-          'circle-color': '#2d5016',
+          'circle-color': '#43a047',
           'circle-stroke-width': 2,
           'circle-stroke-color': '#ffffff',
           'circle-opacity': 1
