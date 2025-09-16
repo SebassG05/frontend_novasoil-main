@@ -15,7 +15,7 @@ import { useGeoData } from '../../hooks/useGeoData';
 
 const Model3DLayer = () => {
   const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia } = useMapStore();
-  const { loadGermanyData, loadBulgariaData } = useGeoData();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -63,6 +63,11 @@ const Model3DLayer = () => {
         } else if (showTable === 'estonia') {
           // Estonia
           let estoniaData = samplingDataEstonia;
+          if (!estoniaData || estoniaData.length === 0) {
+            await loadEstoniaData();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            estoniaData = useMapStore.getState().samplingDataEstonia;
+          }
           setTableData(Array.isArray(estoniaData) ? estoniaData : []);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
@@ -71,6 +76,7 @@ const Model3DLayer = () => {
       }, 200);
     }, 300);
   };
+
 
   useEffect(() => {
     if (!map) return;

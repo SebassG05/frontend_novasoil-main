@@ -14,6 +14,7 @@ export const useGeoData = () => {
         samplingData,
         samplingDataGermany,
         samplingDataBulgaria,
+        samplingDataEstonia,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -22,12 +23,34 @@ export const useGeoData = () => {
         setSamplingData,
         setSamplingDataGermany,
         setSamplingDataBulgaria,
+        setSamplingDataEstonia,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
         setIsChangingStyle,
         clearGeoData
     } = useMapStore();
+    /**
+     * Carga los datos de muestreo de Estonia y añade la capa al mapa
+     */
+    const loadEstoniaData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const estoniaData = await geoDataService.makeRequest('/sampling/estonia');
+            setSamplingDataEstonia(estoniaData.data);
+            // Añadir capa de puntos de Estonia si el mapa está listo
+            if (map && estoniaData.data && estoniaData.data.length > 0) {
+                if (mapLayerService.addEstoniaSamplingPointsLayer) {
+                    mapLayerService.addEstoniaSamplingPointsLayer(map, estoniaData.data);
+                }
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
 
     /**
      * Carga los datos de muestreo de Bulgaria y añade la capa al mapa
@@ -184,6 +207,8 @@ export const useGeoData = () => {
             loadGermanyData();
             // Cargar y mostrar puntos de Bulgaria
             loadBulgariaData();
+            // Cargar y mostrar puntos de Estonia
+            loadEstoniaData();
         }
     }, [map, isLoaded]);
 
@@ -267,6 +292,7 @@ export const useGeoData = () => {
         samplingData,
         samplingDataGermany,
         samplingDataBulgaria,
+        samplingDataEstonia,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -276,6 +302,7 @@ export const useGeoData = () => {
         reloadGeoData,
         loadGermanyData,
         loadBulgariaData,
+        loadEstoniaData,
         toggleLayerVisibility,
         focusOnSample,
         getSamplingStats
