@@ -60,6 +60,15 @@ const Model3DLayer = () => {
             bulgariaData = useMapStore.getState().samplingDataBulgaria;
           }
           setTableData(Array.isArray(bulgariaData) ? bulgariaData : []);
+        } else if (showTable === 'estonia') {
+          // Estonia
+          let estoniaData = samplingDataEstonia;
+          if (!estoniaData || estoniaData.length === 0) {
+            await loadEstoniaData();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            estoniaData = useMapStore.getState().samplingDataEstonia;
+          }
+          setTableData(Array.isArray(estoniaData) ? estoniaData : []);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         }
@@ -484,6 +493,10 @@ const Model3DLayer = () => {
         visible={modalEstoniaVisible}
         onClose={() => setModalEstoniaVisible(false)}
         isClosing={isClosing}
+        onCloseAll={() => {
+          setModalEstoniaVisible(false);
+          closeModalAndLegend('estonia');
+        }}
       />
       <InfoModalYellow
         visible={modalYellowVisible}

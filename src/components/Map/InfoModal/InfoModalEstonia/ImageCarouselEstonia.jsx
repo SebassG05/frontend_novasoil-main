@@ -197,7 +197,7 @@ const ImageCarousel = ({ onCloseAll }) => {
         <p className={styles.ctaText}>
           More information about the case study
         </p>
-        <button className={styles.ctaLink} onClick={(e) => {
+  <button className={styles.ctaLink} onClick={(e) => {
           // Crear efecto ripple
           const button = e.currentTarget;
           const ripple = document.createElement('span');
@@ -232,7 +232,7 @@ const ImageCarousel = ({ onCloseAll }) => {
           
           // Cerrar tanto el modal como la leyenda
           if (onCloseAll) {
-            onCloseAll();
+            onCloseAll('estonia');
           }
           console.log('Modal y leyenda cerrados');
         }}>
