@@ -16,6 +16,13 @@ const InfoModalYellow = ({ visible, onClose, isClosing, children, onCloseAll }) 
           <ImageCarouselYellow onCloseAll={onCloseAll} />
           {children}
         </div>
+        <div className={styles.companyLogo}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
+                    alt="Evenor-Tech"
+                    className={styles.companyLogoImage}
+                  />
+                </div>
       </div>
     </div>
   );
