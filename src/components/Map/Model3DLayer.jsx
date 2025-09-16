@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
 import InfoModalYellow from './InfoModal/InfoModalYellow/InfoModalYellow';
 import InfoModalYellowBulgaria from './InfoModal/InfoModalBulgaria/InfoModalYellowBulgaria';
+import InfoModalEstonia from './InfoModal/InfoModalEstonia/InfoModalEstonia';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
@@ -24,6 +25,7 @@ const Model3DLayer = () => {
   const [modalYellowVisible, setModalYellowVisible] = useState(false);
   const [legendVisible, setLegendVisible] = useState(false);
   const [modalBulgariaVisible, setModalBulgariaVisible] = useState(false);
+  const [modalEstoniaVisible, setModalEstoniaVisible] = useState(false);
   const [tableVisible, setTableVisible] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
@@ -229,8 +231,8 @@ const Model3DLayer = () => {
       // Añadir evento de clic al círculo verde
       map.on('click', 'estonia-marker-circle', (e) => {
         setLegendVisible(true);
-        setModalEstoniaVisible(true);
-        setSelectedAreaName('Caso de muestreo Estonia');
+        setModalEstoniaVisible && setModalEstoniaVisible(true);
+        setSelectedAreaName('Caso de estudio Estonia');
         useMapStore.getState().setHoveredSample(null);
       });
     }
@@ -478,6 +480,11 @@ const Model3DLayer = () => {
         </div>
         <ImageCarousel onCloseAll={closeModalAndLegend} />
       </InfoModal>
+      <InfoModalEstonia
+        visible={modalEstoniaVisible}
+        onClose={() => setModalEstoniaVisible(false)}
+        isClosing={isClosing}
+      />
       <InfoModalYellow
         visible={modalYellowVisible}
         onClose={() => setModalYellowVisible(false)}
