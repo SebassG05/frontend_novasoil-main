@@ -11,13 +11,15 @@ class MapLayerService {
             SAMPLING_POINTS: 'sampling-points-layer', // Sevilla
             SAMPLING_LABELS: 'sampling-labels-layer',
             GERMANY_POINTS: 'germany-sampling-points-layer',
-            BULGARIA_POINTS: 'bulgaria-sampling-points-layer' // Nueva capa para Bulgaria
+            BULGARIA_POINTS: 'bulgaria-sampling-points-layer', // Nueva capa para Bulgaria
+            ESTONIA_POINTS: 'estonia-sampling-points-layer' // Nueva capa para Estonia
         };
         this.SOURCE_IDS = {
             SHAPEFILE: 'shapefile-source',
             SAMPLING: 'sampling-source', // Sevilla
             GERMANY: 'germany-sampling-source',
-            BULGARIA: 'bulgaria-sampling-source' // Nueva fuente para Bulgaria
+            BULGARIA: 'bulgaria-sampling-source', // Nueva fuente para Bulgaria
+            ESTONIA: 'estonia-sampling-source' // Nueva fuente para Estonia
         };
     }
 
@@ -47,6 +49,100 @@ class MapLayerService {
     /**
      * Añade los puntos de muestreo de Alemania como capa al mapa (color amarillo)
      */
+
+
+    addEstoniaSamplingPointsLayer(map, estoniaData) {
+            // Ocultar hover al hacer click en un punto de Estonia
+            map.on('click', this.LAYER_IDS.ESTONIA_POINTS, () => {
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
+        try {
+            console.log('[Estonia] Intentando añadir capa de puntos de muestreo...');
+            if (!map) {
+                console.error('[Estonia] El objeto map no está disponible');
+                return;
+            }
+            // Remove only Estonia layer/source
+            if (map.getLayer(this.LAYER_IDS.ESTONIA_POINTS)) {
+                map.removeLayer(this.LAYER_IDS.ESTONIA_POINTS);
+            }
+            if (map.getSource(this.SOURCE_IDS.ESTONIA)) {
+                map.removeSource(this.SOURCE_IDS.ESTONIA);
+            }
+            let geojsonData;
+            console.log('[Estonia] Datos recibidos:', estoniaData);
+            if (estoniaData && Array.isArray(estoniaData)) {
+                geojsonData = {
+                    type: 'FeatureCollection',
+                    features: estoniaData.map(row => {
+                        const lat = parseFloat(row.lat);
+                        const lon = parseFloat(row.lon);
+                        if (!isNaN(lat) && !isNaN(lon)) {
+                            return {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [lon, lat]
+                                },
+                                properties: row
+                            };
+                        }
+                        return null;
+                    }).filter(f => f !== null)
+                };
+            } else {
+                geojsonData = estoniaData;
+            }
+            console.log('[Estonia] GeoJSON generado:', geojsonData);
+            if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+                console.warn('[Estonia] No hay datos válidos para los puntos de muestreo de Estonia');
+                return;
+            }
+            map.addSource(this.SOURCE_IDS.ESTONIA, {
+                type: 'geojson',
+                data: geojsonData
+            });
+            map.addLayer({
+                id: this.LAYER_IDS.ESTONIA_POINTS,
+                type: 'circle',
+                source: this.SOURCE_IDS.ESTONIA,
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        6, 4,
+                        10, 6,
+                        15, 12,
+                        20, 20
+                    ],
+                    'circle-color': '#0072CE', // Verde
+                    'circle-stroke-color': '#fff',
+                    'circle-stroke-width': 2,
+                    'circle-opacity': 0.85
+                },
+                layout: {
+                    'visibility': 'visible'
+                },
+                minzoom: 6
+            });
+            // Interacción: mostrar tooltip al pasar el ratón por los puntos de Estonia
+            map.on('mouseenter', this.LAYER_IDS.ESTONIA_POINTS, (e) => {
+                map.getCanvas().style.cursor = 'pointer';
+                if (e.features.length > 0 && window.setHoveredSample) {
+                    const feature = e.features[0];
+                    window.setHoveredSample({ ...feature.properties, _estonia: true });
+                }
+            });
+            map.on('mouseleave', this.LAYER_IDS.ESTONIA_POINTS, () => {
+                map.getCanvas().style.cursor = '';
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
+            console.log('[Estonia] Capa de puntos de Estonia añadida correctamente');
+        } catch (error) {
+            console.error('[Estonia] Error añadiendo capa de puntos de muestreo de Estonia:', error);
+        }
+    }
 
     addBulgariaSamplingPointsLayer(map, bulgariaData) {
             // Ocultar hover al hacer click en un punto de Bulgaria
