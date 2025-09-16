@@ -11,11 +11,13 @@ class MapLayerService {
             SAMPLING_POINTS: 'sampling-points-layer', // Sevilla
             SAMPLING_LABELS: 'sampling-labels-layer',
             GERMANY_POINTS: 'germany-sampling-points-layer',
+            BULGARIA_POINTS: 'bulgaria-sampling-points-layer' // Nueva capa para Bulgaria
         };
         this.SOURCE_IDS = {
             SHAPEFILE: 'shapefile-source',
             SAMPLING: 'sampling-source', // Sevilla
             GERMANY: 'germany-sampling-source',
+            BULGARIA: 'bulgaria-sampling-source' // Nueva fuente para Bulgaria
         };
     }
 
@@ -45,6 +47,97 @@ class MapLayerService {
     /**
      * Añade los puntos de muestreo de Alemania como capa al mapa (color amarillo)
      */
+
+    addBulgariaSamplingPointsLayer(map, bulgariaData) {
+        try {
+            console.log('[Bulgaria] Intentando añadir capa de puntos de muestreo...');
+            if (!map) {
+                console.error('[Bulgaria] El objeto map no está disponible');
+                return;
+            }
+            // Remove only Bulgaria layer/source
+            if (map.getLayer(this.LAYER_IDS.BULGARIA_POINTS)) {
+                map.removeLayer(this.LAYER_IDS.BULGARIA_POINTS);
+            }
+            if (map.getSource(this.SOURCE_IDS.BULGARIA)) {
+                map.removeSource(this.SOURCE_IDS.BULGARIA);
+            }
+            let geojsonData;
+            console.log('[Bulgaria] Datos recibidos:', bulgariaData);
+            if (bulgariaData && Array.isArray(bulgariaData)) {
+                geojsonData = {
+                    type: 'FeatureCollection',
+                    features: bulgariaData.map(row => {
+                        const lat = parseFloat(row.lat);
+                        const lon = parseFloat(row.lon);
+                        if (!isNaN(lat) && !isNaN(lon)) {
+                            return {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [lon, lat]
+                                },
+                                properties: row
+                            };
+                        }
+                        return null;
+                    }).filter(f => f !== null)
+                };
+            } else {
+                geojsonData = bulgariaData;
+            }
+            console.log('[Bulgaria] GeoJSON generado:', geojsonData);
+            if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+                console.warn('[Bulgaria] No hay datos válidos para los puntos de muestreo de Bulgaria');
+                return;
+            }
+            map.addSource(this.SOURCE_IDS.BULGARIA, {
+                type: 'geojson',
+                data: geojsonData
+            });
+            map.addLayer({
+                id: this.LAYER_IDS.BULGARIA_POINTS,
+                type: 'circle',
+                source: this.SOURCE_IDS.BULGARIA,
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        6, 4,
+                        10, 6,
+                        15, 12,
+                        20, 20
+                    ],
+                    'circle-color': '#43a047', // Verde
+                    'circle-stroke-color': '#fff',
+                    'circle-stroke-width': 2,
+                    'circle-opacity': 0.85
+                },
+                layout: {
+                    'visibility': 'visible'
+                },
+                minzoom: 6
+            });
+            // Interacción: mostrar tooltip al pasar el ratón por los puntos de Bulgaria
+            map.on('mouseenter', this.LAYER_IDS.BULGARIA_POINTS, (e) => {
+                map.getCanvas().style.cursor = 'pointer';
+                if (e.features.length > 0 && window.setHoveredSample) {
+                    const feature = e.features[0];
+                    window.setHoveredSample({ ...feature.properties, _bulgaria: true });
+                }
+            });
+            map.on('mouseleave', this.LAYER_IDS.BULGARIA_POINTS, () => {
+                map.getCanvas().style.cursor = '';
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
+            console.log('[Bulgaria] Capa de puntos de Bulgaria añadida correctamente');
+        } catch (error) {
+            console.error('[Bulgaria] Error añadiendo capa de puntos de muestreo de Bulgaria:', error);
+        }
+    }
+        
+
     addGermanySamplingPointsLayer(map, germanyData) {
         try {
             console.log('[Alemania] Intentando añadir capa de puntos de muestreo...');

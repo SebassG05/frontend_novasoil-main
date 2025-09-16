@@ -40,8 +40,7 @@ export const useGeoData = () => {
             setSamplingDataBulgaria(bulgariaData.data);
             // Añadir capa de puntos de Bulgaria si el mapa está listo
             if (map && bulgariaData.data && bulgariaData.data.length > 0) {
-                // Aquí podrías añadir una capa específica si tienes una función para Bulgaria
-                // mapLayerService.addBulgariaSamplingPointsLayer(map, bulgariaData.data);
+                mapLayerService.addBulgariaSamplingPointsLayer(map, bulgariaData.data);
             }
         } catch (error) {
             setGeoDataError(error.message);
@@ -183,6 +182,8 @@ export const useGeoData = () => {
             loadGeoData();
             // Cargar y mostrar puntos de Alemania
             loadGermanyData();
+            // Cargar y mostrar puntos de Bulgaria
+            loadBulgariaData();
         }
     }, [map, isLoaded]);
 
