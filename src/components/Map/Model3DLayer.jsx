@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import InfoModal from './InfoModal/InfoModal';
 import InfoModalYellow from './InfoModal/InfoModalYellow/InfoModalYellow';
-import InfoModalBulgaria from './InfoModal/InfoModalBulgaria/InfoModalBulgaria';
+import InfoModalYellowBulgaria from './InfoModal/InfoModalBulgaria/InfoModalYellowBulgaria';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
@@ -31,24 +31,27 @@ const Model3DLayer = () => {
   // Función para cerrar ambos: modal y leyenda con animación, luego mostrar tabla
   // Eliminar datos hardcodeados y usar los datos reales del store
 
-  const closeModalAndLegend = (showGermanyTable = false) => {
+  const closeModalAndLegend = (showTable = false) => {
     setIsClosing(true);
     setTimeout(async () => {
       setModalVisible(false);
       setModalYellowVisible(false);
       setLegendVisible(false);
+      setModalBulgariaVisible(false);
       setIsClosing(false);
       setTimeout(async () => {
-        if (showGermanyTable) {
-          // Si no hay datos cargados, cargar Alemania y esperar a que termine
+        if (showTable === true) {
+          // Alemania
           let germanyData = samplingDataGermany;
           if (!germanyData || germanyData.length === 0) {
             await loadGermanyData();
-            // Esperar a que el store se actualice (pequeño delay)
             await new Promise(resolve => setTimeout(resolve, 200));
             germanyData = useMapStore.getState().samplingDataGermany;
           }
           setTableData(Array.isArray(germanyData) ? germanyData : []);
+        } else if (showTable === 'bulgaria') {
+          // Bulgaria
+          setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         }
@@ -426,14 +429,11 @@ const Model3DLayer = () => {
         onClose={() => setLegendVisible(false)}
         isClosing={isClosing}
       />
-      <InfoModalBulgaria
+      <InfoModalYellowBulgaria
         visible={modalBulgariaVisible}
         onClose={() => setModalBulgariaVisible(false)}
         isClosing={isClosing}
-        onCloseAll={() => {
-          setModalBulgariaVisible(false);
-          setLegendVisible(false);
-        }}
+        onCloseAll={() => closeModalAndLegend('bulgaria')}
       />
       <SamplingDataTable 
         visible={tableVisible}
