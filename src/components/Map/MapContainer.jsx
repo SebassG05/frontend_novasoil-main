@@ -8,6 +8,7 @@ import SampleHoverInfo from './SampleInfo/SampleHoverInfo';
 import GeoDataLoader from './SampleInfo/GeoDataLoader';
 import GermanyHoverInfo from './SampleInfoGermany/GermanyHoverInfo';
 import BulgariaHoverInfo from './SampleInfoBulgaria/BulgariaHoverInfo';
+import EstoniaHoverInfo from './SampleInfoEstonia/EstoniaHoverInfo';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -72,11 +73,13 @@ const MapContainer = () => {
             <div ref={mapContainer} className="w-full h-full" />
             {/* Solo mostrar un pop-up según el tipo de punto */}
             {/* Mostrar pop-up de Sevilla solo si hoveredSample existe y no es de Alemania ni Bulgaria */}
-            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && <SampleHoverInfo />}
+            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia &&  <SampleHoverInfo />}
             {/* Mostrar pop-up de Alemania solo si hoveredSample existe y es de Alemania */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._germany && <GermanyHoverInfo />}
             {/* Mostrar pop-up de Bulgaria solo si hoveredSample existe y es de Bulgaria */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._bulgaria && <BulgariaHoverInfo />}
+            {/* Mostrar pop-up de Estonia solo si hoveredSample existe y es de Estonia */}
+            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._estonia && <EstoniaHoverInfo />}
             <GeoDataLoader />
             <MiniMap />
         </div>

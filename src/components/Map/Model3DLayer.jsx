@@ -185,6 +185,59 @@ const Model3DLayer = () => {
     return true;
   };
 
+  const createEstoniaMarker = () => {
+    const estoniaCoordinates = [26.30788, 58.71545];
+    if (!map || !map.isStyleLoaded()) {
+      console.log('Mapa no está listo, reintentando...');
+      setTimeout(() => createEstoniaMarker(), 50);
+      return false;
+    }
+    // Añadir fuente de datos para el círculo verde
+    if (!map.getSource('estonia-marker-source')) {
+      map.addSource('estonia-marker-source', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: estoniaCoordinates
+          }
+        }
+      });
+    }
+    // Añadir capa de círculo verde
+    if (!map.getLayer('estonia-marker-circle')) {
+      map.addLayer({
+        id: 'estonia-marker-circle',
+        type: 'circle',
+        source: 'estonia-marker-source',
+        paint: {
+          'circle-radius': 7,
+          'circle-color': '#0072CE',
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff',
+          'circle-opacity': 1
+        }
+      });
+      // Cambiar cursor a pointer cuando se pasa por encima del círculo verde
+      map.on('mouseenter', 'estonia-marker-circle', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'estonia-marker-circle', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      // Añadir evento de clic al círculo verde
+      map.on('click', 'estonia-marker-circle', (e) => {
+        setLegendVisible(true);
+        setModalEstoniaVisible(true);
+        setSelectedAreaName('Caso de muestreo Estonia');
+        useMapStore.getState().setHoveredSample(null);
+      });
+    }
+    console.log('Círculo verde Estonia creado correctamente');
+    return true;
+  };
+
   // Crear marcador como capa de Mapbox (círculo verde bandera Bulgaria)
   const createBulgariaMarker = () => {
     const bulgariaCoordinates = [24.675, 42.231];
@@ -358,6 +411,7 @@ const Model3DLayer = () => {
         }
         createYellowMarker();
         createBulgariaMarker();
+        createEstoniaMarker();
         // NO añadir ni remover sampling points layers aquí
       }
       
