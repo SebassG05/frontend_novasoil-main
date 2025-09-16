@@ -13,6 +13,7 @@ export const useGeoData = () => {
         shapefileData,
         samplingData,
         samplingDataGermany,
+        samplingDataBulgaria,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -20,12 +21,34 @@ export const useGeoData = () => {
         setShapefileData,
         setSamplingData,
         setSamplingDataGermany,
+        setSamplingDataBulgaria,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
         setIsChangingStyle,
         clearGeoData
     } = useMapStore();
+
+    /**
+     * Carga los datos de muestreo de Bulgaria y añade la capa al mapa
+     */
+    const loadBulgariaData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const bulgariaData = await geoDataService.makeRequest('/sampling/bulgaria');
+            setSamplingDataBulgaria(bulgariaData.data);
+            // Añadir capa de puntos de Bulgaria si el mapa está listo
+            if (map && bulgariaData.data && bulgariaData.data.length > 0) {
+                // Aquí podrías añadir una capa específica si tienes una función para Bulgaria
+                // mapLayerService.addBulgariaSamplingPointsLayer(map, bulgariaData.data);
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
     /**
      * Carga los datos de muestreo de Alemania y añade la capa al mapa
      */
@@ -242,6 +265,7 @@ export const useGeoData = () => {
         shapefileData,
         samplingData,
         samplingDataGermany,
+        samplingDataBulgaria,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -250,6 +274,7 @@ export const useGeoData = () => {
         loadGeoData,
         reloadGeoData,
         loadGermanyData,
+        loadBulgariaData,
         toggleLayerVisibility,
         focusOnSample,
         getSamplingStats
