@@ -49,6 +49,10 @@ class MapLayerService {
      */
 
     addBulgariaSamplingPointsLayer(map, bulgariaData) {
+            // Ocultar hover al hacer click en un punto de Bulgaria
+            map.on('click', this.LAYER_IDS.BULGARIA_POINTS, () => {
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
         try {
             console.log('[Bulgaria] Intentando añadir capa de puntos de muestreo...');
             if (!map) {

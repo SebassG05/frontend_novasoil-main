@@ -123,6 +123,7 @@ const Model3DLayer = () => {
           setModalVisible(true);
           setLegendVisible(true);
           setSelectedAreaName('Límites del parque Tamarguillo');
+          useMapStore.getState().setHoveredSample(null);
         });
       }
 
@@ -177,6 +178,7 @@ const Model3DLayer = () => {
         setModalYellowVisible(true);
         setLegendVisible(true);
         setSelectedAreaName('Área de estudio Alemania');
+        useMapStore.getState().setHoveredSample(null);
       });
     }
     console.log('Círculo amarillo creado correctamente');
@@ -230,8 +232,7 @@ const Model3DLayer = () => {
         setLegendVisible(true);
         setModalBulgariaVisible(true);
         setSelectedAreaName('Caso de muestreo Bulgaria');
-        // Marcar hoveredSample como Bulgaria para mostrar el tooltip
-        useMapStore.getState().setHoveredSample({ _bulgaria: true });
+        useMapStore.getState().setHoveredSample(null);
       });
     }
     console.log('Círculo verde Bulgaria creado correctamente');
