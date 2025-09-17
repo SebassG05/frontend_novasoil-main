@@ -172,6 +172,8 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   // Generar columnas dinámicas
   // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id'
   const isGermany = allKeys.includes('co2_land_novasoil_id');
+  // Detectar si es Bulgaria por la presencia de columnas típicas de Bulgaria
+  const isBulgaria = allKeys.includes('soil_name_bg_classification') || allKeys.includes('soil_name_wrb_2014');
   const visibleColumns = allKeys
     .filter(key =>
       sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
@@ -235,14 +237,19 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               <span className={styles.statNumber}>{totalSamples}</span>
               <span className={styles.statLabel}>Samples</span>
             </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>{cheSamples}</span>
-              <span className={styles.statLabel}>CHE</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>{chebioSamples}</span>
-              <span className={styles.statLabel}>CHEBIO</span>
-            </div>
+            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria o Estonia */}
+            {!(isGermany || isBulgaria || (sampleData.length > 0 && (sampleData[0].case_study_id !== undefined || sampleData[0]['case_study_id'] !== undefined))) && (
+              <>
+                <div className={styles.statItem}>
+                  <span className={styles.statNumber}>{cheSamples}</span>
+                  <span className={styles.statLabel}>CHE</span>
+                </div>
+                <div className={styles.statItem}>
+                  <span className={styles.statNumber}>{chebioSamples}</span>
+                  <span className={styles.statLabel}>CHEBIO</span>
+                </div>
+              </>
+            )}
           </div>
           <div className={styles.actions}>
             <button className={styles.actionBtn} onClick={exportToCSV} title="Export data to CSV file">
