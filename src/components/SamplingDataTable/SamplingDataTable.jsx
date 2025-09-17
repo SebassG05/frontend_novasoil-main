@@ -26,29 +26,35 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
 
   // Función para exportar datos a CSV
   const exportToCSV = () => {
+    // Headers y orden igual que el CSV original
     const headers = [
-      'Código', 'ID', 'Coordenadas', 'Fecha', 'Tipo', 'Litología', 'pH', 'Carbono Orgánico', 'Nitrógeno', 'Fósforo'
+      'code',
+      'id',
+      'X_WG84',
+      'Y_WG84',
+      'Date',
+      'Sampling type',
+      'Lithology description',
+      'Observations'
     ];
     const csvContent = [
-      headers.join(','),
+      headers.join(';'),
       ...sampleData.map(sample => [
         sample.code || '',
         sample.id || '',
-        `"${sample.coordinates || ''}"`,
-        sample.date || '',
-        sample.type || '',
-        `"${sample.lithology || ''}"`,
-        sample.ph || '',
-        sample.organicCarbon || '',
-        sample.nitrogen || '',
-        sample.phosphorus || ''
-      ].join(','))
+        sample.X_WG84 || (sample.coordinates && typeof sample.coordinates === 'object' ? sample.coordinates.longitude : (typeof sample.coordinates === 'string' ? sample.coordinates.split(';')[0] : '')) || '',
+        sample.Y_WG84 || (sample.coordinates && typeof sample.coordinates === 'object' ? sample.coordinates.latitude : (typeof sample.coordinates === 'string' ? sample.coordinates.split(';')[1] : '')) || '',
+        sample.date || sample.Date || '',
+        sample['Sampling type'] || sample.samplingType || sample.type || '',
+        sample['Lithology description'] || sample.lithologyDescription || sample.lithology || '',
+        sample.Observations || sample.observations || ''
+      ].join(';'))
     ].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `muestreo_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `tamarguillo_${new Date().toISOString().slice(0, 10)}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();

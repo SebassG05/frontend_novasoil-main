@@ -246,7 +246,7 @@ const Model3DLayer = () => {
         useMapStore.getState().setHoveredSample(null);
       });
     }
-    console.log('Círculo verde Estonia creado correctamente');
+    console.log('Círculo azul Estonia creado correctamente');
     return true;
   };
 
