@@ -216,9 +216,9 @@ export const useGeoData = () => {
     useEffect(() => {
         if (!map || !isChangingStyle) return;
 
+
         const handleStyleLoad = () => {
             console.log('Estilo cargado, re-añadiendo capas...');
-            
             // Re-añadir las capas después de un breve delay
             setTimeout(() => {
                 if (shapefileData) {
@@ -227,7 +227,6 @@ export const useGeoData = () => {
 
                 if (samplingData) {
                     mapLayerService.addSamplingPointsLayer(map, samplingData);
-                    
                     // Re-configurar interacciones de hover
                     mapLayerService.setupSamplingPointsInteraction(
                         map,
@@ -240,10 +239,23 @@ export const useGeoData = () => {
                     );
                 }
 
+
+                // Reañadir capa de puntos de muestreo de Alemania
+                if (samplingDataGermany && samplingDataGermany.length > 0) {
+                    mapLayerService.addGermanySamplingPointsLayer(map, samplingDataGermany);
+                }
+                // Reañadir capa de puntos de muestreo de Bulgaria
+                if (samplingDataBulgaria && samplingDataBulgaria.length > 0) {
+                    mapLayerService.addBulgariaSamplingPointsLayer(map, samplingDataBulgaria);
+                }
+                // Reañadir capa de puntos de muestreo de Estonia
+                if (samplingDataEstonia && samplingDataEstonia.length > 0) {
+                    mapLayerService.addEstoniaSamplingPointsLayer(map, samplingDataEstonia);
+                }
+
                 // Aplicar configuraciones de visibilidad
                 Object.entries(layersVisibility).forEach(([layerType, visible]) => {
                     let layerId, relatedLayerIds = [];
-                    
                     switch (layerType) {
                         case 'shapefile':
                             layerId = mapLayerService.LAYER_IDS.SHAPEFILE;
@@ -256,11 +268,9 @@ export const useGeoData = () => {
                             layerId = mapLayerService.LAYER_IDS.SAMPLING_LABELS;
                             break;
                     }
-
                     if (layerId && map.getLayer(layerId)) {
                         map.setLayoutProperty(layerId, 'visibility', visible ? 'visible' : 'none');
                     }
-                    
                     relatedLayerIds.forEach(relatedId => {
                         if (map.getLayer(relatedId)) {
                             map.setLayoutProperty(relatedId, 'visibility', visible ? 'visible' : 'none');
