@@ -196,7 +196,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
     <div className={styles.overlay}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Tabla de Muestreo</h2>
+          <h2 className={styles.title}>Sampling table</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Cerrar tabla">✕</button>
         </div>
         <div className={styles.tableWrapper}>
