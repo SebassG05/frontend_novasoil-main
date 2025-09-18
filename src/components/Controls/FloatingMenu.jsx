@@ -31,11 +31,53 @@ const FloatingMenu = () => {
     const [loadingWMS, setLoadingWMS] = useState(false);
     const [successWMS, setSuccessWMS] = useState(false);
     const [showLegend, setShowLegend] = useState(false);
-    const setSelectedWMSLayer = useMapStore((state) => state.setSelectedWMSLayer);
+    const addWMSLayer = useMapStore((state) => state.addWMSLayer);
     const map = useMapStore((state) => state.map);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
     const bubblesRef = useRef(null);
+    // Estado para la pestaña activa de la leyenda WMS (siempre visible)
+    const wmsLayersForLegend = useMapStore((state) => state.selectedWMSLayers);
+    const [activeLegendTab, setActiveLegendTab] = useState(wmsLayersForLegend[0]?.name);
+    // Estado de opacidad por capa WMS
+    const [wmsOpacities, setWmsOpacities] = useState(() => {
+        const initial = {};
+        wmsLayersForLegend.forEach(l => { initial[l.name] = 1; });
+        // Inicializar global para MapContainer
+        window.wmsOpacities = initial;
+        return initial;
+    });
+    // Sincronizar opacidades si cambian las capas
+    useEffect(() => {
+        setWmsOpacities(prev => {
+            const updated = { ...prev };
+            wmsLayersForLegend.forEach(l => {
+                if (updated[l.name] === undefined) updated[l.name] = 1;
+            });
+            // Eliminar opacidades de capas que ya no están
+            Object.keys(updated).forEach(k => {
+                if (!wmsLayersForLegend.find(l => l.name === k)) delete updated[k];
+            });
+            // Actualizar global y emitir evento
+            window.wmsOpacities = updated;
+            window.dispatchEvent(new Event('wmsOpacitiesChanged'));
+            return updated;
+        });
+    }, [wmsLayersForLegend]);
+    // Cambiar opacidad de la capa en el mapa (0 = transparente, 1 = opaco)
+    const handleOpacityChange = (layerName, value) => {
+        setWmsOpacities(prev => {
+            const updated = { ...prev, [layerName]: value };
+            window.wmsOpacities = updated;
+            window.dispatchEvent(new Event('wmsOpacitiesChanged'));
+            return updated;
+        });
+    };
+    useEffect(() => {
+        if (!wmsLayersForLegend.some(l => l.name === activeLegendTab) && wmsLayersForLegend.length > 0) {
+            setActiveLegendTab(wmsLayersForLegend[0].name);
+        }
+    }, [wmsLayersForLegend, activeLegendTab]);
     // Cargar y parsear el XML de subcapas reales al montar el componente
     useEffect(() => {
         // Puedes mover el archivo WmsServer a la carpeta public/ y usar la ruta relativa
@@ -96,8 +138,8 @@ const FloatingMenu = () => {
         setLoadingWMS(true);
         setSuccessWMS(false);
         setShowLegend(false);
-        setSelectedWMSLayer({
-            name: 'Suoli Emilia-Romagna',
+        addWMSLayer({
+            name: layer.name,
             url: 'https://servizigis.regione.emilia-romagna.it/geoags/services/portale/suoli/MapServer/WmsServer?',
             layerName: layer.name
         });
@@ -168,42 +210,95 @@ const FloatingMenu = () => {
                 .notif-animate-out { animation: fadeOutNotif 0.5s 1.5s forwards; }
                 .notif-shadow { box-shadow: 0 6px 24px 0 rgba(0,0,0,0.18), 0 1.5px 4px 0 rgba(0,0,0,0.12); }
             `}</style>
-            {loadingWMS && (
-                <div className="absolute left-0 bottom-24 min-w-[220px] flex items-center gap-3 bg-blue-600/95 text-white px-5 py-3 rounded-xl notif-animate-in notif-shadow border border-blue-200" style={{zIndex: 999}}>
-                    <svg className="animate-spin mr-2" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.2"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
-                    <div>
-                        <div className="font-semibold text-base">Loading WMS layer…</div>
-                        <div className="text-xs opacity-80">Please wait while the layer loads</div>
-                    </div>
-                </div>
-            )}
-            {successWMS && (
-                <div className="absolute left-0 bottom-24 min-w-[220px] flex items-center gap-3 bg-green-600/95 text-white px-5 py-3 rounded-xl notif-animate-in notif-animate-out notif-shadow border border-green-200" style={{zIndex: 999}}>
-                    <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeOpacity="0.2"/><path d="M6 12l4 4 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    <div>
-                        <div className="font-semibold text-base">Layer loaded!</div>
-                        <div className="text-xs opacity-80">WMS layer added successfully</div>
-                    </div>
-                </div>
-            )}
+            {/* Loader y mensaje de éxito eliminados por solicitud del usuario */}
 
-            {/* Panel flotante de leyenda WMS */}
-            {showLegend && selectedWMSLayer && (
-                <div className="fixed left-1 bottom-44 bg-white border border-green-300 rounded-xl shadow-xl px-4 py-3 flex flex-col items-start gap-2 z-[9999] animate-[fadeIn_0.4s]" style={{minWidth:220, maxWidth:220, minHeight:200,marginLeft:20}}>
-                    <div className="flex w-full justify-between items-center mb-1">
-                        <span className="text-green-700 font-semibold text-base flex items-center gap-2">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></svg>
-                            Legend
-                        </span>
-                        <button onClick={() => setShowLegend(false)} className="ml-2 text-gray-400 hover:text-red-500 rounded-full p-1.5 transition-colors" aria-label="Close legend">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
+            {/* Leyenda WMS con pestañas por capa, SIEMPRE visible como recuadro flotante */}
+            {wmsLayersForLegend.length > 0 && (
+                <div className="fixed left-4 top-4 z-[9999] bg-white border border-green-300 rounded-xl shadow-xl px-4 pt-2 pb-3 animate-[fadeIn_0.4s]" style={{minWidth:240, maxWidth:260, minHeight:220}}>
+                    <div className="flex border-b border-green-200 mb-2 gap-1">
+                        {wmsLayersForLegend.map((layer, idx) => {
+                            // Si hay 4 o más pestañas, reducir el ancho máximo
+                            const tabCount = wmsLayersForLegend.length;
+                            let maxWidth = 110;
+                            let minWidth = 60;
+                            let labelMaxWidth = 90;
+                            if (tabCount >= 4) {
+                                maxWidth = Math.max(60, 220 / tabCount);
+                                minWidth = Math.max(40, 120 / tabCount);
+                                labelMaxWidth = maxWidth - 20;
+                            }
+                            return (
+                                <button
+                                    key={layer.name}
+                                    onClick={() => setActiveLegendTab(layer.name)}
+                                    className={`px-2 py-1 text-xs font-semibold rounded-t ${activeLegendTab === layer.name ? 'bg-green-100 text-green-800 border-t-2 border-green-400' : 'bg-gray-100 text-gray-500'}`}
+                                    style={{
+                                        marginRight: 2,
+                                        minWidth,
+                                        maxWidth,
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                        display: 'inline-block',
+                                        verticalAlign: 'middle',
+                                        paddingRight: 18
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            display: 'inline-block',
+                                            maxWidth: labelMaxWidth,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                            verticalAlign: 'middle',
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        {layer.layerName || layer.name}
+                                    </span>
+                                    <span
+                                        style={{
+                                            content: '""',
+                                            position: 'absolute',
+                                            right: 0,
+                                            top: 0,
+                                            height: '100%',
+                                            width: 18,
+                                            background: 'linear-gradient(to right, rgba(255,255,255,0), #f0fdf4 80%)',
+                                            pointerEvents: 'none',
+                                            display: 'block',
+                                        }}
+                                    />
+                                </button>
+                            );
+                        })}
                     </div>
-                    <img
-                        src={`https://servizigis.regione.emilia-romagna.it/geoags/services/portale/suoli/MapServer/WmsServer?request=GetLegendGraphic&version=1.1.1&format=image/png&layer=${selectedWMSLayer.name}`}
-                        alt="Legend"
-                        style={{ minHeight: 180, minWidth: 160, background: '#fff', borderRadius: 6, border: '1px solid #e0e0e0' }}
-                    />
+                    <div className="flex flex-col items-center">
+                        <img
+                            src={`https://servizigis.regione.emilia-romagna.it/geoags/services/portale/suoli/MapServer/WmsServer?request=GetLegendGraphic&version=1.1.1&format=image/png&layer=${(wmsLayersForLegend.find(l => l.name === activeLegendTab) || wmsLayersForLegend[0]).name}`}
+                            alt={`Legend for ${(wmsLayersForLegend.find(l => l.name === activeLegendTab) || wmsLayersForLegend[0]).layerName || (wmsLayersForLegend.find(l => l.name === activeLegendTab) || wmsLayersForLegend[0]).name}`}
+                            style={{ minHeight: 180, minWidth: 160, background: '#fff', borderRadius: 6, border: '1px solid #e0e0e0' }}
+                        />
+                        {/* Barra de opacidad */}
+                        <div className="w-full flex flex-col items-center mt-2">
+                            <label htmlFor={`opacity-slider-${activeLegendTab}`} className="text-xs text-gray-600 mb-1">Opacidad de la capa</label>
+                            <input
+                                id={`opacity-slider-${activeLegendTab}`}
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                value={wmsOpacities[activeLegendTab] ?? 1}
+                                onChange={e => handleOpacityChange(activeLegendTab, parseFloat(e.target.value))}
+                                className="w-32 accent-green-500"
+                                style={{ direction: 'ltr' }}
+                            />
+                            <span className="text-xs text-gray-500 mt-1">{Math.round((wmsOpacities[activeLegendTab] ?? 1) * 100)}%</span>
+                            <span className="text-[10px] text-gray-400">0 = transparente, 100 = opaco</span>
+                        </div>
+                    </div>
                 </div>
             )}
             {/* Contenedor principal */}
@@ -325,7 +420,7 @@ const FloatingMenu = () => {
                         elevation={4}
                         sx={{
                             position: 'absolute',
-                            bottom: { xs: '120px', sm: '130px' },
+                            bottom: { xs: '50px', sm: '70px' }, // Más abajo para no tapar la leyenda
                             left: '-12px',
                             width: { xs: '280px', sm: '350px', md: '420px' },
                             maxWidth: 'calc(100vw - 32px)',

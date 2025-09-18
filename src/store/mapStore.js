@@ -2,9 +2,19 @@ import { create } from 'zustand';
 import { MAP_STYLES, DEFAULT_VIEWPORT, STUDY_AREA, EUROPE_VIEW } from '../config/mapbox';
 
 export const useMapStore = create((set, get) => ({
-    // Capa WMS seleccionada
-    selectedWMSLayer: null,
-    setSelectedWMSLayer: (layer) => set({ selectedWMSLayer: layer }),
+    // Capas WMS seleccionadas (array)
+    selectedWMSLayers: [],
+    addWMSLayer: (layer) => {
+        const current = get().selectedWMSLayers;
+        // Evitar duplicados por nombre
+        if (!current.some(l => l.name === layer.name)) {
+            set({ selectedWMSLayers: [...current, layer] });
+        }
+    },
+    removeWMSLayer: (layerName) => {
+        const current = get().selectedWMSLayers;
+        set({ selectedWMSLayers: current.filter(l => l.name !== layerName) });
+    },
     // Área de estudio seleccionada (solo nombre)
     selectedAreaName: 'Límites del parque Tamarguillo',
     setSelectedAreaName: (name) => set({ selectedAreaName: name }),

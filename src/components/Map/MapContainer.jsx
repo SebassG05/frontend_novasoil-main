@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
 import { useGeoData } from '../../hooks/useGeoData';
@@ -20,51 +20,82 @@ const MapContainer = () => {
         mapStyle,
         setMap,
         setIsLoaded,
-        selectedWMSLayer
+        selectedWMSLayers
     } = useMapStore();
-    // Agregar capa WMS seleccionada al mapa
+    // Leer opacidades de window para cada capa WMS
+    const [wmsOpacities, setWmsOpacities] = useState({});
     useEffect(() => {
-        if (!map || !selectedWMSLayer) return;
+        // window.wmsOpacities es actualizado por FloatingMenu
+        setWmsOpacities(window.wmsOpacities || {});
+        // Escuchar cambios globales
+        const handler = () => setWmsOpacities({ ...(window.wmsOpacities || {}) });
+        window.addEventListener('wmsOpacitiesChanged', handler);
+        return () => window.removeEventListener('wmsOpacitiesChanged', handler);
+    }, []);
 
-        // Elimina la capa y fuente WMS anterior si existe
-        if (map.getLayer('wms-layer')) {
-            map.removeLayer('wms-layer');
+    // Agregar todas las capas WMS seleccionadas al mapa (superpuestas)
+    useEffect(() => {
+        if (!map) return;
+
+        function addWMSLayersIfReady() {
+            if (!map.isStyleLoaded()) return;
+            // Añadir cada capa WMS si no existe
+            selectedWMSLayers.forEach((layer) => {
+                const sourceId = `wms-source-${layer.name}`;
+                const layerId = `wms-layer-${layer.name}`;
+                const opacity = wmsOpacities[layer.name] !== undefined ? wmsOpacities[layer.name] : 1;
+                if (!map.getSource(sourceId)) {
+                    let wmsUrl = layer.url;
+                    if (wmsUrl.includes('GetCapabilities')) {
+                        wmsUrl = wmsUrl.split('?')[0];
+                    }
+                    if (!wmsUrl.endsWith('?')) wmsUrl += '?';
+                    const layerName = layer.layerName || 'suoli';
+                    const wmsParams =
+                        `service=WMS&version=1.1.1&request=GetMap&layers=${layerName}&styles=&format=image/png&transparent=true&SRS=EPSG:3857&width=256&height=256&bbox={bbox-epsg-3857}`;
+                    map.addSource(sourceId, {
+                        type: 'raster',
+                        tiles: [wmsUrl + wmsParams],
+                        tileSize: 256,
+                    });
+                    map.addLayer({
+                        id: layerId,
+                        type: 'raster',
+                        source: sourceId,
+                        paint: { 'raster-opacity': opacity },
+                    });
+                } else {
+                    // Si ya existe, actualizar opacidad
+                    if (map.getLayer(layerId)) {
+                        map.setPaintProperty(layerId, 'raster-opacity', opacity);
+                    }
+                }
+            });
+            // Eliminar capas/sources que ya no están seleccionadas
+            const allLayerIds = map.getStyle().layers.map(l => l.id);
+            allLayerIds.forEach(id => {
+                if (id.startsWith('wms-layer-')) {
+                    const name = id.replace('wms-layer-', '');
+                    if (!selectedWMSLayers.some(l => l.name === name)) {
+                        if (map.getLayer(id)) map.removeLayer(id);
+                        const sourceId = `wms-source-${name}`;
+                        if (map.getSource(sourceId)) map.removeSource(sourceId);
+                    }
+                }
+            });
         }
-        if (map.getSource('wms-source')) {
-            map.removeSource('wms-source');
+
+        if (map.isStyleLoaded()) {
+            addWMSLayersIfReady();
+        } else {
+            map.once('styledata', addWMSLayersIfReady);
         }
 
-        // Extraer la URL base (sin GetCapabilities ni parámetros)
-        let wmsUrl = selectedWMSLayer.url;
-        if (wmsUrl.includes('GetCapabilities')) {
-            wmsUrl = wmsUrl.split('?')[0];
-        }
-        if (!wmsUrl.endsWith('?')) wmsUrl += '?';
-
-        // Usar el nombre de la capa seleccionado
-        const layerName = selectedWMSLayer.layerName || 'suoli';
-
-        // Usar SRS=EPSG:3857 para WMS 1.1.1
-        const wmsParams =
-            `service=WMS&version=1.1.1&request=GetMap&layers=${layerName}&styles=&format=image/png&transparent=true&SRS=EPSG:3857&width=256&height=256&bbox={bbox-epsg-3857}`;
-
-        map.addSource('wms-source', {
-            type: 'raster',
-            tiles: [wmsUrl + wmsParams],
-            tileSize: 256,
-        });
-        map.addLayer({
-            id: 'wms-layer',
-            type: 'raster',
-            source: 'wms-source',
-            paint: {},
-        });
-
+        // Limpieza: quitar listener si cambia dependencias
         return () => {
-            if (map.getLayer('wms-layer')) map.removeLayer('wms-layer');
-            if (map.getSource('wms-source')) map.removeSource('wms-source');
+            map.off && map.off('styledata', addWMSLayersIfReady);
         };
-    }, [map, selectedWMSLayer]);
+    }, [map, selectedWMSLayers, wmsOpacities]);
 
     // Usar el hook de datos geoespaciales
     const { isLoadingGeoData } = useGeoData();
