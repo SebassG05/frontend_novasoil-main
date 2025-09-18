@@ -19,8 +19,52 @@ const MapContainer = () => {
         viewport,
         mapStyle,
         setMap,
-        setIsLoaded
+        setIsLoaded,
+        selectedWMSLayer
     } = useMapStore();
+    // Agregar capa WMS seleccionada al mapa
+    useEffect(() => {
+        if (!map || !selectedWMSLayer) return;
+
+        // Elimina la capa y fuente WMS anterior si existe
+        if (map.getLayer('wms-layer')) {
+            map.removeLayer('wms-layer');
+        }
+        if (map.getSource('wms-source')) {
+            map.removeSource('wms-source');
+        }
+
+        // Extraer la URL base (sin GetCapabilities ni parámetros)
+        let wmsUrl = selectedWMSLayer.url;
+        if (wmsUrl.includes('GetCapabilities')) {
+            wmsUrl = wmsUrl.split('?')[0];
+        }
+        if (!wmsUrl.endsWith('?')) wmsUrl += '?';
+
+        // Usar el nombre de la capa seleccionado
+        const layerName = selectedWMSLayer.layerName || 'suoli';
+
+        // Usar SRS=EPSG:3857 para WMS 1.1.1
+        const wmsParams =
+            `service=WMS&version=1.1.1&request=GetMap&layers=${layerName}&styles=&format=image/png&transparent=true&SRS=EPSG:3857&width=256&height=256&bbox={bbox-epsg-3857}`;
+
+        map.addSource('wms-source', {
+            type: 'raster',
+            tiles: [wmsUrl + wmsParams],
+            tileSize: 256,
+        });
+        map.addLayer({
+            id: 'wms-layer',
+            type: 'raster',
+            source: 'wms-source',
+            paint: {},
+        });
+
+        return () => {
+            if (map.getLayer('wms-layer')) map.removeLayer('wms-layer');
+            if (map.getSource('wms-source')) map.removeSource('wms-source');
+        };
+    }, [map, selectedWMSLayer]);
 
     // Usar el hook de datos geoespaciales
     const { isLoadingGeoData } = useGeoData();
