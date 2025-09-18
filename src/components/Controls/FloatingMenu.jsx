@@ -22,6 +22,61 @@ function parseWMSLayers(xmlString) {
     return layers;
 }
 
+// Diccionario de nombres amigables para sublayers
+const sublayerNames = {
+    'Dotazione_sostanza_organica_0_30_cm_rst': 'Organic matter content',
+    'Erosione_idrica_gravitativa': 'Water and gravitational erosion',
+    'Macro_elementi_fertilita': 'Macroelements fertility',
+    'Valori_Fosforo_P_ass_0_30_cm_rst': 'Phosphorus (0-30 cm)',
+    'Valori_Potassio_K_scamb_0_30_cm_rst': 'Potassium (0-30 cm)',
+    'Valori_Azoto_N_tot_0_30_cm_rst': 'Nitrogen (0-30 cm)',
+    'Carte_applicative': 'Application maps',
+    'Gruppi_idrologici': 'Hydrological groups',
+    'Conducibilita_idraulica_satura_Ksat': 'Saturated hydraulic conductivity (Ksat)',
+    'Servizi_ecosistemici_rst': 'Ecosystem services',
+    'Capacita_uso_suoli': 'Soil use capacity',
+    'Metalli_pesanti': 'Heavy metals',
+    'Fondo_naturale_antropico': 'Anthropogenic natural fund',
+    'Fondo_nat_antropico_Zn_ICP-MS': 'Anthropogenic natural fund (Zn, ICP-MS)',
+    'Fondo_nat_antropico_V_ICP-MS': 'Anthropogenic natural fund (V, ICP-MS)',
+    'Fondo_nat_antropico_Sn_ICP-MS': 'Anthropogenic natural fund (Sn, ICP-MS)',
+    'Fondo_nat_antropico_Cu_ICP-MS': 'Anthropogenic natural fund (Cu, ICP-MS)',
+    'Fondo_nat_antropico_Pb_ICP-MS': 'Anthropogenic natural fund (Pb, ICP-MS)',
+    'Fondo_nat_antropico_Ni_ICP-MS': 'Anthropogenic natural fund (Ni, ICP-MS)',
+    'Fondo_nat_antropico_Cr_ICP-MS': 'Anthropogenic natural fund (Cr, ICP-MS)',
+    'Fondo_nat_antropico_Cd_ICP-MS': 'Anthropogenic natural fund (Cd, ICP-MS)',
+    'Fondo_nat_antropico_As_ICP-MS': 'Anthropogenic natural fund (As, ICP-MS)',
+    'Fondo_nat_antropico_ICP-MS': 'Anthropogenic natural fund (ICP-MS)',
+    'Fondo_naturale': 'Natural background',
+    'Fondo_naturale_Zn_XRF': 'Natural background Zn XRF',
+    'Fondo_naturale_V_XRF': 'Natural background V XRF',
+    'Fondo_naturale_Pb_XRF': 'Natural background Pb XRF',
+    'Fondo_naturale_Ni_XRF': 'Natural background Ni XRF',
+    'Fondo_naturale_Cr_XRF': 'Natural background Cr XRF',
+    'Fondo_naturale_Co_XRF': 'Natural background Co XRF',
+    'Fondo_naturale_Cu_XRF': 'Natural background Cu XRF',
+    'Fondo_naturale_XRF': 'Natural background XRF',
+    'Carbonio_organico': 'Organic carbon',
+    'Contenuto_perc_carbonio_organico_pianura_0_100_cm': 'Carbonio organico (0-100 cm)',
+    'Contenuto_perc_carbonio_organico_pianura_0_100_cm_rst': 'Carbonio organico (0-100 cm) (rst)',
+    'Contenuto_perc_carbonio_organico_pianura_0_100_cm': 'Organic carbon percentage content plain 0–100 cm',
+    'Contenuto_perc_carbonio_organico_0_30_cm': 'Organic carbon percentage content 0–30 cm',
+    'Contenuto_perc_carbonio_organico_0_30_cm_rst': 'Organic carbon percentage content 0–30 cm (rst)',
+    'Carbonio_organico_stock_0_30_cm_rst': 'Organic carbon stock 0–30 cm (rst)',
+    'Contenuto_perc_carbonio_organico_pianura_0_100_cm_rst': 'Organic carbon percentage content plain 0–100 cm (rst)',
+    'Carbonio_organico_stock_Appennino_0_100_cm': 'Organic carbon stock Apennines 0–100 cm',
+    'Carbonio_organico_stock_pianura_0_100_cm': 'Organic carbon stock plain 0–100 cm',
+    'Salinita_pianura_50_100_cm': 'Salinity plain 50–100 cm',
+    'Salinita_pianura_0_50_cm': 'Salinity plain 0–50 cm',
+    'Valori_ph_0_30_cm_rst': 'pH values 0–30 cm (rst)',
+    'Tessitura_0_30_cm_rst': 'Texture 0–30 cm (rst)',
+    'Batterie_falde_superficiali': 'Shallow aquifer batteries',
+    'Campioni_analisi_terreni': 'Soil analysis samples',
+    'Carta_Suoli_250k_ed_1994': 'Soil map 1:250,000 edition 1994',
+    'Carta_Suoli_50k': 'Soil map 1:50,000',
+    'Contenuto_perc_carbonio_organico_pianura_0_100_cm': 'Organic carbon percentage content plain 0–100 cm'
+};
+
 const FloatingMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activePanel, setActivePanel] = useState(null);
@@ -492,7 +547,7 @@ const FloatingMenu = () => {
                                                             onClick={() => handleSelectWMSLayer(layer)}
                                                             className="w-full text-left px-4 py-2 rounded-lg border border-green-200 bg-white hover:bg-green-50 text-green-800 font-medium shadow-sm transition-all duration-200"
                                                         >
-                                                            <span>{layer.title}</span>
+                                                            <span>{sublayerNames[layer.name] || layer.title}</span>
                                                             <div className="text-xs text-green-600 truncate">{layer.name}</div>
                                                         </button>
                                                     </li>
