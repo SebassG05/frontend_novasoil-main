@@ -183,7 +183,7 @@ const FloatingMenu = () => {
 
                 {/* Burbuja de opción "WMS" - Encima de la de estilos */}
                 {isOpen && !activePanel && (
-                    <div ref={bubblesRef} className="flex flex-col items-start space-y-3 absolute left-1 " style={{top: '-112px'}}>
+                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-130px'}}>
                         <button
                             onClick={handleWMSBubbleClick}
                             className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
