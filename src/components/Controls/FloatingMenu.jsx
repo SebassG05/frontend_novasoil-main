@@ -298,9 +298,9 @@ const FloatingMenu = () => {
                     >
                         <div className="p-4 sm:p-5">
                             <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
-                                <h3 className="text-green-600 font-semibold flex items-center gap-2 text-sm sm:text-base">
-                                    <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></svg>
-                                    Capas WMS reales
+                                <h3 className="text-green-700 font-bold flex items-center gap-2 text-base sm:text-lg tracking-wide">
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></svg>
+                                    Real WMS Layers
                                 </h3>
                                 <button
                                     onClick={handleClosePanel}
@@ -322,31 +322,43 @@ const FloatingMenu = () => {
                                     <li>
                                         <button
                                             onClick={() => setShowVisualizations((v) => !v)}
-                                            className="w-full text-left px-4 py-2 rounded-lg border border-green-400 bg-green-100 hover:bg-green-200 font-semibold text-green-900 transition-colors"
+                                            className="w-full text-left px-6 py-3 rounded-xl border-2 border-green-500 bg-gradient-to-r from-green-100 to-green-50 hover:from-green-200 hover:to-green-100 font-bold text-green-900 shadow-md transition-all duration-300 flex flex-col items-start"
+                                            style={{ fontSize: '1.1rem', letterSpacing: '0.01em' }}
                                         >
-                                            Suoli Emilia-Romagna
-                                            <span className="ml-2 text-xs text-green-700">({wmsLayers.length} subcapas)</span>
-                                            <span className="float-right">{showVisualizations ? '▲' : '▼'}</span>
+                                            <div className="flex w-full items-center justify-between">
+                                                <span>Suoli Emilia-Romagna</span>
+                                                <span className="ml-4 text-green-700 text-lg transition-transform duration-300" style={{ transform: showVisualizations ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                                                    ▲
+                                                </span>
+                                            </div>
+                                            <span className="block mt-1 text-green-700 font-normal text-sm">({wmsLayers.length} sublayers)</span>
                                         </button>
-                                        {/* Submenú de subcapas reales */}
-                                        {showVisualizations && (
-                                            <ul className="mt-2 space-y-2 pl-2">
+                                        {/* Submenú de subcapas reales con animación */}
+                                        <div
+                                            style={{
+                                                maxHeight: showVisualizations ? 320 : 0,
+                                                opacity: showVisualizations ? 1 : 0,
+                                                transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s',
+                                                overflow: 'hidden',
+                                            }}
+                                        >
+                                            <ul className="mt-2 space-y-2 pl-2 overflow-y-auto scrollbar-thin scrollbar-thumb-green-300 scrollbar-track-green-50" style={{maxHeight: 300, overflowX: 'hidden'}}>
                                                 {wmsLayers.length === 0 && (
-                                                    <li className="text-gray-500 text-sm">No se encontraron subcapas WMS.</li>
+                                                    <li className="text-gray-500 text-sm">No WMS sublayers found.</li>
                                                 )}
                                                 {wmsLayers.map((layer) => (
                                                     <li key={layer.name}>
                                                         <button
                                                             onClick={() => handleSelectWMSLayer(layer)}
-                                                            className="w-full text-left px-4 py-2 rounded-lg border border-green-200 bg-green-50 hover:bg-green-100 transition-colors"
+                                                            className="w-full text-left px-4 py-2 rounded-lg border border-green-200 bg-white hover:bg-green-50 text-green-800 font-medium shadow-sm transition-all duration-200"
                                                         >
-                                                            <span className="font-medium text-green-800">{layer.title}</span>
+                                                            <span>{layer.title}</span>
                                                             <div className="text-xs text-green-600 truncate">{layer.name}</div>
                                                         </button>
                                                     </li>
                                                 ))}
                                             </ul>
-                                        )}
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
