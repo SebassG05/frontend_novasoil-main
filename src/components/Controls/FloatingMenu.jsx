@@ -30,6 +30,7 @@ const FloatingMenu = () => {
     const [showVisualizations, setShowVisualizations] = useState(false);
     const [loadingWMS, setLoadingWMS] = useState(false);
     const [successWMS, setSuccessWMS] = useState(false);
+    const [showLegend, setShowLegend] = useState(false);
     const setSelectedWMSLayer = useMapStore((state) => state.setSelectedWMSLayer);
     const map = useMapStore((state) => state.map);
     const menuRef = useRef(null);
@@ -94,6 +95,7 @@ const FloatingMenu = () => {
         setSelectedWMSLayerState(layer);
         setLoadingWMS(true);
         setSuccessWMS(false);
+        setShowLegend(false);
         setSelectedWMSLayer({
             name: 'Suoli Emilia-Romagna',
             url: 'https://servizigis.regione.emilia-romagna.it/geoags/services/portale/suoli/MapServer/WmsServer?',
@@ -109,6 +111,7 @@ const FloatingMenu = () => {
             if (e.sourceId === 'wms-source' && e.isSourceLoaded) {
                 setLoadingWMS(false);
                 setSuccessWMS(true);
+                setShowLegend(true);
                 // Zoom automático a Emilia-Romagna (aprox)
                 map.fitBounds([
                     [9.2, 43.77],   // suroeste
@@ -181,6 +184,26 @@ const FloatingMenu = () => {
                         <div className="font-semibold text-base">Layer loaded!</div>
                         <div className="text-xs opacity-80">WMS layer added successfully</div>
                     </div>
+                </div>
+            )}
+
+            {/* Panel flotante de leyenda WMS */}
+            {showLegend && selectedWMSLayer && (
+                <div className="fixed left-1 bottom-44 bg-white border border-green-300 rounded-xl shadow-xl px-4 py-3 flex flex-col items-start gap-2 z-[9999] animate-[fadeIn_0.4s]" style={{minWidth:220, maxWidth:220, minHeight:200,marginLeft:20}}>
+                    <div className="flex w-full justify-between items-center mb-1">
+                        <span className="text-green-700 font-semibold text-base flex items-center gap-2">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></svg>
+                            Legend
+                        </span>
+                        <button onClick={() => setShowLegend(false)} className="ml-2 text-gray-400 hover:text-red-500 rounded-full p-1.5 transition-colors" aria-label="Close legend">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+                    <img
+                        src={`https://servizigis.regione.emilia-romagna.it/geoags/services/portale/suoli/MapServer/WmsServer?request=GetLegendGraphic&version=1.1.1&format=image/png&layer=${selectedWMSLayer.name}`}
+                        alt="Legend"
+                        style={{ minHeight: 180, minWidth: 160, background: '#fff', borderRadius: 6, border: '1px solid #e0e0e0' }}
+                    />
                 </div>
             )}
             {/* Contenedor principal */}
