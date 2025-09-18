@@ -229,7 +229,7 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
           <>
             {/* Datos Geoespaciales Section */}
             <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>Datos Geoespaciales</h2>
+              <h2 className={styles.sectionTitle}>Geospatial Data</h2>
               
               {isLoadingGeoData ? (
                 <div className="flex items-center justify-center py-8">
@@ -240,7 +240,7 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
                 <>
                   {/* Shapefile Layer Control */}
                   <div className={styles.layerControl}>
-                    <h3 className={styles.layerTitle}>Área de Estudio</h3>
+                    <h3 className={styles.layerTitle}>Study Area</h3>
                     <div className={styles.layerItem}>
                       <label className={styles.layerLabel}>
                         <input
@@ -262,11 +262,11 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
 
                   {/* Información adicional */}
                   <div className={styles.section}>
-                    <h3 className={styles.layerTitle}>Información</h3>
+                    <h3 className={styles.layerTitle}>Information</h3>
                     <div className={styles.infoText}>
-                      <p>• Pasa el cursor sobre los puntos para ver los detalles</p>
-                      <p>• Haz clic en un punto para ver información completa</p>
-                      <p>• Los colores indican el tipo de muestreo</p>
+                      <p>• Hover over points to see details</p>
+                      <p>• Click on a point to see full information</p>
+                      <p>• Colors indicate the type of sampling</p>
                     </div>
                   </div>
                 </>
