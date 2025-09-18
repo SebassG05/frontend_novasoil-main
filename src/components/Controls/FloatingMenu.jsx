@@ -151,14 +151,36 @@ const FloatingMenu = () => {
     return (
         <div className="fixed left-4 sm:left-6 md:left-8 bottom-4 sm:bottom-6 md:bottom-8 z-50">
             {/* Mensaje de carga y éxito */}
+            {/* Notificación de carga/cargado con animación y diseño moderno */}
+            <style>{`
+                @keyframes slideInNotif {
+                    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+                    to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+                @keyframes fadeOutNotif {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+                .notif-animate-in { animation: slideInNotif 0.5s cubic-bezier(0.4,0,0.2,1) forwards; }
+                .notif-animate-out { animation: fadeOutNotif 0.5s 1.5s forwards; }
+                .notif-shadow { box-shadow: 0 6px 24px 0 rgba(0,0,0,0.18), 0 1.5px 4px 0 rgba(0,0,0,0.12); }
+            `}</style>
             {loadingWMS && (
-                <div className="absolute left-0 bottom-24 bg-blue-600 text-white px-4 py-2 rounded shadow-lg animate-pulse">
-                    Cargando capa WMS…
+                <div className="absolute left-0 bottom-24 min-w-[220px] flex items-center gap-3 bg-blue-600/95 text-white px-5 py-3 rounded-xl notif-animate-in notif-shadow border border-blue-200" style={{zIndex: 999}}>
+                    <svg className="animate-spin mr-2" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.2"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+                    <div>
+                        <div className="font-semibold text-base">Loading WMS layer…</div>
+                        <div className="text-xs opacity-80">Please wait while the layer loads</div>
+                    </div>
                 </div>
             )}
             {successWMS && (
-                <div className="absolute left-0 bottom-24 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in">
-                    ¡Capa cargada con éxito!
+                <div className="absolute left-0 bottom-24 min-w-[220px] flex items-center gap-3 bg-green-600/95 text-white px-5 py-3 rounded-xl notif-animate-in notif-animate-out notif-shadow border border-green-200" style={{zIndex: 999}}>
+                    <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeOpacity="0.2"/><path d="M6 12l4 4 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <div>
+                        <div className="font-semibold text-base">Layer loaded!</div>
+                        <div className="text-xs opacity-80">WMS layer added successfully</div>
+                    </div>
                 </div>
             )}
             {/* Contenedor principal */}
