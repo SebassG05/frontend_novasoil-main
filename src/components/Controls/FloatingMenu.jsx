@@ -351,7 +351,7 @@ const FloatingMenu = () => {
                                 style={{ direction: 'ltr' }}
                             />
                             <span className="text-xs text-gray-500 mt-1">{Math.round((wmsOpacities[activeLegendTab] ?? 1) * 100)}%</span>
-                            <span className="text-[10px] text-gray-400">0 = transparente, 100 = opaco</span>
+                            <span className="text-[10px] text-gray-400">0 = transparent, 100 = opaque</span>
                         </div>
                     </div>
                 </div>
