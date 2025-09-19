@@ -134,7 +134,7 @@ const Model3DLayer = () => {
         map.on('click', 'marker-circle', () => {
           setModalVisible(true);
           setLegendVisible(true);
-          setSelectedAreaName('Límites del parque Tamarguillo');
+          setSelectedAreaName('Limits of Tamarguillo Park');
           useMapStore.getState().setHoveredSample(null);
         });
       }
@@ -189,7 +189,7 @@ const Model3DLayer = () => {
       map.on('click', 'yellow-marker-circle', () => {
         setModalYellowVisible(true);
         setLegendVisible(true);
-        setSelectedAreaName('Área de estudio Alemania');
+        setSelectedAreaName('Area study Germany');
         useMapStore.getState().setHoveredSample(null);
       });
     }
@@ -242,7 +242,7 @@ const Model3DLayer = () => {
       map.on('click', 'estonia-marker-circle', (e) => {
         setLegendVisible(true);
         setModalEstoniaVisible && setModalEstoniaVisible(true);
-        setSelectedAreaName('Caso de estudio Estonia');
+        setSelectedAreaName('Case study Estonia');
         useMapStore.getState().setHoveredSample(null);
       });
     }
@@ -296,7 +296,7 @@ const Model3DLayer = () => {
       map.on('click', 'bulgaria-marker-circle', (e) => {
         setLegendVisible(true);
         setModalBulgariaVisible(true);
-        setSelectedAreaName('Caso de muestreo Bulgaria');
+        setSelectedAreaName('Case study Bulgaria');
         useMapStore.getState().setHoveredSample(null);
       });
     }

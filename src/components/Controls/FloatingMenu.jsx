@@ -338,7 +338,7 @@ const FloatingMenu = () => {
                         />
                         {/* Barra de opacidad */}
                         <div className="w-full flex flex-col items-center mt-2">
-                            <label htmlFor={`opacity-slider-${activeLegendTab}`} className="text-xs text-gray-600 mb-1">Opacidad de la capa</label>
+                            <label htmlFor={`opacity-slider-${activeLegendTab}`} className="text-xs text-gray-600 mb-1">Layer opacity</label>
                             <input
                                 id={`opacity-slider-${activeLegendTab}`}
                                 type="range"
@@ -405,13 +405,13 @@ const FloatingMenu = () => {
                                      hover:bg-blue-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
                             style={{ animation: 'bubbleUp 0.4s ease-out forwards' }}
-                            aria-label="Estilos de mapa"
+                            aria-label="Map styles"
                         >
                             <Palette size={20} />
                             <div className="absolute top-0 left-full ml-2 translate-y-[-50%] opacity-0 
                                           group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                                 <div className="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                                    Estilos de mapa
+                                    Map styles
                                 </div>
                             </div>
                         </button>
@@ -445,7 +445,7 @@ const FloatingMenu = () => {
                             <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
                                 <h3 className="text-blue-600 font-semibold flex items-center gap-2 text-sm sm:text-base">
                                     <Palette size={18} />
-                                    Estilos de mapa
+                                    Map styles
                                 </h3>
                                 <button
                                     onClick={handleClosePanel}
@@ -541,17 +541,30 @@ const FloatingMenu = () => {
                                                 {wmsLayers.length === 0 && (
                                                     <li className="text-gray-500 text-sm">No WMS sublayers found.</li>
                                                 )}
-                                                {wmsLayers.map((layer) => (
-                                                    <li key={layer.name}>
-                                                        <button
-                                                            onClick={() => handleSelectWMSLayer(layer)}
-                                                            className="w-full text-left px-4 py-2 rounded-lg border border-green-200 bg-white hover:bg-green-50 text-green-800 font-medium shadow-sm transition-all duration-200"
-                                                        >
-                                                            <span>{sublayerNames[layer.name] || layer.title}</span>
-                                                            <div className="text-xs text-green-600 truncate">{layer.name}</div>
-                                                        </button>
-                                                    </li>
-                                                ))}
+                                                {(() => {
+                                                    // Generar keys únicas incluso si hay nombres repetidos
+                                                    const nameCount = {};
+                                                    return wmsLayers.map((layer, idx) => {
+                                                        let key = layer.name;
+                                                        if (nameCount[key] !== undefined) {
+                                                            nameCount[key]++;
+                                                            key = key + '_' + nameCount[key];
+                                                        } else {
+                                                            nameCount[key] = 0;
+                                                        }
+                                                        return (
+                                                            <li key={key}>
+                                                                <button
+                                                                    onClick={() => handleSelectWMSLayer(layer)}
+                                                                    className="w-full text-left px-4 py-2 rounded-lg border border-green-200 bg-white hover:bg-green-50 text-green-800 font-medium shadow-sm transition-all duration-200"
+                                                                >
+                                                                    <span>{sublayerNames[layer.name] || layer.title}</span>
+                                                                    <div className="text-xs text-green-600 truncate">{layer.name}</div>
+                                                                </button>
+                                                            </li>
+                                                        );
+                                                    });
+                                                })()}
                                             </ul>
                                         </div>
                                     </li>

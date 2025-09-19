@@ -4,12 +4,12 @@ import { useMapStore } from '../../store/mapStore';
 import { MAP_STYLES } from '../../config/mapbox';
 
 const styleOptions = [
-    { key: 'streets', name: 'Calles', icon: Map, description: 'Detalle de calles y puntos de interés' },
-    { key: 'satellite', name: 'Satélite', icon: Satellite, description: 'Imágenes satelitales de alta resolución' },
-    { key: 'outdoors', name: 'Exterior', icon: Layers, description: 'Terreno y rutas naturales' },
-    { key: 'light', name: 'Claro', icon: Sun, description: 'Tema ligero con colores suaves' },
-    { key: 'dark', name: 'Oscuro', icon: Moon, description: 'Tema oscuro para uso nocturno' },
-    { key: 'satelliteStreets', name: 'Híbrido', icon: Palette, description: 'Satélite con capas de calles' }
+    { key: 'streets', name: 'Streets', icon: Map, description: 'Street detail and points of interest' },
+    { key: 'satellite', name: 'Satellite', icon: Satellite, description: 'High-resolution satellite imagery' },
+    { key: 'outdoors', name: 'Outdoors', icon: Layers, description: 'Terrain and natural routes' },
+    { key: 'light', name: 'Light', icon: Sun, description: 'Light theme with soft colors' },
+    { key: 'dark', name: 'Dark', icon: Moon, description: 'Dark theme for nighttime use' },
+    { key: 'satelliteStreets', name: 'HHybrid', icon: Palette, description: 'Satellite with street layers' }
 ];
 
 const StyleSelector = () => {
