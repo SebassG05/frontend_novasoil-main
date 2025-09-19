@@ -513,7 +513,7 @@ const FloatingMenu = () => {
                             </div>
                             <div className="overflow-auto max-h-[60vh]">
                                 <ul className="space-y-2">
-                                    {/* Opción general para agrupar todas las subcapas */}
+                                    {/* Opción general para agrupar todas las subcapas - ITALIA */}
                                     <li>
                                         <button
                                             onClick={() => setShowVisualizations((v) => !v)}
@@ -567,6 +567,23 @@ const FloatingMenu = () => {
                                                 })()}
                                             </ul>
                                         </div>
+                                    </li>
+
+                                    {/* Opción duplicada para HOLANDA, solo visual, color naranja */}
+                                    <li>
+                                        <button
+                                            className="w-full text-left px-6 py-3 rounded-xl border-2 border-orange-500 bg-gradient-to-r from-orange-100 to-orange-50 hover:from-orange-200 hover:to-orange-100 font-bold text-orange-900 shadow-md transition-all duration-300 flex flex-col items-start"
+                                            style={{ fontSize: '1.1rem', letterSpacing: '0.01em' }}
+                                            disabled
+                                        >
+                                            <div className="flex w-full items-center justify-between">
+                                                <span>Holanda (demo visual)</span>
+                                                <span className="ml-4 text-orange-700 text-lg transition-transform duration-300">
+                                                    ▲
+                                                </span>
+                                            </div>
+                                            <span className="block mt-1 text-orange-700 font-normal text-sm">(0 sublayers)</span>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
