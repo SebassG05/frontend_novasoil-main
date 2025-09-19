@@ -78,229 +78,162 @@ const Model3DLayer = () => {
   };
 
 
+  // useRef solo en el cuerpo principal (¡fuera de useEffect!)
+  const pulseTimers = useRef({});
+
   useEffect(() => {
     if (!map) return;
 
-  // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
-  const coordinates = [-5.911, 37.406];
+    // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
+    const coordinates = [-5.911, 37.406];
     const ZOOM_THRESHOLD = 6; // Zoom donde cambia del círculo al modelo 3D (menor = aparece antes)
 
-  // Crear marcador como capa de Mapbox (círculo rojo fijo)
+    // Recibe pulseTimers como argumento para evitar hooks en funciones auxiliares
+    const createPulseLayer = (id, color, coordinates, timersRef) => {
+    // Capa base (círculo principal)
+    if (!map.getSource(`${id}-source`)) {
+      // Inicializar con propiedades pulse-radius y pulse-opacity para evitar null
+      map.addSource(`${id}-source`, {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates
+          },
+          properties: {
+            'pulse-radius': 18, // más grande
+            'pulse-opacity': 0.85 // más visible
+          }
+        }
+      });
+    }
+    if (!map.getLayer(`${id}-circle`)) {
+      map.addLayer({
+        id: `${id}-circle`,
+        type: 'circle',
+        source: `${id}-source`,
+        paint: {
+          'circle-radius': 9,
+          'circle-color': color,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#fff',
+          'circle-opacity': 1,
+          'circle-blur': 0.1
+        }
+      });
+      // Interacción
+      map.on('mouseenter', `${id}-circle`, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', `${id}-circle`, () => { map.getCanvas().style.cursor = ''; });
+    }
+    // Capa pulse (animada)
+    if (!map.getLayer(`${id}-pulse`)) {
+      map.addLayer({
+        id: `${id}-pulse`,
+        type: 'circle',
+        source: `${id}-source`,
+        paint: {
+          'circle-radius': ["get", "pulse-radius"],
+          'circle-color': color,
+          'circle-opacity': ["get", "pulse-opacity"],
+          'circle-blur': 1.2 // más difuminado
+        }
+      }, `${id}-circle`); // debajo del círculo base
+    }
+    // Inicializar propiedades animadas
+    let pulseRadius = 18;
+    let pulseOpacity = 0.85;
+    let growing = true;
+    // Limpia timer anterior si existe
+    if (timersRef.current[id]) clearInterval(timersRef.current[id]);
+    // Animación
+    timersRef.current[id] = setInterval(() => {
+      if (growing) {
+        pulseRadius += 1.2; // crece más rápido
+        pulseOpacity -= 0.025; // baja opacidad más lento
+        if (pulseRadius > 48) growing = false; // radio máximo más grande
+      } else {
+        pulseRadius = 18;
+        pulseOpacity = 0.85;
+        growing = true;
+      }
+      // Actualiza fuente con nuevas propiedades
+      const source = map.getSource(`${id}-source`);
+      if (source) {
+        source.setData({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates },
+          properties: { 'pulse-radius': pulseRadius, 'pulse-opacity': Math.max(0, pulseOpacity) }
+        });
+      }
+    }, 55); // ciclo más lento
+  };
+
+  // Crear marcador como capa de Mapbox (círculo rojo con pulse)
   const createHtmlMarker = () => {
-      // Asegurar que el mapa esté listo
-      if (!map || !map.isStyleLoaded()) {
-        console.log('Mapa no está listo, reintentando...');
-        setTimeout(() => createHtmlMarker(), 50);
-        return false;
-      }
+    if (!map || !map.isStyleLoaded()) {
+      setTimeout(() => createHtmlMarker(), 50);
+      return false;
+    }
+    createPulseLayer('marker', '#ff0000', coordinates, pulseTimers);
+    // Evento click
+    map.on('click', 'marker-circle', () => {
+      setModalVisible(true);
+      setLegendVisible(true);
+      setSelectedAreaName('Limits of Tamarguillo Park');
+      useMapStore.getState().setHoveredSample(null);
+    });
+    return true;
+  };
 
-      // Añadir fuente de datos para el círculo
-      if (!map.getSource('marker-source')) {
-        map.addSource('marker-source', {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: coordinates
-            }
-          }
-        });
-      }
-
-
-      // Añadir capa de círculo
-      if (!map.getLayer('marker-circle')) {
-        map.addLayer({
-          id: 'marker-circle',
-          type: 'circle',
-          source: 'marker-source',
-          paint: {
-            'circle-radius': 7,
-            'circle-color': '#ff0000',
-            'circle-stroke-width': 2,
-            'circle-stroke-color': '#ffffff',
-            'circle-opacity': 1
-          }
-        });
-        // Cambiar cursor a pointer (manita) cuando se pasa por encima del círculo rojo
-        map.on('mouseenter', 'marker-circle', () => {
-          map.getCanvas().style.cursor = 'pointer';
-        });
-        map.on('mouseleave', 'marker-circle', () => {
-          map.getCanvas().style.cursor = '';
-        });
-        // Añadir evento de clic al círculo rojo
-        map.on('click', 'marker-circle', () => {
-          setModalVisible(true);
-          setLegendVisible(true);
-          setSelectedAreaName('Limits of Tamarguillo Park');
-          useMapStore.getState().setHoveredSample(null);
-        });
-      }
-
-      console.log('Círculo rojo creado correctamente');
-      return true; // Retornamos true para indicar que se creó correctamente
-    };
-
-  // Crear marcador como capa de Mapbox (círculo amarillo en otra coordenada)
+  // Crear marcador amarillo con pulse
   const createYellowMarker = () => {
     const yellowCoordinates = [9.060, 48.281];
     if (!map || !map.isStyleLoaded()) {
-      console.log('Mapa no está listo, reintentando...');
       setTimeout(() => createYellowMarker(), 50);
       return false;
     }
-    // Añadir fuente de datos para el círculo amarillo
-    if (!map.getSource('yellow-marker-source')) {
-      map.addSource('yellow-marker-source', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: yellowCoordinates
-          }
-        }
-      });
-    }
-    // Añadir capa de círculo amarillo
-    if (!map.getLayer('yellow-marker-circle')) {
-      map.addLayer({
-        id: 'yellow-marker-circle',
-        type: 'circle',
-        source: 'yellow-marker-source',
-        paint: {
-          'circle-radius': 7,
-          'circle-color': '#FFD600',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
-          'circle-opacity': 1
-        }
-      });
-      // Cambiar cursor a pointer cuando se pasa por encima del círculo amarillo
-      map.on('mouseenter', 'yellow-marker-circle', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'yellow-marker-circle', () => {
-        map.getCanvas().style.cursor = '';
-      });
-      // Añadir evento de clic al círculo amarillo
-      map.on('click', 'yellow-marker-circle', () => {
-        setModalYellowVisible(true);
-        setLegendVisible(true);
-        setSelectedAreaName('Area study Germany');
-        useMapStore.getState().setHoveredSample(null);
-      });
-    }
-    console.log('Círculo amarillo creado correctamente');
+    createPulseLayer('yellow-marker', '#FFD600', yellowCoordinates, pulseTimers);
+    map.on('click', 'yellow-marker-circle', () => {
+      setModalYellowVisible(true);
+      setLegendVisible(true);
+      setSelectedAreaName('Area study Germany');
+      useMapStore.getState().setHoveredSample(null);
+    });
     return true;
   };
 
+  // Crear marcador Estonia con pulse
   const createEstoniaMarker = () => {
     const estoniaCoordinates = [26.30788, 58.71545];
     if (!map || !map.isStyleLoaded()) {
-      console.log('Mapa no está listo, reintentando...');
       setTimeout(() => createEstoniaMarker(), 50);
       return false;
     }
-    // Añadir fuente de datos para el círculo verde
-    if (!map.getSource('estonia-marker-source')) {
-      map.addSource('estonia-marker-source', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: estoniaCoordinates
-          }
-        }
-      });
-    }
-    // Añadir capa de círculo verde
-    if (!map.getLayer('estonia-marker-circle')) {
-      map.addLayer({
-        id: 'estonia-marker-circle',
-        type: 'circle',
-        source: 'estonia-marker-source',
-        paint: {
-          'circle-radius': 7,
-          'circle-color': '#0072CE',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
-          'circle-opacity': 1
-        }
-      });
-      // Cambiar cursor a pointer cuando se pasa por encima del círculo verde
-      map.on('mouseenter', 'estonia-marker-circle', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'estonia-marker-circle', () => {
-        map.getCanvas().style.cursor = '';
-      });
-      // Añadir evento de clic al círculo verde
-      map.on('click', 'estonia-marker-circle', (e) => {
-        setLegendVisible(true);
-        setModalEstoniaVisible && setModalEstoniaVisible(true);
-        setSelectedAreaName('Case study Estonia');
-        useMapStore.getState().setHoveredSample(null);
-      });
-    }
-    console.log('Círculo azul Estonia creado correctamente');
+    createPulseLayer('estonia-marker', '#0072CE', estoniaCoordinates, pulseTimers);
+    map.on('click', 'estonia-marker-circle', (e) => {
+      setLegendVisible(true);
+      setModalEstoniaVisible && setModalEstoniaVisible(true);
+      setSelectedAreaName('Case study Estonia');
+      useMapStore.getState().setHoveredSample(null);
+    });
     return true;
   };
 
-  // Crear marcador como capa de Mapbox (círculo verde bandera Bulgaria)
+  // Crear marcador Bulgaria con pulse
   const createBulgariaMarker = () => {
     const bulgariaCoordinates = [24.675, 42.231];
     if (!map || !map.isStyleLoaded()) {
-      console.log('Mapa no está listo, reintentando...');
       setTimeout(() => createBulgariaMarker(), 50);
       return false;
     }
-    // Añadir fuente de datos para el círculo verde
-    if (!map.getSource('bulgaria-marker-source')) {
-      map.addSource('bulgaria-marker-source', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: bulgariaCoordinates
-          }
-        }
-      });
-    }
-    // Añadir capa de círculo verde
-    if (!map.getLayer('bulgaria-marker-circle')) {
-      map.addLayer({
-        id: 'bulgaria-marker-circle',
-        type: 'circle',
-        source: 'bulgaria-marker-source',
-        paint: {
-          'circle-radius': 7,
-          'circle-color': '#43a047',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
-          'circle-opacity': 1
-        }
-      });
-      // Cambiar cursor a pointer cuando se pasa por encima del círculo verde
-      map.on('mouseenter', 'bulgaria-marker-circle', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'bulgaria-marker-circle', () => {
-        map.getCanvas().style.cursor = '';
-      });
-      // Añadir evento de clic al círculo verde
-      map.on('click', 'bulgaria-marker-circle', (e) => {
-        setLegendVisible(true);
-        setModalBulgariaVisible(true);
-        setSelectedAreaName('Case study Bulgaria');
-        useMapStore.getState().setHoveredSample(null);
-      });
-    }
-    console.log('Círculo verde Bulgaria creado correctamente');
+    createPulseLayer('bulgaria-marker', '#43a047', bulgariaCoordinates, pulseTimers);
+    map.on('click', 'bulgaria-marker-circle', (e) => {
+      setLegendVisible(true);
+      setModalBulgariaVisible(true);
+      setSelectedAreaName('Case study Bulgaria');
+      useMapStore.getState().setHoveredSample(null);
+    });
     return true;
   };
 
@@ -391,17 +324,18 @@ const Model3DLayer = () => {
       if (currentZoom >= ZOOM_THRESHOLD) {
         // Zoom alto: mostrar modelo 3D, ocultar solo los marcadores custom, NO los puntos de muestreo
         if (markersRef.current.htmlMarker) {
-          if (map.getLayer('marker-circle')) {
-            map.removeLayer('marker-circle');
-          }
+          // Eliminar pulse y circle antes de la source
+          ['marker-pulse', 'marker-circle'].forEach(layerId => {
+            if (map.getLayer(layerId)) map.removeLayer(layerId);
+          });
           if (map.getSource('marker-source')) {
             map.removeSource('marker-source');
           }
           markersRef.current.htmlMarker = null;
         }
-        if (map.getLayer('yellow-marker-circle')) {
-          map.removeLayer('yellow-marker-circle');
-        }
+        ['yellow-marker-pulse', 'yellow-marker-circle'].forEach(layerId => {
+          if (map.getLayer(layerId)) map.removeLayer(layerId);
+        });
         if (map.getSource('yellow-marker-source')) {
           map.removeSource('yellow-marker-source');
         }
@@ -453,22 +387,17 @@ const Model3DLayer = () => {
 
     // Cleanup
     return () => {
-      if (markersRef.current.htmlMarker) {
-        // Remover capa de círculo rojo
-        if (map.getLayer('marker-circle')) {
-          map.removeLayer('marker-circle');
-        }
-        if (map.getSource('marker-source')) {
-          map.removeSource('marker-source');
-        }
-      }
-      // Remover círculo amarillo
-      if (map.getLayer('yellow-marker-circle')) {
-        map.removeLayer('yellow-marker-circle');
-      }
-      if (map.getSource('yellow-marker-source')) {
-        map.removeSource('yellow-marker-source');
-      }
+      // Limpiar timers de pulse
+      Object.values(pulseTimers.current).forEach(timer => clearInterval(timer));
+      // Remover todas las capas y fuentes de pulse
+      [
+        'marker', 'yellow-marker', 'estonia-marker', 'bulgaria-marker'
+      ].forEach(id => {
+        // Eliminar primero las layers, luego la source
+        if (map.getLayer(`${id}-pulse`)) map.removeLayer(`${id}-pulse`);
+        if (map.getLayer(`${id}-circle`)) map.removeLayer(`${id}-circle`);
+        if (map.getSource(`${id}-source`)) map.removeSource(`${id}-source`);
+      });
       if (markersRef.current.model3D && map.getLayer('3d-model-layer')) {
         map.removeLayer('3d-model-layer');
       }
