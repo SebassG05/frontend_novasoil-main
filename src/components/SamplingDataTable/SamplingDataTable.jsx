@@ -259,10 +259,10 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               {isUpdating ? (
                 <>
                   <span className={styles.spinner}></span>
-                  Actualizando...
+                  Updating...
                 </>
               ) : (
-                '🔄 Actualizar'
+                '🔄 UPDATE'
               )}
             </button>
           </div>
