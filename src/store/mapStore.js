@@ -16,7 +16,7 @@ export const useMapStore = create((set, get) => ({
         set({ selectedWMSLayers: current.filter(l => l.name !== layerName) });
     },
     // Área de estudio seleccionada (solo nombre)
-    selectedAreaName: 'Límites del parque Tamarguillo',
+    selectedAreaName: 'Tamarguillo Park Boundaries',
     setSelectedAreaName: (name) => set({ selectedAreaName: name }),
     // Estado del mapa
     map: null,

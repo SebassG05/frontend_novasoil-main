@@ -8,7 +8,7 @@ export const CLOUDINARY_CONFIG = {
   format: 'auto'
 };
 
-// URLs de las imágenes del carrusel - Actualiza estas URLs con tus imágenes reales
+// General carousel images (e.g. for Spain, default)
 export const CAROUSEL_IMAGES = [
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1757574973/Parque_del_Tamarguillo_09_nn0jmt.jpg`,
@@ -44,6 +44,35 @@ export const getCloudinaryUrl = (publicId, transformations = {}) => {
 
   return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/c_${crop},w_${width},h_${height},q_${quality},f_${format}/${publicId}`;
 };
+
+// Carousel images for Bulgaria
+export const CAROUSEL_IMAGES_BULGARIA = [
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758264026/BG_CS_2_zsrrdz.jpg`,
+    title: "Bulgarian Soil Analysis",
+    description: "Soil sample and organic matter analysis in Bulgaria."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758264017/BG_CS_1_n7gwee.jpg`,
+    title: "Bulgarian Soil Analysis",
+    description: "Soil sample and organic matter analysis in Bulgaria."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758265409/bulgaria-novasoil-long_umdbnp_1_ivthqm.png`,
+    title: "Bulgarian Soil Analysis",
+    description: "Soil sample and organic matter analysis in Bulgaria."
+  }
+
+];
+
+// Fallback images for Bulgaria
+export const FALLBACK_IMAGES_BULGARIA = [
+  {
+    url: "data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234CAF50;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%232E7D32;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grad1)'/%3E%3Ctext x='50%25' y='45%25' font-family='Arial' font-size='24' fill='white' text-anchor='middle'%3EBulgaria Soil%3C/text%3E%3Ctext x='50%25' y='55%25' font-family='Arial' font-size='16' fill='white' text-anchor='middle'%3EAnalysis%3C/text%3E%3C/svg%3E",
+    title: "Bulgarian Soil",
+    description: "Fallback image for Bulgaria soil analysis."
+  }
+];
 
 // URLs de fallback en caso de que Cloudinary no esté disponible
 export const FALLBACK_IMAGES = [
