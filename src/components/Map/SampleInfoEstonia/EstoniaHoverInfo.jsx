@@ -40,7 +40,6 @@ const EstoniaHoverInfo = () => {
                             <span className={styles.value}>{hoveredSample.soil_sampling_date ?? hoveredSample['Soil sampling date'] ?? hoveredSample.date}</span>
                         </div>
                     ) : null}
-                    {showValue}
                     {showValue(hoveredSample.coord_lat__long) || showValue(hoveredSample['Coord (Lat & Long)']) || showValue(hoveredSample.coordinates) ? (
                         <div className={styles.infoItem}>
                             <span className={styles.label}>Coordinates:</span>
