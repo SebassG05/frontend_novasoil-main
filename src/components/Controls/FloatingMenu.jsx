@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useMapStore } from '../../store/mapStore';
 import { Palette, Settings } from 'lucide-react';
 import { holandaSublayers } from '../../config/holandaSublayers';
+import holandaLegend, { firstSoilcodeColors } from '../../config/holandaLegend';
 import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
@@ -609,6 +610,50 @@ const FloatingMenu = () => {
                                                                     const { fetchHolandaGeojsonZip } = await import('../../services/geospatial/holandaGeojsonService');
                                                                     const geojson = await fetchHolandaGeojsonZip();
                                                                     const map = window?.mapboxMap || useMapStore.getState().map;
+                                                                    // Mapeo de valores a colores según SLD
+                                                                    const pedologicalinterestColors = {
+                                                                        'Water': '#D3FEFE',
+                                                                        'Moeras': '#D3FEFE',
+                                                                        'Dijk': '#FE02A7',
+                                                                        'Terp': '#FE02A7',
+                                                                        'Groeve': '#FFFFFF',
+                                                                        'Sterk afgegraven terrein': '#FFFFFF',
+                                                                        'Sterk ge-egaliseerd': '#FFFFFF',
+                                                                        'Sterk verwerkt terrein': '#FFFFFF',
+                                                                        'Mijnstort': '#FFFFFF',
+                                                                        'Bebouwd gebied': '#FFFFFF',
+                                                                        'Bovenland': '#FFFFFF',
+                                                                        'Sterk opgehoogd terrein': '#FFFFFF',
+                                                                        'Met huisvuil opgehoogde gronden': '#D3D3A7',
+                                                                    };
+                                                                                                                                        // Colores para los códigos de Holanda importados del SLD
+                                                                                                                                        // Usar firstSoilcodeColors importado de holandaLegend.js
+                                                                                                                                        // Si quieres mostrar el nombre en un popup o tooltip, puedes usar holandaLegend[code]
+                                                                    // Expresión Mapbox para fill-color
+                                                                    const fillColorExpression = [
+                                                                        'case',
+                                                                        // Por pedologicalinterest
+                                                                        ['has', 'pedologicalinterest'],
+                                                                        [
+                                                                            'match',
+                                                                            ['get', 'pedologicalinterest'],
+                                                                            ...Object.entries(pedologicalinterestColors).flat(),
+                                                                            // Si no hay match, probar con first_soilcode
+                                                                            [
+                                                                                'match',
+                                                                                ['get', 'first_soilcode'],
+                                                                                ...Object.entries(firstSoilcodeColors).flat(),
+                                                                                '#cccccc' // color por defecto
+                                                                            ]
+                                                                        ],
+                                                                        // Si no tiene pedologicalinterest, usar first_soilcode
+                                                                        [
+                                                                            'match',
+                                                                            ['get', 'first_soilcode'],
+                                                                            ...Object.entries(firstSoilcodeColors).flat(),
+                                                                            '#cccccc'
+                                                                        ]
+                                                                    ];
                                                                     if (!map.getSource('holanda-geojson')) {
                                                                         map.addSource('holanda-geojson', {
                                                                             type: 'geojson',
@@ -619,9 +664,9 @@ const FloatingMenu = () => {
                                                                             type: 'fill',
                                                                             source: 'holanda-geojson',
                                                                             paint: {
-                                                                                'fill-color': '#fb923c',
-                                                                                'fill-opacity': 0.5,
-                                                                                'fill-outline-color': '#ea580c'
+                                                                                'fill-color': fillColorExpression,
+                                                                                'fill-opacity': 0.95,
+                                                                                'fill-outline-color': 'rgba(0,0,0,0)'
                                                                             }
                                                                         });
                                                                         map.fitBounds(bbox(geojson), { padding: 40, duration: 1200 });
