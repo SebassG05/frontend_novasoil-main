@@ -3,6 +3,7 @@ import { useMapStore } from '../../store/mapStore';
 import { Palette, Settings } from 'lucide-react';
 import { holandaSublayers } from '../../config/holandaSublayers';
 import holandaLegend, { firstSoilcodeColors } from '../../config/holandaLegend';
+import HolandaLegend from '../Map/Legend/HolandaLegend';
 import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
@@ -98,6 +99,7 @@ const FloatingMenu = () => {
     // Estado para la pestaña activa de la leyenda WMS (siempre visible)
     const wmsLayersForLegend = useMapStore((state) => state.selectedWMSLayers);
     const [activeLegendTab, setActiveLegendTab] = useState(wmsLayersForLegend[0]?.name);
+    const [showHolandaLegend, setShowHolandaLegend] = useState(false);
     // Estado de opacidad por capa WMS
     const [wmsOpacities, setWmsOpacities] = useState(() => {
         const initial = {};
@@ -253,7 +255,8 @@ const FloatingMenu = () => {
     }, []);
 
     return (
-        <div className="fixed left-4 sm:left-6 md:left-8 bottom-4 sm:bottom-6 md:bottom-8 z-50">
+    <div>
+    <div className="fixed left-4 sm:left-6 md:left-8 bottom-4 sm:bottom-6 md:bottom-8 z-50">
             {/* Mensaje de carga y éxito */}
             {/* Notificación de carga/cargado con animación y diseño moderno */}
             <style>{`
@@ -655,6 +658,7 @@ const FloatingMenu = () => {
                                                                         ]
                                                                     ];
                                                                     if (!map.getSource('holanda-geojson')) {
+                                                                        setShowHolandaLegend(true);
                                                                         map.addSource('holanda-geojson', {
                                                                             type: 'geojson',
                                                                             data: geojson
@@ -672,6 +676,7 @@ const FloatingMenu = () => {
                                                                         map.fitBounds(bbox(geojson), { padding: 40, duration: 1200 });
                                                                     } else {
                                                                         map.setLayoutProperty('holanda-geojson-layer', 'visibility', 'visible');
+                                                                        setShowHolandaLegend(true);
                                                                     }
                                                                 } catch (e) {
                                                                     alert('Error cargando capa Holanda: ' + e.message);
@@ -692,7 +697,14 @@ const FloatingMenu = () => {
                     </Paper>
                 )}
             </div>
+            {showHolandaLegend && (
+                <div style={{zIndex: 2000, position: 'fixed', top: 80, right: 24}}>
+                    <HolandaLegend />
+                    <button style={{position: 'absolute', top: 8, right: 8, background: 'transparent', border: 'none', fontSize: 18, cursor: 'pointer'}} onClick={() => setShowHolandaLegend(false)} title="Cerrar leyenda">×</button>
+                </div>
+            )}
         </div>
+    </div>
     );
 };
 
