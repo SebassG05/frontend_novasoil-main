@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useMapStore } from '../../store/mapStore';
 import { Palette, Settings } from 'lucide-react';
+import { holandaSublayers } from '../../config/holandaSublayers';
+import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
 
@@ -82,7 +84,8 @@ const FloatingMenu = () => {
     const [activePanel, setActivePanel] = useState(null);
     const [selectedWMSLayer, setSelectedWMSLayerState] = useState(null);
     const [wmsLayers, setWmsLayers] = useState([]);
-    const [showVisualizations, setShowVisualizations] = useState(false);
+    // Puede ser 'italia', 'holanda' o null
+    const [showVisualizations, setShowVisualizations] = useState(null);
     const [loadingWMS, setLoadingWMS] = useState(false);
     const [successWMS, setSuccessWMS] = useState(false);
     const [showLegend, setShowLegend] = useState(false);
@@ -516,13 +519,13 @@ const FloatingMenu = () => {
                                     {/* Opción general para agrupar todas las subcapas - ITALIA */}
                                     <li>
                                         <button
-                                            onClick={() => setShowVisualizations((v) => !v)}
+                                            onClick={() => setShowVisualizations(v => v === 'italia' ? null : 'italia')}
                                             className="w-full text-left px-6 py-3 rounded-xl border-2 border-green-500 bg-gradient-to-r from-green-100 to-green-50 hover:from-green-200 hover:to-green-100 font-bold text-green-900 shadow-md transition-all duration-300 flex flex-col items-start"
                                             style={{ fontSize: '1.1rem', letterSpacing: '0.01em' }}
                                         >
                                             <div className="flex w-full items-center justify-between">
                                                 <span>Suoli Emilia-Romagna</span>
-                                                <span className="ml-4 text-green-700 text-lg transition-transform duration-300" style={{ transform: showVisualizations ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                                                <span className="ml-4 text-green-700 text-lg transition-transform duration-300" style={{ transform: showVisualizations === 'italia' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                     ▲
                                                 </span>
                                             </div>
@@ -531,8 +534,8 @@ const FloatingMenu = () => {
                                         {/* Submenú de subcapas reales con animación */}
                                         <div
                                             style={{
-                                                maxHeight: showVisualizations ? 320 : 0,
-                                                opacity: showVisualizations ? 1 : 0,
+                                                maxHeight: showVisualizations === 'italia' ? 320 : 0,
+                                                opacity: showVisualizations === 'italia' ? 1 : 0,
                                                 transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s',
                                                 overflow: 'hidden',
                                             }}
@@ -569,21 +572,74 @@ const FloatingMenu = () => {
                                         </div>
                                     </li>
 
-                                    {/* Opción duplicada para HOLANDA, solo visual, color naranja */}
+                                    {/* Opción general para agrupar subcapas de Holanda */}
                                     <li>
                                         <button
+                                            onClick={() => setShowVisualizations(v => v === 'holanda' ? null : 'holanda')}
                                             className="w-full text-left px-6 py-3 rounded-xl border-2 border-orange-500 bg-gradient-to-r from-orange-100 to-orange-50 hover:from-orange-200 hover:to-orange-100 font-bold text-orange-900 shadow-md transition-all duration-300 flex flex-col items-start"
                                             style={{ fontSize: '1.1rem', letterSpacing: '0.01em' }}
-                                            disabled
                                         >
                                             <div className="flex w-full items-center justify-between">
-                                                <span>Holanda (demo visual)</span>
-                                                <span className="ml-4 text-orange-700 text-lg transition-transform duration-300">
+                                                <span>Holanda</span>
+                                                <span className="ml-4 text-orange-700 text-lg transition-transform duration-300" style={{ transform: showVisualizations === 'holanda' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                     ▲
                                                 </span>
                                             </div>
-                                            <span className="block mt-1 text-orange-700 font-normal text-sm">(0 sublayers)</span>
+                                            <span className="block mt-1 text-orange-700 font-normal text-sm">({holandaSublayers.length} sublayers)</span>
                                         </button>
+                                        {/* Submenú de subcapas de Holanda */}
+                                        <div
+                                            style={{
+                                                maxHeight: showVisualizations === 'holanda' ? 320 : 0,
+                                                opacity: showVisualizations === 'holanda' ? 1 : 0,
+                                                transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s',
+                                                overflow: 'hidden',
+                                            }}
+                                        >
+                                            <ul className="mt-2 space-y-2 pl-2 overflow-y-auto scrollbar-thin scrollbar-thumb-orange-300 scrollbar-track-orange-50" style={{maxHeight: 300, overflowX: 'hidden'}}>
+                                                {holandaSublayers.length === 0 && (
+                                                    <li className="text-gray-500 text-sm">No sublayers found.</li>
+                                                )}
+                                                {holandaSublayers.map((sublayer, idx) => (
+                                                    <li key={sublayer.name}>
+                                                        <button
+                                                            className="w-full text-left px-4 py-2 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-orange-800 font-medium shadow-sm transition-all duration-200"
+                                                            onClick={async () => {
+                                                                try {
+                                                                    const { fetchHolandaGeojsonZip } = await import('../../services/geospatial/holandaGeojsonService');
+                                                                    const geojson = await fetchHolandaGeojsonZip();
+                                                                    const map = window?.mapboxMap || useMapStore.getState().map;
+                                                                    if (!map.getSource('holanda-geojson')) {
+                                                                        map.addSource('holanda-geojson', {
+                                                                            type: 'geojson',
+                                                                            data: geojson
+                                                                        });
+                                                                        map.addLayer({
+                                                                            id: 'holanda-geojson-layer',
+                                                                            type: 'fill',
+                                                                            source: 'holanda-geojson',
+                                                                            paint: {
+                                                                                'fill-color': '#fb923c',
+                                                                                'fill-opacity': 0.5,
+                                                                                'fill-outline-color': '#ea580c'
+                                                                            }
+                                                                        });
+                                                                        map.fitBounds(bbox(geojson), { padding: 40, duration: 1200 });
+                                                                    } else {
+                                                                        map.setLayoutProperty('holanda-geojson-layer', 'visibility', 'visible');
+                                                                    }
+                                                                } catch (e) {
+                                                                    alert('Error cargando capa Holanda: ' + e.message);
+                                                                }
+                                                            }}
+                                                        >
+                                                            <span>{sublayer.title}</span>
+                                                            <div className="text-xs text-orange-600 truncate">{sublayer.name}</div>
+                                                        </button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
