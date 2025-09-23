@@ -76,10 +76,9 @@ const Model3DLayer = () => {
           // Letonia
           let letoniaData = samplingDataLetonia;
           if (!letoniaData || letoniaData.length === 0) {
-            // Si tienes una función para cargar datos de Letonia, agrégala aquí
-            // await loadLetoniaData();
-            // await new Promise(resolve => setTimeout(resolve, 200));
-            // letoniaData = useMapStore.getState().samplingDataLetonia;
+            await loadLetoniaData();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            letoniaData = useMapStore.getState().samplingDataLetonia;
           }
           setTableData(Array.isArray(letoniaData) ? letoniaData : []);
         } else {

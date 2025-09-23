@@ -15,6 +15,7 @@ export const useGeoData = () => {
         samplingDataGermany,
         samplingDataBulgaria,
         samplingDataEstonia,
+        samplingDataLetonia,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -24,12 +25,34 @@ export const useGeoData = () => {
         setSamplingDataGermany,
         setSamplingDataBulgaria,
         setSamplingDataEstonia,
+        setSamplingDataLetonia,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
         setIsChangingStyle,
         clearGeoData
     } = useMapStore();
+    /**
+     * Carga los datos de muestreo de Letonia y añade la capa al mapa
+     */
+    const loadLetoniaData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const letoniaData = await geoDataService.makeRequest('/sampling/letonia');
+            setSamplingDataLetonia(letoniaData.data);
+            // Si tienes una función para añadir la capa de Letonia, agrégala aquí
+            if (map && letoniaData.data && letoniaData.data.length > 0) {
+                if (mapLayerService.addLetoniaSamplingPointsLayer) {
+                    mapLayerService.addLetoniaSamplingPointsLayer(map, letoniaData.data);
+                }
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
     /**
      * Carga los datos de muestreo de Estonia y añade la capa al mapa
      */
@@ -303,6 +326,7 @@ export const useGeoData = () => {
         samplingDataGermany,
         samplingDataBulgaria,
         samplingDataEstonia,
+        samplingDataLetonia,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -313,6 +337,7 @@ export const useGeoData = () => {
         loadGermanyData,
         loadBulgariaData,
         loadEstoniaData,
+        loadLetoniaData,
         toggleLayerVisibility,
         focusOnSample,
         getSamplingStats

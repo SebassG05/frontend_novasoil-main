@@ -223,7 +223,15 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
                 processedData.map((row, idx) => (
                   <tr key={idx} className={styles.dataRow}>
                     {visibleColumns.map(col => (
-                      <td key={col.key}>{row[col.key]}</td>
+                      <td key={col.key}>
+                        {typeof row[col.key] === 'object' && row[col.key] !== null
+                          ? Array.isArray(row[col.key])
+                            ? row[col.key].join(';')
+                            : row[col.key].longitude !== undefined && row[col.key].latitude !== undefined
+                              ? `${row[col.key].longitude};${row[col.key].latitude}`
+                              : JSON.stringify(row[col.key])
+                          : row[col.key]}
+                      </td>
                     ))}
                   </tr>
                 ))
