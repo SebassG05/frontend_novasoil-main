@@ -16,8 +16,8 @@ import { useGeoData } from '../../hooks/useGeoData';
 import { create } from 'zustand';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData } = useGeoData();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia } = useMapStore();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -72,6 +72,16 @@ const Model3DLayer = () => {
             estoniaData = useMapStore.getState().samplingDataEstonia;
           }
           setTableData(Array.isArray(estoniaData) ? estoniaData : []);
+        } else if (showTable === 'letonia') {
+          // Letonia
+          let letoniaData = samplingDataLetonia;
+          if (!letoniaData || letoniaData.length === 0) {
+            // Si tienes una función para cargar datos de Letonia, agrégala aquí
+            // await loadLetoniaData();
+            // await new Promise(resolve => setTimeout(resolve, 200));
+            // letoniaData = useMapStore.getState().samplingDataLetonia;
+          }
+          setTableData(Array.isArray(letoniaData) ? letoniaData : []);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         }
