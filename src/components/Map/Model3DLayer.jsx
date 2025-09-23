@@ -3,6 +3,7 @@ import InfoModal from './InfoModal/InfoModal';
 import InfoModalYellow from './InfoModal/InfoModalYellow/InfoModalYellow';
 import InfoModalYellowBulgaria from './InfoModal/InfoModalBulgaria/InfoModalYellowBulgaria';
 import InfoModalEstonia from './InfoModal/InfoModalEstonia/InfoModalEstonia';
+import InfoModalLetonia from './InfoModal/InfoModalLetonia/InfoModalLetonia';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
@@ -27,6 +28,7 @@ const Model3DLayer = () => {
   const [legendVisible, setLegendVisible] = useState(false);
   const [modalBulgariaVisible, setModalBulgariaVisible] = useState(false);
   const [modalEstoniaVisible, setModalEstoniaVisible] = useState(false);
+  const [modalLetoniaVisible, setModalLetoniaVisible] = useState(false);
   const [tableVisible, setTableVisible] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
@@ -437,6 +439,15 @@ const Model3DLayer = () => {
         </div>
         <ImageCarousel onCloseAll={closeModalAndLegend} />
       </InfoModal>
+      <InfoModalLetonia
+        visible={modalLetoniaVisible}
+        onClose={() => setModalLetoniaVisible(false)}
+        isClosing={isClosing}
+        onCloseAll={() => {
+          setModalLetoniaVisible(false);
+          closeModalAndLegend('letonia');
+        }}
+      />
       <InfoModalEstonia
         visible={modalEstoniaVisible}
         onClose={() => setModalEstoniaVisible(false)}
