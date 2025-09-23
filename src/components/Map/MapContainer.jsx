@@ -10,6 +10,7 @@ import GermanyHoverInfo from './SampleInfoGermany/GermanyHoverInfo';
 import BulgariaHoverInfo from './SampleInfoBulgaria/BulgariaHoverInfo';
 import EstoniaHoverInfo from './SampleInfoEstonia/EstoniaHoverInfo';
 import LetoniaHoverInfo from './SampleInfoLetonia/LetoniaHoverInfo';
+import MadridHoverInfo from './SampleInfoMadrid/MadridHoverInfo';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -149,7 +150,7 @@ const MapContainer = () => {
             <div ref={mapContainer} className="w-full h-full" />
             {/* Solo mostrar un pop-up según el tipo de punto */}
             {/* Mostrar pop-up de Sevilla solo si hoveredSample existe y no es de Alemania ni Bulgaria */}
-            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia && !useMapStore.getState().hoveredSample._letonia && <SampleHoverInfo />}
+            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia && !useMapStore.getState().hoveredSample._letonia && !useMapStore.getState().hoveredSample._madrid && <SampleHoverInfo />}
             {/* Mostrar pop-up de Alemania solo si hoveredSample existe y es de Alemania */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._germany && <GermanyHoverInfo />}
             {/* Mostrar pop-up de Bulgaria solo si hoveredSample existe y es de Bulgaria */}
@@ -158,6 +159,8 @@ const MapContainer = () => {
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._estonia && <EstoniaHoverInfo />}
             {/* Mostrar pop-up de Letonia solo si hoveredSample existe y es de Letonia */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._letonia && <LetoniaHoverInfo />}
+            {/* Mostrar pop-up de Madrid solo si hoveredSample existe y es de Madrid */}
+            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._madrid && <MadridHoverInfo />}
             <GeoDataLoader />
             <MiniMap />
         </div>

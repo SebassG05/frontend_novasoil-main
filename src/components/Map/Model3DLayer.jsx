@@ -219,6 +219,22 @@ const Model3DLayer = () => {
     return true;
   };
 
+  const createMadridMarker = () => {
+    const madridCoordinates = [-4.938573, 41.422618];
+    if (!map || !map.isStyleLoaded()) {
+      setTimeout(() => createMadridMarker(), 50);
+      return false;
+    }
+    createPulseLayer('madrid-marker', '#9E1B34', madridCoordinates, pulseTimers);
+    map.on('click', 'madrid-marker-circle', (e) => {
+      setLegendVisible(true);
+      setModalMadridVisible && setModalMadridVisible(true);
+      setSelectedAreaName('Case study Madrid');
+      useMapStore.getState().setHoveredSample(null);
+    });
+    return true;
+  };
+
   const createLetoniaMarker = () => {
     const letoniaCoordinates = [24.178259, 56.715607];
     if (!map || !map.isStyleLoaded()) {
@@ -391,6 +407,7 @@ const Model3DLayer = () => {
         createBulgariaMarker();
         createEstoniaMarker();
         createLetoniaMarker();
+        createMadridMarker();
         // NO añadir ni remover sampling points layers aquí
       }
       
