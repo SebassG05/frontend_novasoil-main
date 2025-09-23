@@ -12,6 +12,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
 import { useGeoData } from '../../hooks/useGeoData';
+import { create } from 'zustand';
 
 const Model3DLayer = () => {
   const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia } = useMapStore();
@@ -203,6 +204,22 @@ const Model3DLayer = () => {
     return true;
   };
 
+  const createLetoniaMarker = () => {
+    const letoniaCoordinates = [24.178259, 56.715607];
+    if (!map || !map.isStyleLoaded()) {
+      setTimeout(() => createLetoniaMarker(), 50);
+      return false;
+    }
+    createPulseLayer('letonia-marker', '#9E1B34', letoniaCoordinates, pulseTimers);
+    map.on('click', 'letonia-marker-circle', (e) => {
+      setLegendVisible(true);
+      setModalLetoniaVisible && setModalLetoniaVisible(true);
+      setSelectedAreaName('Case study Letonia');
+      useMapStore.getState().setHoveredSample(null);
+    });
+    return true;
+  };
+
   // Crear marcador Estonia con pulse
   const createEstoniaMarker = () => {
     const estoniaCoordinates = [26.30788, 58.71545];
@@ -358,6 +375,7 @@ const Model3DLayer = () => {
         createYellowMarker();
         createBulgariaMarker();
         createEstoniaMarker();
+        createLetoniaMarker();
         // NO añadir ni remover sampling points layers aquí
       }
       

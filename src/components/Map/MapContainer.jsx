@@ -9,6 +9,7 @@ import GeoDataLoader from './SampleInfo/GeoDataLoader';
 import GermanyHoverInfo from './SampleInfoGermany/GermanyHoverInfo';
 import BulgariaHoverInfo from './SampleInfoBulgaria/BulgariaHoverInfo';
 import EstoniaHoverInfo from './SampleInfoEstonia/EstoniaHoverInfo';
+import LetoniaHoverInfo from './SampleInfoLetonia/LetoniaHoverInfo';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -148,13 +149,15 @@ const MapContainer = () => {
             <div ref={mapContainer} className="w-full h-full" />
             {/* Solo mostrar un pop-up según el tipo de punto */}
             {/* Mostrar pop-up de Sevilla solo si hoveredSample existe y no es de Alemania ni Bulgaria */}
-            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia &&  <SampleHoverInfo />}
+            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia && !useMapStore.getState().hoveredSample._letonia && <SampleHoverInfo />}
             {/* Mostrar pop-up de Alemania solo si hoveredSample existe y es de Alemania */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._germany && <GermanyHoverInfo />}
             {/* Mostrar pop-up de Bulgaria solo si hoveredSample existe y es de Bulgaria */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._bulgaria && <BulgariaHoverInfo />}
             {/* Mostrar pop-up de Estonia solo si hoveredSample existe y es de Estonia */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._estonia && <EstoniaHoverInfo />}
+            {/* Mostrar pop-up de Letonia solo si hoveredSample existe y es de Letonia */}
+            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._letonia && <LetoniaHoverInfo />}
             <GeoDataLoader />
             <MiniMap />
         </div>
