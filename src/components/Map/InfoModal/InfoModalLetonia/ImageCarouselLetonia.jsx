@@ -88,23 +88,16 @@ const ImageCarousel = ({ onCloseAll }) => {
       <div className={styles.logosContainer}>
         <div className={styles.logoItem}>
           <img 
-            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757577220/unnamed-removebg-preview_1_wxbkxt.png"
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757581496/unnamed-removebg-preview_3_umuxjr.png"
             alt="Logo 1"
             className={styles.logoImage}
           />
         </div>
         <div className={styles.logoItem}>
           <img 
-            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757577144/c42862fa-44e8-4a14-811b-defffcf7128e_cxwdme.png"
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758614263/unnamed-removebg-preview_15_nbiogt.png"
             alt="Logo 2"
-            className={styles.logoImage}
-          />
-        </div>
-        <div className={styles.logoItem}>
-          <img 
-            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757577035/unnamed-removebg-preview_nf2mag.png"
-            alt="Logo 3"
-            className={styles.logoImage}
+            className={`${styles.logoImage} ${styles.logoImage2}`}
           />
         </div>
       </div>

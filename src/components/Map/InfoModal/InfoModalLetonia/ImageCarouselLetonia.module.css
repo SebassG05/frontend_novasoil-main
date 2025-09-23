@@ -26,12 +26,23 @@
   transform: translateY(-2px) scale(1.05);
 }
 
+
 .logoImage {
   height: 60px;
   width: 60px;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: all 0.3s ease;
+}
+
+/* Forzar que el logo2 tenga exactamente el mismo tamaño que el logo1 */
+.logoImage2 {
+  height: 80px !important;
+  width: 80px !important;
+  max-width: 80px !important;
+  max-height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
 }
 
 .logoItem:hover .logoImage {
