@@ -214,6 +214,14 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
                 </div>
                 <div className={styles.imageItem}>
                   <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758614263/unnamed-removebg-preview_15_nbiogt.png" 
+                    alt="Forest Management"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Forest Management</span>
+                </div>
+                <div className={styles.imageItem}>
+                  <img 
                     src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757588087/unnamed-removebg-preview_14_wvmi00.png" 
                     alt="Resilience to natural hazards"
                     className={styles.businessImage}
