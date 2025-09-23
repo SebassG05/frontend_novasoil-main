@@ -13,7 +13,8 @@ class MapLayerService {
             GERMANY_POINTS: 'germany-sampling-points-layer',
             BULGARIA_POINTS: 'bulgaria-sampling-points-layer', // Nueva capa para Bulgaria
             ESTONIA_POINTS: 'estonia-sampling-points-layer', // Nueva capa para Estonia
-            LETONIA_POINTS: 'letonia-sampling-points-layer' // Nueva capa para Letonia
+            LETONIA_POINTS: 'letonia-sampling-points-layer', // Nueva capa para Letonia
+            MADRID_POINTS: 'madrid-sampling-points-layer' // Nueva capa para Madrid
         };
         this.SOURCE_IDS = {
             SHAPEFILE: 'shapefile-source',
@@ -21,7 +22,8 @@ class MapLayerService {
             GERMANY: 'germany-sampling-source',
             BULGARIA: 'bulgaria-sampling-source', // Nueva fuente para Bulgaria
             ESTONIA: 'estonia-sampling-source', // Nueva fuente para Estonia
-            LETONIA: 'letonia-sampling-source' // Nueva fuente para Letonia
+            LETONIA: 'letonia-sampling-source', // Nueva fuente para Letonia
+            MADRID: 'madrid-sampling-source' // Nueva fuente para Madrid
         };
     }
 
@@ -46,6 +48,107 @@ class MapLayerService {
         }
         if (dir === 'W') dec *= -1;
         return dec;
+    }
+
+    /**
+     * Añade los puntos de muestreo de Alemania como capa al mapa (color amarillo)
+     */
+
+    addMadridSamplingPointsLayer(map, madridData) {
+        // Ocultar hover al hacer click en un punto de Madrid
+        map.on('click', this.LAYER_IDS.MADRID_POINTS, () => {
+            window.setHoveredSample && window.setHoveredSample(null);
+        });
+        try {
+            console.log('[Madrid] Intentando añadir capa de puntos de muestreo...');
+            if (!map) {
+                console.error('[Madrid] El objeto map no está disponible');
+                return;
+            }
+            // Remove only Madrid layer/source
+            if (map.getLayer(this.LAYER_IDS.MADRID_POINTS)) {
+                map.removeLayer(this.LAYER_IDS.MADRID_POINTS);
+            }
+            if (map.getSource(this.SOURCE_IDS.MADRID)) {
+                map.removeSource(this.SOURCE_IDS.MADRID);
+            }
+            let geojsonData;
+            console.log('[Madrid] Datos recibidos:', madridData);
+            if (madridData && Array.isArray(madridData)) {
+                geojsonData = {
+                    type: 'FeatureCollection',
+                    features: madridData.map(row => {
+                        const lat = parseFloat(row.lat);
+                        const lon = parseFloat(row.lon);
+                        console.log('[Madrid][DEBUG] row:', row);
+                        console.log(`[Madrid][DEBUG] lat: ${lat}, lon: ${lon}`);
+                        if (!isNaN(lat) && !isNaN(lon)) {
+                            const feature = {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [lon, lat]
+                                },
+                                properties: row
+                            };
+                            console.log('[Madrid][DEBUG] GeoJSON feature:', feature);
+                            return feature;
+                        }
+                        return null;
+                    }).filter(f => f !== null)
+                };
+            } else {
+                geojsonData = madridData;
+            }
+            console.log('[Madrid] GeoJSON generado:', geojsonData);
+            if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+                console.warn('[Madrid] No hay datos válidos para los puntos de muestreo de Madrid');
+                return;
+            }
+            map.addSource(this.SOURCE_IDS.MADRID, {
+                type: 'geojson',
+                data: geojsonData
+            });
+            map.addLayer({
+                id: this.LAYER_IDS.MADRID_POINTS,
+                type: 'circle',
+                source: this.SOURCE_IDS.MADRID,
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        6, 4,
+                        10, 6,
+                        15, 12,
+                        20, 20
+                    ],
+                    'circle-color': '#9E1B34', // Rojo
+                    'circle-stroke-color': '#fff',
+                    'circle-stroke-width': 2,
+                    'circle-opacity': 0.85
+                },
+                layout: {
+                    'visibility': 'visible'
+                },
+                minzoom: 6
+            });
+            // Interacción: mostrar tooltip al pasar el ratón por los puntos de Madrid
+            map.on('mouseenter', this.LAYER_IDS.MADRID_POINTS, (e) => {
+                map.getCanvas().style.cursor = 'pointer';
+                if (e.features.length > 0 && window.setHoveredSample) {
+                    const feature = e.features[0];
+                    window.setHoveredSample({ ...feature.properties, _madrid: true });
+                }
+            });
+            map.on('mouseleave', this.LAYER_IDS.MADRID_POINTS, () => {
+                map.getCanvas().style.cursor = '';
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
+            console.log('[Madrid] Capa de puntos de Madrid añadida correctamente');
+        } catch (error) {
+            console.error('[Madrid] Error añadiendo capa de puntos de muestreo de Madrid:', error);
+        }
     }
 
     /**

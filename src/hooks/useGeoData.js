@@ -257,6 +257,10 @@ export const useGeoData = () => {
             loadBulgariaData();
             // Cargar y mostrar puntos de Estonia
             loadEstoniaData();
+            // Cargar y mostrar puntos de Letonia
+            loadLetoniaData();
+            // Cargar y mostrar puntos de Madrid
+            loadMadridData();
         }
     }, [map, isLoaded]);
 
@@ -299,6 +303,14 @@ export const useGeoData = () => {
                 // Reañadir capa de puntos de muestreo de Estonia
                 if (samplingDataEstonia && samplingDataEstonia.length > 0) {
                     mapLayerService.addEstoniaSamplingPointsLayer(map, samplingDataEstonia);
+                }
+                // Reañadir capa de puntos de muestreo de Letonia
+                if (samplingDataLetonia && samplingDataLetonia.length > 0) {
+                    mapLayerService.addLetoniaSamplingPointsLayer(map, samplingDataLetonia);
+                }
+                // Reañadir capa de puntos de muestreo de Madrid
+                if (samplingDataMadrid && samplingDataMadrid.length > 0) {
+                    mapLayerService.addMadridSamplingPointsLayer(map, samplingDataMadrid);
                 }
 
                 // Aplicar configuraciones de visibilidad

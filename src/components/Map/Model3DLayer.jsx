@@ -111,6 +111,7 @@ const Model3DLayer = () => {
     // Cargar automáticamente los puntos de muestreo de Letonia y Estonia al iniciar el mapa
     loadLetoniaData();
     loadEstoniaData();
+    loadMadridData();
 
     // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
     const coordinates = [-5.911, 37.406];
