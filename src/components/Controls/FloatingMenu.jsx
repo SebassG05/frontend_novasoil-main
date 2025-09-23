@@ -584,7 +584,7 @@ const FloatingMenu = () => {
                                             style={{ fontSize: '1.1rem', letterSpacing: '0.01em' }}
                                         >
                                             <div className="flex w-full items-center justify-between">
-                                                <span>Holanda</span>
+                                                <span>Holland</span>
                                                 <span className="ml-4 text-orange-700 text-lg transition-transform duration-300" style={{ transform: showVisualizations === 'holanda' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                     ▲
                                                 </span>
