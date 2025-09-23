@@ -17,8 +17,8 @@ import { useGeoData } from '../../hooks/useGeoData';
 import { create } from 'zustand';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData } = useGeoData();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid } = useMapStore();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -83,7 +83,17 @@ const Model3DLayer = () => {
             letoniaData = useMapStore.getState().samplingDataLetonia;
           }
           setTableData(Array.isArray(letoniaData) ? letoniaData : []);
-        } else {
+        } else if (showTable === 'madrid') {
+          // Madrid
+          let madridData = samplingDataMadrid;
+          if (!madridData || madridData.length === 0) {
+            await loadMadridData();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            madridData = useMapStore.getState().samplingDataMadrid;
+          }
+          setTableData(Array.isArray(madridData) ? madridData : []);
+        }
+         else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
         }
         setTableVisible(true);

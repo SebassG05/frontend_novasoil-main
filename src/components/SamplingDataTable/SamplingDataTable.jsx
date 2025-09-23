@@ -37,6 +37,12 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
     ) && (
       sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined
     );
+    // Detectar si es Madrid por los headers del CSV
+    const isMadrid = sampleData.length > 0 && (
+      (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined) &&
+      (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
+      (sampleData[0]['Longitude'] !== undefined || sampleData[0]['longitude'] !== undefined)
+    );
     let csvContent;
     if (isGermany) {
       const germanyHeaders = [
@@ -101,7 +107,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
         )
       ].join('\n');
     } else if (isLetonia) {
-      // Letonia: usar los headers originales del CSV fuente
+      // ...código Letonia...
       const letoniaHeaders = [
         'Case Study ID','Coord (Lat & Long)','Soil sampling ID','Soil sampling date','Soil sample depth','Nitrates (mg/Kg)','Total Cadmium (mg/Kg)','Total Aluminum (Al) mg/kg','Total Lead (Pb) mg/kg','Total Zinc (Zn) mg/kg','Sulfur (S) mg/kg','Nitrogen (N) %','Phosphorus mg/kg','Potassium (K) mg/kg','Magnesium (Mg) mg/kg','Calcium (Ca) mg/kg','Sodium mg/kg','Boron (B) mg/kg','Iron (Fe) mg/kg','Copper (Cu) mg/kg','Zinc (Zn) mg/kg','Manganese (Mn) mg/kg','pH','Electrical Conductivity (µS/cm)','Organic Matter (%w/w)','Organic Carbon (mg/ha)','C/N','Active Lime (% w/w)','Carbonates (%)','USDA Classification (units)','Clay %','Silt %','Sand %','C.I.C (mEq/100g)','P.S.I (% Exchangeable Sodium)','Field Capacity (% w/w)','Wilting Point (% w/w)','Available Water (% w/w)','% Base Saturation (% w/w)','Bulk Density (g/cc of soil)','Water Volume per Ha (m3 /Ha)','Saprophytes','Anguina spp','Aphelenchoides spp','Aphelenchus spp','Belonolaimus spp','Criconema spp','Criconemoides spp','Ditylenchus spp','Globodera spp','Helicotylenchus spp','Hemicotylenchus spp','Hemicyclophora spp','Heterodera spp','Hoplolaimus spp','Longidorus spp','Meloidogyne spp','Paratylenchus spp','Pratylenchus spp','Radopholus spp','Rotylenchulus spp','Trichodorus spp','Tylenchulus spp','Tylenchus spp','Tylencorhynchus spp','Xiphinema spp','Aureobasidium sp','Aspergillus sp','Penicillium sp.','Mortierella sp.','Chaetomium sp.','Paecilomyces sp.','Thichoderma sp.','Didymellaceae','Epicoccum sp.','Septoria sp.','Cladosporium sp.','Fusarium sp.','Mucorales','Phytaceas (Phytopthora) ','Acremonium','Myrothecium','Humicola','Helminthosporium sp.'
       ];
@@ -109,6 +115,15 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
         letoniaHeaders.join(','),
         ...sampleData.map(sample =>
           letoniaHeaders.map(h => sample[h] !== undefined ? sample[h] : sample[h.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase()] || '').join(',')
+        )
+      ].join('\n');
+    } else if (isMadrid) {
+      // Madrid: usar los headers originales del CSV fuente
+      const madridHeaders = ['Case Study ID','Latitude','Longitude'];
+      csvContent = [
+        madridHeaders.join(','),
+        ...sampleData.map(sample =>
+          madridHeaders.map(h => sample[h] !== undefined ? sample[h] : sample[h.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase()] || '').join(',')
         )
       ].join('\n');
     } else {
@@ -178,15 +193,24 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
 
   // Generar columnas dinámicas
   // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id'
-  const isGermany = allKeys.includes('co2_land_novasoil_id');
-  // Detectar si es Bulgaria por la presencia de columnas típicas de Bulgaria
-  const isBulgaria = allKeys.includes('soil_name_bg_classification') || allKeys.includes('soil_name_wrb_2014');
-  const visibleColumns = allKeys
-    .filter(key =>
-      sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
-      (!isGermany || !hiddenGermanyColumns.includes(key))
-    )
-    .map(key => ({ key, label: key }));
+  const isGermanyTable = allKeys.includes('co2_land_novasoil_id');
+  const isBulgariaTable = allKeys.includes('soil_name_bg_classification') || allKeys.includes('soil_name_wrb_2014');
+  const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
+  let visibleColumns;
+  if (isMadridTable) {
+    visibleColumns = [
+      { key: 'Case Study ID', label: 'Case Study ID' },
+      { key: 'Latitude', label: 'Latitude' },
+      { key: 'Longitude', label: 'Longitude' }
+    ];
+  } else {
+    visibleColumns = allKeys
+      .filter(key =>
+        sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
+        (!isGermanyTable || !hiddenGermanyColumns.includes(key))
+      )
+      .map(key => ({ key, label: key }));
+  }
 
   // Preprocesar sampleData para coordX/coordY si existen
   const processedData = sampleData.map(sample => {
@@ -253,7 +277,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               <span className={styles.statLabel}>Samples</span>
             </div>
             {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria o Estonia */}
-            {!(isGermany || isBulgaria || (sampleData.length > 0 && (sampleData[0].case_study_id !== undefined || sampleData[0]['case_study_id'] !== undefined))) && (
+            {!(isGermanyTable || isBulgariaTable || (sampleData.length > 0 && (sampleData[0].case_study_id !== undefined || sampleData[0]['case_study_id'] !== undefined))) && (
               <>
                 <div className={styles.statItem}>
                   <span className={styles.statNumber}>{cheSamples}</span>

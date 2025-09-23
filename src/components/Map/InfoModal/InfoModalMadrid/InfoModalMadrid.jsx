@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './InfoModal.module.css';
-import ImageCarouselMdrid from './ImageCarouselMadrid';
+import ImageCarouselMadrid from './ImageCarouselMadrid';
 
 const InfoModalMadrid = ({ visible, onClose, isClosing, children, onCloseAll }) => {
   if (!visible) return null;
@@ -12,7 +12,7 @@ const InfoModalMadrid = ({ visible, onClose, isClosing, children, onCloseAll }) 
           <h1 className={styles.modalTitle}>Madrid (METK): Integrated Production</h1>
         </div>
         <div className={styles.content}>
-          <ImageCarouselMdrid onCloseAll={onCloseAll} />
+          <ImageCarouselMadrid onCloseAll={onCloseAll} />
           {children}
         </div>
         <div className={styles.companyLogo}>

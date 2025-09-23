@@ -16,6 +16,7 @@ export const useGeoData = () => {
         samplingDataBulgaria,
         samplingDataEstonia,
         samplingDataLetonia,
+        samplingDataMadrid,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -26,12 +27,36 @@ export const useGeoData = () => {
         setSamplingDataBulgaria,
         setSamplingDataEstonia,
         setSamplingDataLetonia,
+        setSamplingDataMadrid,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
         setIsChangingStyle,
         clearGeoData
     } = useMapStore();
+
+    /**
+     * Carga los datos de muestreo de Madrid y añade la capa al mapa
+     */
+    const loadMadridData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const madridData = await geoDataService.makeRequest('/sampling/madrid');
+            setSamplingDataMadrid(madridData.data);
+            // Si tienes una función para añadir la capa de Madrid, agrégala aquí
+            if (map && madridData.data && madridData.data.length > 0) {
+                if (mapLayerService.addMadridSamplingPointsLayer) {
+                    mapLayerService.addMadridSamplingPointsLayer(map, madridData.data);
+                }
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
     /**
      * Carga los datos de muestreo de Letonia y añade la capa al mapa
      */
@@ -334,10 +359,11 @@ export const useGeoData = () => {
         // Funciones
         loadGeoData,
         reloadGeoData,
-        loadGermanyData,
-        loadBulgariaData,
-        loadEstoniaData,
-        loadLetoniaData,
+    loadGermanyData,
+    loadBulgariaData,
+    loadEstoniaData,
+    loadLetoniaData,
+    loadMadridData,
         toggleLayerVisibility,
         focusOnSample,
         getSamplingStats
