@@ -12,14 +12,16 @@ class MapLayerService {
             SAMPLING_LABELS: 'sampling-labels-layer',
             GERMANY_POINTS: 'germany-sampling-points-layer',
             BULGARIA_POINTS: 'bulgaria-sampling-points-layer', // Nueva capa para Bulgaria
-            ESTONIA_POINTS: 'estonia-sampling-points-layer' // Nueva capa para Estonia
+            ESTONIA_POINTS: 'estonia-sampling-points-layer', // Nueva capa para Estonia
+            LETONIA_POINTS: 'letonia-sampling-points-layer' // Nueva capa para Letonia
         };
         this.SOURCE_IDS = {
             SHAPEFILE: 'shapefile-source',
             SAMPLING: 'sampling-source', // Sevilla
             GERMANY: 'germany-sampling-source',
             BULGARIA: 'bulgaria-sampling-source', // Nueva fuente para Bulgaria
-            ESTONIA: 'estonia-sampling-source' // Nueva fuente para Estonia
+            ESTONIA: 'estonia-sampling-source', // Nueva fuente para Estonia
+            LETONIA: 'letonia-sampling-source' // Nueva fuente para Letonia
         };
     }
 
@@ -50,6 +52,102 @@ class MapLayerService {
      * Añade los puntos de muestreo de Alemania como capa al mapa (color amarillo)
      */
 
+    addLetoniaSamplingPointsLayer(map, letoniaData) {
+        // Ocultar hover al hacer click en un punto de Letonia
+        map.on('click', this.LAYER_IDS.LETONIA_POINTS, () => {
+            window.setHoveredSample && window.setHoveredSample(null);
+        });
+        try {
+            console.log('[Letonia] Intentando añadir capa de puntos de muestreo...');
+            if (!map) {
+                console.error('[Letonia] El objeto map no está disponible');
+                return;
+            }
+            // Remove only Letonia layer/source
+            if (map.getLayer(this.LAYER_IDS.LETONIA_POINTS)) {
+                map.removeLayer(this.LAYER_IDS.LETONIA_POINTS);
+            }
+            if (map.getSource(this.SOURCE_IDS.LETONIA)) {
+                map.removeSource(this.SOURCE_IDS.LETONIA);
+            }
+            let geojsonData;
+            console.log('[Letonia] Datos recibidos:', letoniaData);
+            if (letoniaData && Array.isArray(letoniaData)) {
+                geojsonData = {
+                    type: 'FeatureCollection',
+                    features: letoniaData.map(row => {
+                        const lat = parseFloat(row.lat);
+                        const lon = parseFloat(row.lon);
+                        console.log('[Letonia][DEBUG] row:', row);
+                        console.log(`[Letonia][DEBUG] lat: ${lat}, lon: ${lon}`);
+                        if (!isNaN(lat) && !isNaN(lon)) {
+                            const feature = {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [lon, lat]
+                                },
+                                properties: row
+                            };
+                            console.log('[Letonia][DEBUG] GeoJSON feature:', feature);
+                            return feature;
+                        }
+                        return null;
+                    }).filter(f => f !== null)
+                };
+            } else {
+                geojsonData = letoniaData;
+            }
+            console.log('[Letonia] GeoJSON generado:', geojsonData);
+            if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+                console.warn('[Letonia] No hay datos válidos para los puntos de muestreo de Letonia');
+                return;
+            }
+            map.addSource(this.SOURCE_IDS.LETONIA, {
+                type: 'geojson',
+                data: geojsonData
+            });
+            map.addLayer({
+                id: this.LAYER_IDS.LETONIA_POINTS,
+                type: 'circle',
+                source: this.SOURCE_IDS.LETONIA,
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        6, 4,
+                        10, 6,
+                        15, 12,
+                        20, 20
+                    ],
+                    'circle-color': '#9E1B34', // Rojo
+                    'circle-stroke-color': '#fff',
+                    'circle-stroke-width': 2,
+                    'circle-opacity': 0.85
+                },
+                layout: {
+                    'visibility': 'visible'
+                },
+                minzoom: 6
+            });
+            // Interacción: mostrar tooltip al pasar el ratón por los puntos de Letonia
+            map.on('mouseenter', this.LAYER_IDS.LETONIA_POINTS, (e) => {
+                map.getCanvas().style.cursor = 'pointer';
+                if (e.features.length > 0 && window.setHoveredSample) {
+                    const feature = e.features[0];
+                    window.setHoveredSample({ ...feature.properties, _letonia: true });
+                }
+            });
+            map.on('mouseleave', this.LAYER_IDS.LETONIA_POINTS, () => {
+                map.getCanvas().style.cursor = '';
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
+            console.log('[Letonia] Capa de puntos de Letonia añadida correctamente');
+        } catch (error) {
+            console.error('[Letonia] Error añadiendo capa de puntos de muestreo de Letonia:', error);
+        }
+    }
 
     addEstoniaSamplingPointsLayer(map, estoniaData) {
             // Ocultar hover al hacer click en un punto de Estonia
