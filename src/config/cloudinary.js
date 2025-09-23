@@ -1,3 +1,37 @@
+// Carousel images for Madrid
+export const CAROUSEL_IMAGES_MADRID = [
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622194/San_Jose_kokx7j.jpg`,
+    title: "Madrid Soil Analysis 1",
+    description: "Análisis de suelo y materia orgánica en Madrid."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622206/Panadero_bytxc6.jpg`,
+    title: "Madrid Soil Analysis 2",
+    description: "Muestreo y análisis de nutrientes en suelos de Madrid."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622215/Pastoriega_nyapkk.jpg`,
+    title: "Madrid Soil Analysis 3",
+    description: "Estudio de textura y capacidad hídrica en suelos de Madrid."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622223/Pirri_qoyagl.jpg`,
+    title: "Madrid Soil Analysis 4",
+    description: "Evaluación de biodiversidad microbiana en suelos agrícolas."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622233/Mirador_fvkymd.jpg`,
+    title: "Madrid Soil Analysis 5",
+    description: "Medición de carbono orgánico y suelos saludables."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622241/Rodangosto_eccygr.jpg`,
+    title: "Madrid Soil Analysis 6",
+    description: "Análisis integral de suelos en viñedos orgánicos."
+  }
+
+];
 // Configuración de Cloudinary para el proyecto NovasoiL
 // Reemplaza 'your-cloud-name' con tu nombre de cloud real de Cloudinary
 
