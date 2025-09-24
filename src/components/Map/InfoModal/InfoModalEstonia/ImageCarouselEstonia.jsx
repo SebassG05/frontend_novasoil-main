@@ -84,34 +84,85 @@ const ImageCarousel = ({ onCloseAll }) => {
 
   return (
     <div className={styles.carouselContainer}>
-      {/* Logos/Imágenes arriba del carrusel */}
-      <div className={styles.logosContainer}>
-        <div className={styles.logoItem}>
-          <img 
-            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757581496/unnamed-removebg-preview_3_umuxjr.png"
-            alt="Logo 1"
-            className={styles.logoImage}
-          />
+        <div className={styles.logosContainer}>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757581496/unnamed-removebg-preview_3_umuxjr.png"
+          alt="Logo 1"
+          className={styles.logoImage}
+            />
+          </div>
         </div>
-      </div>
+        <div className={styles.logosContainer}>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585769/unnamed-removebg-preview_5_mf8cuf.png"
+          alt="Logo 2"
+          className={styles.logoImage}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757588087/unnamed-removebg-preview_14_wvmi00.png"
+          alt="Logo 3"
+          className={styles.logoImage}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586023/unnamed-removebg-preview_8_srp4yt.png"
+          alt="Logo 4"
+          className={styles.logoImage}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585933/unnamed-removebg-preview_7_wtiibk.png"
+          alt="Logo 5"
+          className={styles.logoImage}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585860/unnamed-removebg-preview_6_gm4mwz.png"
+          alt="Logo 6"
+          className={styles.logoImage}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587209/unnamed-removebg-preview_12_xhci7y.png"
+          alt="Logo 7"
+          className={styles.logoImage}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <img 
+          src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758719192/unnamed-removebg-preview_16_xvoopi.png"
+          alt="Logo 8"
+          className={styles.logoImage}
+            />
+          </div>
+          
+        </div>
 
-      <div className={styles.carousel}>
-        <div 
-          ref={trackRef}
-          className={styles.carouselTrack}
-          style={{ 
-            width: `${images.length * 100}%`,
-            transform: `translateX(-${currentSlide * (100 / images.length)}%)`
-          }}
-        >
-          {images.map((image, index) => (
-            <div key={`${index}-${image.title}`} className={styles.slide} style={{ width: `${100 / images.length}%` }}>
-              <div className={styles.imageContainer}>
-                <img 
-                  src={image.url} 
-                  alt={image.title}
-                  className={styles.image}
-                  onError={(e) => {
+        <div className={styles.carousel}>
+          <div 
+            ref={trackRef}
+            className={styles.carouselTrack}
+            style={{ 
+          width: `${images.length * 100}%`,
+          transform: `translateX(-${currentSlide * (100 / images.length)}%)`
+            }}
+          >
+            {images.map((image, index) => (
+          <div key={`${index}-${image.title}`} className={styles.slide} style={{ width: `${100 / images.length}%` }}>
+            <div className={styles.imageContainer}>
+              <img 
+            src={image.url} 
+            alt={image.title}
+            className={styles.image}
+            onError={(e) => {
                     // Si falla la imagen de Cloudinary, cambiar a fallback
                     if (!usesFallback) {
                       setUsesFallback(true);

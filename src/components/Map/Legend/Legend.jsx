@@ -228,6 +228,14 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
                   />
                   <span className={styles.imageLabel}>Resilience to natural hazards</span>
                 </div>
+                <div className={styles.imageItem}>
+                  <img 
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758719192/unnamed-removebg-preview_16_xvoopi.png" 
+                    alt="Quality & Security Products"
+                    className={styles.businessImage}
+                  />
+                  <span className={styles.imageLabel}>Quality & Security Products</span>
+                </div>
               </div>
             </div>
           </>
