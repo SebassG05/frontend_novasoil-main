@@ -7,6 +7,24 @@ import mapLayerService from '../services/geospatial/mapLayerService';
  * Hook personalizado para manejar la carga y gestión de datos geoespaciales
  */
 export const useGeoData = () => {
+    /**
+     * Carga el recinto (polígono) de Madrid y lo añade al mapa
+     */
+    const loadMadridArea = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const madridGeojson = await geoDataService.getMadridShapefile();
+            setShapefileData(madridGeojson);
+            if (map && madridGeojson) {
+                mapLayerService.addMadridShapefileLayer(map, madridGeojson);
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
     const {
         map,
         isLoaded,
@@ -36,6 +54,7 @@ export const useGeoData = () => {
     } = useMapStore();
 
     /**
+            loadMadridArea,
      * Carga los datos de muestreo de Madrid y añade la capa al mapa
      */
     const loadMadridData = async () => {
@@ -249,17 +268,12 @@ export const useGeoData = () => {
 
     // Efecto para cargar los datos cuando el mapa esté listo
     useEffect(() => {
-        if (map && isLoaded && !shapefileData && !samplingData && !isLoadingGeoData) {
+        if (map && isLoaded && !isLoadingGeoData) {
             loadGeoData();
-            // Cargar y mostrar puntos de Alemania
             loadGermanyData();
-            // Cargar y mostrar puntos de Bulgaria
             loadBulgariaData();
-            // Cargar y mostrar puntos de Estonia
             loadEstoniaData();
-            // Cargar y mostrar puntos de Letonia
             loadLetoniaData();
-            // Cargar y mostrar puntos de Madrid
             loadMadridData();
         }
     }, [map, isLoaded]);
@@ -371,11 +385,12 @@ export const useGeoData = () => {
         // Funciones
         loadGeoData,
         reloadGeoData,
-    loadGermanyData,
-    loadBulgariaData,
-    loadEstoniaData,
-    loadLetoniaData,
-    loadMadridData,
+        loadGermanyData,
+        loadBulgariaData,
+        loadEstoniaData,
+        loadLetoniaData,
+        loadMadridData,
+        loadMadridArea, // <-- Añadido para exponer la función
         toggleLayerVisibility,
         focusOnSample,
         getSamplingStats

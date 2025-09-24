@@ -6,6 +6,18 @@ const API_BASE_URL = 'http://localhost:3000/api/geo';
  */
 class GeoDataService {
     /**
+     * Obtiene el shapefile de Madrid en formato GeoJSON
+     */
+    async getMadridShapefile() {
+        try {
+            const response = await this.makeRequest('/shapefile?area=madrid');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo shapefile de Madrid:', error);
+            throw error;
+        }
+    }
+    /**
      * Realiza una petición HTTP al backend
      */
     async makeRequest(endpoint, options = {}) {

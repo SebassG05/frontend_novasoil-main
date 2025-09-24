@@ -4,6 +4,33 @@ import mapboxgl from 'mapbox-gl';
  * Servicio para manejar las capas del mapa de Mapbox
  */
 class MapLayerService {
+    /**
+     * Añade el polígono del recinto de Madrid al mapa
+     */
+    addMadridShapefileLayer(map, geojson) {
+        if (!map || !geojson) return;
+        // Eliminar capa y fuente anteriores si existen
+        if (map.getLayer('madrid-shapefile-layer')) {
+            map.removeLayer('madrid-shapefile-layer');
+        }
+        if (map.getSource('madrid-shapefile-source')) {
+            map.removeSource('madrid-shapefile-source');
+        }
+        map.addSource('madrid-shapefile-source', {
+            type: 'geojson',
+            data: geojson
+        });
+        map.addLayer({
+            id: 'madrid-shapefile-layer',
+            type: 'fill',
+            source: 'madrid-shapefile-source',
+            paint: {
+                'fill-color': '#9E1B34', // Rojo oscuro
+                'fill-opacity': 0.25,
+                'fill-outline-color': '#9E1B34'
+            }
+        });
+    }
     constructor() {
         this.LAYER_IDS = {
             SHAPEFILE: 'shapefile-layer',
@@ -74,16 +101,31 @@ class MapLayerService {
             }
             let geojsonData;
             console.log('[Madrid] Datos recibidos:', madridData);
-            if (madridData && Array.isArray(madridData)) {
-                geojsonData = {
-                    type: 'FeatureCollection',
-                    features: madridData.map(row => {
-                        const lat = parseFloat(row.lat);
-                        const lon = parseFloat(row.lon);
-                        console.log('[Madrid][DEBUG] row:', row);
-                        console.log(`[Madrid][DEBUG] lat: ${lat}, lon: ${lon}`);
-                        if (!isNaN(lat) && !isNaN(lon)) {
-                            const feature = {
+                if (madridData && Array.isArray(madridData)) {
+                    geojsonData = {
+                        type: 'FeatureCollection',
+                        features: madridData.map(row => {
+                            // Soportar tanto lat/lon como Latitude/Longitude
+                            let lat = parseFloat(row.lat);
+                            let lon = parseFloat(row.lon);
+                            let motivo = '';
+                            if (isNaN(lat) || isNaN(lon)) {
+                                lat = parseFloat(row.Latitude);
+                                lon = parseFloat(row.Longitude);
+                                if (isNaN(lat) || isNaN(lon)) {
+                                    motivo = `No se pudo parsear lat/lon ni Latitude/Longitude. lat: ${row.lat}, lon: ${row.lon}, Latitude: ${row.Latitude}, Longitude: ${row.Longitude}`;
+                                }
+                            }
+                            if (isNaN(lat) || isNaN(lon)) {
+                                console.warn('[Madrid][DESCARTADO] Punto con coordenadas inválidas:', row, 'Motivo:', motivo);
+                                return null;
+                            }
+                            // Verificar rango de coordenadas (España: lat ~36-44, lon ~-10 a 4)
+                            if (lat < 36 || lat > 44 || lon < -10 || lon > 4) {
+                                console.warn('[Madrid][DESCARTADO] Coordenadas fuera de rango esperado:', row, `lat: ${lat}, lon: ${lon}`);
+                                return null;
+                            }
+                            return {
                                 type: 'Feature',
                                 geometry: {
                                     type: 'Point',
@@ -91,12 +133,8 @@ class MapLayerService {
                                 },
                                 properties: row
                             };
-                            console.log('[Madrid][DEBUG] GeoJSON feature:', feature);
-                            return feature;
-                        }
-                        return null;
-                    }).filter(f => f !== null)
-                };
+                        }).filter(f => f !== null)
+                    };
             } else {
                 geojsonData = madridData;
             }

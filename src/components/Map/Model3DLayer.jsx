@@ -18,7 +18,7 @@ import { create } from 'zustand';
 
 const Model3DLayer = () => {
   const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData } = useGeoData();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadMadridArea } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -108,10 +108,11 @@ const Model3DLayer = () => {
   useEffect(() => {
     if (!map) return;
 
-    // Cargar automáticamente los puntos de muestreo de Letonia y Estonia al iniciar el mapa
+    // Cargar automáticamente los puntos de muestreo y el shape de Madrid al iniciar el mapa
     loadLetoniaData();
     loadEstoniaData();
     loadMadridData();
+    loadMadridArea(); // <-- Mostrar el shape de Madrid
 
     // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
     const coordinates = [-5.911, 37.406];
