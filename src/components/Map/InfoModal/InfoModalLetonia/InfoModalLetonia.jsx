@@ -17,8 +17,8 @@ const InfoModalLetonia = ({ visible, onClose, isClosing, children, onCloseAll })
         </div>
         <div className={styles.companyLogo}>
                   <img 
-                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
-                    alt="Evenor-Tech"
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758716919/17_ZS-removebg-preview_au5s3b.png"
+                    alt="ZEMNIEKU SAEIMA"
                     className={styles.companyLogoImage}
                   />
                 </div>

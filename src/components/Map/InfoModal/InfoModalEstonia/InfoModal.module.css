@@ -155,7 +155,7 @@
 }
 
 .companyLogoImage {
-  height: 50px;
+  height: 100px;
   width: auto;
   opacity: 0.8;
   transition: opacity 0.3s ease;

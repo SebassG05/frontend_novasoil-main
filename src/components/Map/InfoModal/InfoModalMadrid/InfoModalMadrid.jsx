@@ -17,8 +17,8 @@ const InfoModalMadrid = ({ visible, onClose, isClosing, children, onCloseAll }) 
         </div>
         <div className={styles.companyLogo}>
                   <img 
-                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
-                    alt="Evenor-Tech"
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758717364/LOGOTIPO_leyenda_color_JPG-removebg-preview_vfs7pb.png"
+                    alt="UPM"
                     className={styles.companyLogoImage}
                   />
                 </div>

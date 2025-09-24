@@ -18,8 +18,8 @@ const InfoModalYellow = ({ visible, onClose, isClosing, children, onCloseAll }) 
         </div>
         <div className={styles.companyLogo}>
                   <img 
-                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
-                    alt="Evenor-Tech"
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758717260/DWIH-Coffee-Talk_Teaserbild-954x537-1-removebg-preview_f5aufu.png"
+                    alt="TUM"
                     className={styles.companyLogoImage}
                   />
                 </div>

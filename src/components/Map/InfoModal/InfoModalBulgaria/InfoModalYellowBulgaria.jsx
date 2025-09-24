@@ -17,8 +17,8 @@ const InfoModalYellowBulgaria = ({ visible, onClose, isClosing, children, onClos
         </div>
         <div className={styles.companyLogo}>
                   <img 
-                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
-                    alt="Evenor-Tech"
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758717116/nbu-removebg-preview_w7pt58.png"
+                    alt="NBU"
                     className={styles.companyLogoImage}
                   />
                 </div>

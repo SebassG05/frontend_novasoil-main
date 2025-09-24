@@ -17,8 +17,8 @@ const InfoModalEstonia = ({ visible, onClose, isClosing, children, onCloseAll })
         </div>
         <div className={styles.companyLogo}>
                   <img 
-                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
-                    alt="Evenor-Tech"
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758716358/METK_logo_2x-removebg-preview_nzxz7f.png"
+                    alt="METK"
                     className={styles.companyLogoImage}
                   />
                 </div>
