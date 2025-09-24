@@ -24,6 +24,7 @@ function parseWMSLayers(xmlString) {
         }
     }
     return layers;
+
 }
 
 // Diccionario de nombres amigables para sublayers
@@ -109,22 +110,7 @@ const FloatingMenu = () => {
         return initial;
     });
     // Sincronizar opacidades si cambian las capas
-    useEffect(() => {
-        setWmsOpacities(prev => {
-            const updated = { ...prev };
-            wmsLayersForLegend.forEach(l => {
-                if (updated[l.name] === undefined) updated[l.name] = 1;
-            });
-            // Eliminar opacidades de capas que ya no están
-            Object.keys(updated).forEach(k => {
-                if (!wmsLayersForLegend.find(l => l.name === k)) delete updated[k];
-            });
-            // Actualizar global y emitir evento
-            window.wmsOpacities = updated;
-            window.dispatchEvent(new Event('wmsOpacitiesChanged'));
-            return updated;
-        });
-    }, [wmsLayersForLegend]);
+
     // Cambiar opacidad de la capa en el mapa (0 = transparente, 1 = opaco)
     const handleOpacityChange = (layerName, value) => {
         setWmsOpacities(prev => {
@@ -609,11 +595,33 @@ const FloatingMenu = () => {
                                                         <button
                                                             className="w-full text-left px-4 py-2 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-orange-800 font-medium shadow-sm transition-all duration-200"
                                                             onClick={async () => {
+                                                                const map = window?.mapboxMap || useMapStore.getState().map;
+                                                                if (sublayer.name === 'ph_raster') {
+                                                                    if (!map.getSource('ph')) {
+                                                                        map.addSource('ph', {
+                                                                            type: 'raster',
+                                                                            tiles: [
+                                                                                'http://192.168.0.99:8080/geoserver/gwc/service/tms/1.0.0/med:pH_KCl_d_0_5_QRF_PI90@EPSG%3A900913@png/{z}/{x}/{y}.png'
+                                                                            ],
+                                                                            tileSize: 256,
+                                                                            scheme: 'tms'
+                                                                        });
+                                                                        map.addLayer({
+                                                                            id: 'ph-layer',
+                                                                            type: 'raster',
+                                                                            source: 'ph',
+                                                                            paint: { 'raster-opacity': 1 }
+                                                                        });
+                                                                    } else {
+                                                                        map.setLayoutProperty('ph-layer', 'visibility', 'visible');
+                                                                    }
+                                                                    // No hacer zoom, solo mostrar la capa
+                                                                    return;
+                                                                }
                                                                 try {
                                                                     const { fetchHolandaGeojsonZip } = await import('../../services/geospatial/holandaGeojsonService');
                                                                     const geojson = await fetchHolandaGeojsonZip();
-                                                                    const map = window?.mapboxMap || useMapStore.getState().map;
-                                                                    // Mapeo de valores a colores según SLD
+                                                                    // ...resto del código para otros sublayers...
                                                                     const pedologicalinterestColors = {
                                                                         'Water': '#D3FEFE',
                                                                         'Moeras': '#D3FEFE',
@@ -629,27 +637,20 @@ const FloatingMenu = () => {
                                                                         'Sterk opgehoogd terrein': '#FFFFFF',
                                                                         'Met huisvuil opgehoogde gronden': '#D3D3A7',
                                                                     };
-                                                                                                                                        // Colores para los códigos de Holanda importados del SLD
-                                                                                                                                        // Usar firstSoilcodeColors importado de holandaLegend.js
-                                                                                                                                        // Si quieres mostrar el nombre en un popup o tooltip, puedes usar holandaLegend[code]
-                                                                    // Expresión Mapbox para fill-color
                                                                     const fillColorExpression = [
                                                                         'case',
-                                                                        // Por pedologicalinterest
                                                                         ['has', 'pedologicalinterest'],
                                                                         [
                                                                             'match',
                                                                             ['get', 'pedologicalinterest'],
                                                                             ...Object.entries(pedologicalinterestColors).flat(),
-                                                                            // Si no hay match, probar con first_soilcode
                                                                             [
                                                                                 'match',
                                                                                 ['get', 'first_soilcode'],
                                                                                 ...Object.entries(firstSoilcodeColors).flat(),
-                                                                                '#cccccc' // color por defecto
+                                                                                '#cccccc'
                                                                             ]
                                                                         ],
-                                                                        // Si no tiene pedologicalinterest, usar first_soilcode
                                                                         [
                                                                             'match',
                                                                             ['get', 'first_soilcode'],
