@@ -92,8 +92,6 @@ const ImageCarousel = ({ onCloseAll }) => {
           className={styles.logoImage}
             />
           </div>
-        </div>
-        <div className={styles.logosContainer}>
           <div className={styles.logoItem}>
             <img 
           src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585769/unnamed-removebg-preview_5_mf8cuf.png"
