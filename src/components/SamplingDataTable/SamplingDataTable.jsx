@@ -19,10 +19,22 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   // Usar datos por props si existen, si no usar array vacío
   const sampleData = Array.isArray(data) && data.length > 0 ? data : [];
 
+
   // Calcular estadísticas
   const totalSamples = sampleData.length;
   const cheSamples = sampleData.filter(sample => sample.type === 'CHE').length;
   const chebioSamples = sampleData.filter(sample => sample.type === 'CHEBIO').length;
+
+  // Detectar Letonia (igual que en exportToCSV)
+  const isMadrid = sampleData.length > 0 && (
+    (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined) &&
+    (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
+    (sampleData[0]['Longitude'] !== undefined || sampleData[0]['longitude'] !== undefined)
+  );
+  const isLetonia = sampleData.length > 0 && !isMadrid && (
+    (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
+    (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
+  );
 
   // Función para exportar datos a CSV
   const exportToCSV = () => {
@@ -278,8 +290,8 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               <span className={styles.statNumber}>{totalSamples}</span>
               <span className={styles.statLabel}>Samples</span>
             </div>
-            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria, Estonia o Madrid */}
-            {!(isGermanyTable || isBulgariaTable || isMadridTable) && (
+            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria, Estonia, Madrid o Letonia */}
+            {!(isGermanyTable || isBulgariaTable || isMadridTable || isLetonia) && (
               <>
                 <div className={styles.statItem}>
                   <span className={styles.statNumber}>{cheSamples}</span>
