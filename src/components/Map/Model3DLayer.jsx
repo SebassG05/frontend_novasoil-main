@@ -24,13 +24,8 @@ const Model3DLayer = () => {
     model3D: null,
     currentZoom: 0
   });
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalYellowVisible, setModalYellowVisible] = useState(false);
+  const [openModal, setOpenModal] = useState(null); // null | 'tamarguillo' | 'yellow' | 'bulgaria' | 'estonia' | 'letonia' | 'madrid'
   const [legendVisible, setLegendVisible] = useState(false);
-  const [modalBulgariaVisible, setModalBulgariaVisible] = useState(false);
-  const [modalEstoniaVisible, setModalEstoniaVisible] = useState(false);
-  const [modalLetoniaVisible, setModalLetoniaVisible] = useState(false);
-  const [modalMadridVisible, setModalMadridVisible] = useState(false);
   const [tableVisible, setTableVisible] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
@@ -41,10 +36,8 @@ const Model3DLayer = () => {
   const closeModalAndLegend = (showTable = false) => {
     setIsClosing(true);
     setTimeout(async () => {
-      setModalVisible(false);
-      setModalYellowVisible(false);
-      setLegendVisible(false);
-      setModalBulgariaVisible(false);
+  setOpenModal(null);
+  setLegendVisible(false);
       setIsClosing(false);
       setTimeout(async () => {
         if (showTable === true) {
@@ -208,10 +201,10 @@ const Model3DLayer = () => {
     createPulseLayer('marker', '#ff0000', coordinates, pulseTimers);
     // Evento click
     map.on('click', 'marker-circle', () => {
-      setModalVisible(true);
-      setLegendVisible(true);
-      setSelectedAreaName('Limits of Tamarguillo Park');
-      useMapStore.getState().setHoveredSample(null);
+  setOpenModal('tamarguillo');
+  setLegendVisible(true);
+  setSelectedAreaName('Limits of Tamarguillo Park');
+  useMapStore.getState().setHoveredSample(null);
     });
     return true;
   };
@@ -225,10 +218,10 @@ const Model3DLayer = () => {
     }
     createPulseLayer('yellow-marker', '#FFD600', yellowCoordinates, pulseTimers);
     map.on('click', 'yellow-marker-circle', () => {
-      setModalYellowVisible(true);
-      setLegendVisible(true);
-      setSelectedAreaName('Area study Germany');
-      useMapStore.getState().setHoveredSample(null);
+  setOpenModal('yellow');
+  setLegendVisible(true);
+  setSelectedAreaName('Area study Germany');
+  useMapStore.getState().setHoveredSample(null);
     });
     return true;
   };
@@ -241,10 +234,10 @@ const Model3DLayer = () => {
     }
     createPulseLayer('madrid-marker', '#9E1B34', madridCoordinates, pulseTimers);
     map.on('click', 'madrid-marker-circle', (e) => {
-      setLegendVisible(true);
-      setModalMadridVisible && setModalMadridVisible(true);
-      setSelectedAreaName('Case study Madrid');
-      useMapStore.getState().setHoveredSample(null);
+  setLegendVisible(true);
+  setOpenModal('madrid');
+  setSelectedAreaName('Case study Madrid');
+  useMapStore.getState().setHoveredSample(null);
     });
     return true;
   };
@@ -257,10 +250,10 @@ const Model3DLayer = () => {
     }
     createPulseLayer('letonia-marker', '#9E1B34', letoniaCoordinates, pulseTimers);
     map.on('click', 'letonia-marker-circle', (e) => {
-      setLegendVisible(true);
-      setModalLetoniaVisible && setModalLetoniaVisible(true);
-      setSelectedAreaName('Case study Letonia');
-      useMapStore.getState().setHoveredSample(null);
+  setLegendVisible(true);
+  setOpenModal('letonia');
+  setSelectedAreaName('Case study Letonia');
+  useMapStore.getState().setHoveredSample(null);
     });
     return true;
   };
@@ -274,10 +267,10 @@ const Model3DLayer = () => {
     }
     createPulseLayer('estonia-marker', '#0072CE', estoniaCoordinates, pulseTimers);
     map.on('click', 'estonia-marker-circle', (e) => {
-      setLegendVisible(true);
-      setModalEstoniaVisible && setModalEstoniaVisible(true);
-      setSelectedAreaName('Case study Estonia');
-      useMapStore.getState().setHoveredSample(null);
+  setLegendVisible(true);
+  setOpenModal('estonia');
+  setSelectedAreaName('Case study Estonia');
+  useMapStore.getState().setHoveredSample(null);
     });
     return true;
   };
@@ -291,10 +284,10 @@ const Model3DLayer = () => {
     }
     createPulseLayer('bulgaria-marker', '#43a047', bulgariaCoordinates, pulseTimers);
     map.on('click', 'bulgaria-marker-circle', (e) => {
-      setLegendVisible(true);
-      setModalBulgariaVisible(true);
-      setSelectedAreaName('Case study Bulgaria');
-      useMapStore.getState().setHoveredSample(null);
+  setLegendVisible(true);
+  setOpenModal('bulgaria');
+  setSelectedAreaName('Case study Bulgaria');
+  useMapStore.getState().setHoveredSample(null);
     });
     return true;
   };
@@ -473,8 +466,8 @@ const Model3DLayer = () => {
   return (
     <>
       <InfoModal 
-        visible={modalVisible} 
-        onClose={() => setModalVisible(false)}
+        visible={openModal === 'tamarguillo'} 
+        onClose={() => setOpenModal(null)}
         isClosing={isClosing}
       >
         <div className={styles.modalHeader}>
@@ -484,47 +477,46 @@ const Model3DLayer = () => {
         <ImageCarousel onCloseAll={closeModalAndLegend} />
       </InfoModal>
       <InfoModalMadrid
-        visible={modalMadridVisible}
-        onClose={() => setModalMadridVisible(false)}
+        visible={openModal === 'madrid'}
+        onClose={() => setOpenModal(null)}
         isClosing={isClosing}
         onCloseAll={() => {
-          setModalMadridVisible(false);
+          setOpenModal(null);
           closeModalAndLegend('madrid');
         }}
       />
       <InfoModalLetonia
-        visible={modalLetoniaVisible}
-        onClose={() => setModalLetoniaVisible(false)}
+        visible={openModal === 'letonia'}
+        onClose={() => setOpenModal(null)}
         isClosing={isClosing}
         onCloseAll={() => {
-          setModalLetoniaVisible(false);
+          setOpenModal(null);
           closeModalAndLegend('letonia');
         }}
       />
       <InfoModalEstonia
-        visible={modalEstoniaVisible}
-        onClose={() => setModalEstoniaVisible(false)}
+        visible={openModal === 'estonia'}
+        onClose={() => setOpenModal(null)}
         isClosing={isClosing}
         onCloseAll={() => {
-          setModalEstoniaVisible(false);
+          setOpenModal(null);
           closeModalAndLegend('estonia');
         }}
       />
       <InfoModalYellow
-        visible={modalYellowVisible}
-        onClose={() => setModalYellowVisible(false)}
+        visible={openModal === 'yellow'}
+        onClose={() => setOpenModal(null)}
         isClosing={isClosing}
         onCloseAll={() => closeModalAndLegend(true)}
       />
-      
       <Legend 
         isOpen={legendVisible} 
         onClose={() => setLegendVisible(false)}
         isClosing={isClosing}
       />
       <InfoModalYellowBulgaria
-        visible={modalBulgariaVisible}
-        onClose={() => setModalBulgariaVisible(false)}
+        visible={openModal === 'bulgaria'}
+        onClose={() => setOpenModal(null)}
         isClosing={isClosing}
         onCloseAll={() => closeModalAndLegend('bulgaria')}
       />
