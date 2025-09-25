@@ -278,8 +278,8 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               <span className={styles.statNumber}>{totalSamples}</span>
               <span className={styles.statLabel}>Samples</span>
             </div>
-            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria o Estonia */}
-            {!(isGermanyTable || isBulgariaTable || (sampleData.length > 0 && (sampleData[0].case_study_id !== undefined || sampleData[0]['case_study_id'] !== undefined))) && (
+            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria, Estonia o Madrid */}
+            {!(isGermanyTable || isBulgariaTable || isMadridTable) && (
               <>
                 <div className={styles.statItem}>
                   <span className={styles.statNumber}>{cheSamples}</span>
