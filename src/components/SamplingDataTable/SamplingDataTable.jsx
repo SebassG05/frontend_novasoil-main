@@ -25,7 +25,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   const cheSamples = sampleData.filter(sample => sample.type === 'CHE').length;
   const chebioSamples = sampleData.filter(sample => sample.type === 'CHEBIO').length;
 
-  // Detectar Letonia (igual que en exportToCSV)
+  // Detectar Letonia y Estonia (igual que en exportToCSV)
   const isMadrid = sampleData.length > 0 && (
     (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined) &&
     (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
@@ -35,6 +35,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
     (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
     (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
   );
+  const isEstonia = sampleData.length > 0 && !isMadrid && !isLetonia && (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined);
 
   // Función para exportar datos a CSV
   const exportToCSV = () => {
@@ -290,8 +291,8 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               <span className={styles.statNumber}>{totalSamples}</span>
               <span className={styles.statLabel}>Samples</span>
             </div>
-            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria, Estonia, Madrid o Letonia */}
-            {!(isGermanyTable || isBulgariaTable || isMadridTable || isLetonia) && (
+            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria, Estonia, Madrid, Letonia */}
+            {!(isGermanyTable || isBulgariaTable || isMadridTable || isLetonia || isEstonia) && (
               <>
                 <div className={styles.statItem}>
                   <span className={styles.statNumber}>{cheSamples}</span>
