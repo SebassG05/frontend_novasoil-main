@@ -291,19 +291,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
               <span className={styles.statNumber}>{totalSamples}</span>
               <span className={styles.statLabel}>Samples</span>
             </div>
-            {/* Solo mostrar CHE y CHEBIO si no es Alemania, Bulgaria, Estonia, Madrid, Letonia */}
-            {!(isGermanyTable || isBulgariaTable || isMadridTable || isLetonia || isEstonia) && (
-              <>
-                <div className={styles.statItem}>
-                  <span className={styles.statNumber}>{cheSamples}</span>
-                  <span className={styles.statLabel}>CHE</span>
-                </div>
-                <div className={styles.statItem}>
-                  <span className={styles.statNumber}>{chebioSamples}</span>
-                  <span className={styles.statLabel}>CHEBIO</span>
-                </div>
-              </>
-            )}
+            {/* CHE y CHEBIO ocultos para Tamarguillo */}
           </div>
           <div className={styles.actions}>
             <button className={styles.actionBtn} onClick={exportToCSV} title="Export data to CSV file">
