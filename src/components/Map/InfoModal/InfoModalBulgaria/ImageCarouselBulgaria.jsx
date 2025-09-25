@@ -93,6 +93,41 @@ const ImageCarousel = ({ onCloseAll }) => {
             className={styles.logoImage}
           />
         </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585860/unnamed-removebg-preview_6_gm4mwz.png"
+            alt="Logo 3"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586884/unnamed-removebg-preview_9_n9kw60.png"
+            alt="Logo 4"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587793/unnamed-removebg-preview_13_x0rnjr.png"
+            alt="Logo 5"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587058/unnamed-removebg-preview_11_tr2mh5.png"
+            alt="Logo 6"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758719192/unnamed-removebg-preview_16_xvoopi.png"
+            alt="Logo 7"
+            className={styles.logoImage}
+          />
+        </div>
       </div>
 
       <div className={styles.carousel}>
