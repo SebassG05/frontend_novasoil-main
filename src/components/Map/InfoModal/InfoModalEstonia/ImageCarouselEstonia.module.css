@@ -18,8 +18,15 @@
 
 .logoItem {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+  min-height: 55px;
+  max-width: 55px;
+  max-height: 55px;
+  box-sizing: border-box;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 

@@ -100,6 +100,62 @@ const ImageCarousel = ({ onCloseAll }) => {
             className={styles.logoImage}
           />
         </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586884/unnamed-removebg-preview_9_n9kw60.png"
+            alt="Logo 3"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586960/unnamed-removebg-preview_10_cznjsg.png"
+            alt="Logo 4"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585769/unnamed-removebg-preview_5_mf8cuf.png"
+            alt="Logo 5"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1758719192/unnamed-removebg-preview_16_xvoopi.png"
+            alt="Logo 6"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587058/unnamed-removebg-preview_11_tr2mh5.png"
+            alt="Logo 7"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757586023/unnamed-removebg-preview_8_srp4yt.png"
+            alt="Logo 8"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757585860/unnamed-removebg-preview_6_gm4mwz.png"
+            alt="Logo 9"
+            className={styles.logoImage}
+          />
+        </div>
+        <div className={styles.logoItem}>
+          <img 
+            src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757587209/unnamed-removebg-preview_12_xhci7y.png"
+            alt="Logo 10"
+            className={styles.logoImage}
+          />
+        </div>
       </div>
 
       <div className={styles.carousel}>

@@ -6,19 +6,28 @@
 }
 
 /* Contenedor de logos */
+
 .logosContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 3rem;
+  align-items: flex-end;
+  gap: 1.2rem;
   margin-bottom: 0.5rem;
   padding: 0.5rem 0;
 }
 
+
 .logoItem {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+  min-height: 55px;
+  max-width: 55px;
+  max-height: 55px;
+  box-sizing: border-box;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -26,9 +35,10 @@
   transform: translateY(-2px) scale(1.05);
 }
 
+
 .logoImage {
-  height: 60px;
-  width: 60px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: all 0.3s ease;
@@ -263,13 +273,20 @@
   }
   
   .logosContainer {
-    gap: 2rem;
+    gap: 0.8rem;
     margin-bottom: 0.8rem;
   }
-  
+  .logoItem {
+    width: 65px;
+    height: 65px;
+    min-width: 65px;
+    min-height: 65px;
+    max-width: 65px;
+    max-height: 65px;
+  }
   .logoImage {
-    height: 50px;
-    width: 50px;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -311,13 +328,20 @@
   }
   
   .logosContainer {
-    gap: 1.5rem;
+    gap: 0.5rem;
     margin-bottom: 0.6rem;
   }
-  
+  .logoItem {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 48px;
+    max-height: 48px;
+  }
   .logoImage {
-    height: 45px;
-    width: 45px;
+    width: 100%;
+    height: 100%;
   }
 }
 
