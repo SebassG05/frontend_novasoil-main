@@ -213,11 +213,10 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
   let visibleColumns;
   if (isMadridTable) {
-    visibleColumns = [
-      { key: 'Case Study ID', label: 'Case Study ID' },
-      { key: 'Latitude', label: 'Latitude' },
-      { key: 'Longitude', label: 'Longitude' }
-    ];
+    // Mostrar todas las columnas presentes en el CSV de Madrid, excepto las vacías en todas las filas
+    visibleColumns = allKeys
+      .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
+      .map(key => ({ key, label: key }));
   } else {
     visibleColumns = allKeys
       .filter(key =>
