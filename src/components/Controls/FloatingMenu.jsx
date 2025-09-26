@@ -7,7 +7,7 @@ import HolandaLegend from '../Map/Legend/HolandaLegend';
 import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
-
+import Loader from '../Loader/Loader';
 
 // Función para extraer subcapas reales del XML (Name y Title)
 function parseWMSLayers(xmlString) {
@@ -92,6 +92,7 @@ const FloatingMenu = () => {
     const [loadingWMS, setLoadingWMS] = useState(false);
     const [successWMS, setSuccessWMS] = useState(false);
     const [showLegend, setShowLegend] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
     const addWMSLayer = useMapStore((state) => state.addWMSLayer);
     const map = useMapStore((state) => state.map);
     const menuRef = useRef(null);
@@ -596,6 +597,76 @@ const FloatingMenu = () => {
                                                             className="w-full text-left px-4 py-2 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-orange-800 font-medium shadow-sm transition-all duration-200"
                                                             onClick={async () => {
                                                                 const map = window?.mapboxMap || useMapStore.getState().map;
+                                                                if (sublayer.name === 'Layer of soil types') {
+                                                                    setShowLoader(true);
+                                                                    try {
+                                                                        const { fetchHolandaGeojsonZip } = await import('../../services/geospatial/holandaGeojsonService');
+                                                                        const geojson = await fetchHolandaGeojsonZip();
+                                                                        const pedologicalinterestColors = {
+                                                                            'Water': '#D3FEFE',
+                                                                            'Moeras': '#D3FEFE',
+                                                                            'Dijk': '#FE02A7',
+                                                                            'Terp': '#FE02A7',
+                                                                            'Groeve': '#FFFFFF',
+                                                                            'Sterk afgegraven terrein': '#FFFFFF',
+                                                                            'Sterk ge-egaliseerd': '#FFFFFF',
+                                                                            'Sterk verwerkt terrein': '#FFFFFF',
+                                                                            'Mijnstort': '#FFFFFF',
+                                                                            'Bebouwd gebied': '#FFFFFF',
+                                                                            'Bovenland': '#FFFFFF',
+                                                                            'Sterk opgehoogd terrein': '#FFFFFF',
+                                                                            'Met huisvuil opgehoogde gronden': '#D3D3A7',
+                                                                        };
+                                                                        const fillColorExpression = [
+                                                                            'case',
+                                                                            ['has', 'pedologicalinterest'],
+                                                                            [
+                                                                                'match',
+                                                                                ['get', 'pedologicalinterest'],
+                                                                                ...Object.entries(pedologicalinterestColors).flat(),
+                                                                                [
+                                                                                    'match',
+                                                                                    ['get', 'first_soilcode'],
+                                                                                    ...Object.entries(firstSoilcodeColors).flat(),
+                                                                                    '#cccccc'
+                                                                                ]
+                                                                            ],
+                                                                            [
+                                                                                'match',
+                                                                                ['get', 'first_soilcode'],
+                                                                                ...Object.entries(firstSoilcodeColors).flat(),
+                                                                                '#cccccc'
+                                                                            ]
+                                                                        ];
+                                                                        if (!map.getSource('holanda-geojson')) {
+                                                                            setShowHolandaLegend(true);
+                                                                            map.addSource('holanda-geojson', {
+                                                                                type: 'geojson',
+                                                                                data: geojson
+                                                                            });
+                                                                            map.addLayer({
+                                                                                id: 'holanda-geojson-layer',
+                                                                                type: 'fill',
+                                                                                source: 'holanda-geojson',
+                                                                                paint: {
+                                                                                    'fill-color': fillColorExpression,
+                                                                                    'fill-opacity': 0.95,
+                                                                                    'fill-outline-color': 'rgba(0,0,0,0)'
+                                                                                }
+                                                                            });
+                                                                            map.fitBounds(bbox(geojson), { padding: 40, duration: 1200 });
+                                                                        } else {
+                                                                            map.setLayoutProperty('holanda-geojson-layer', 'visibility', 'visible');
+                                                                            setShowHolandaLegend(true);
+                                                                        }
+                                                                    } catch (e) {
+                                                                        alert('Error cargando capa Holanda: ' + e.message);
+                                                                    } finally {
+                                                                        setShowLoader(false);
+                                                                    }
+                                                                    return;
+                                                                }
+                                                                // ...código para otros sublayers (ph_raster)...
                                                                 if (sublayer.name === 'ph_raster') {
                                                                     if (!map.getSource('ph')) {
                                                                         map.addSource('ph', {
@@ -615,72 +686,7 @@ const FloatingMenu = () => {
                                                                     } else {
                                                                         map.setLayoutProperty('ph-layer', 'visibility', 'visible');
                                                                     }
-                                                                    // No hacer zoom, solo mostrar la capa
                                                                     return;
-                                                                }
-                                                                try {
-                                                                    const { fetchHolandaGeojsonZip } = await import('../../services/geospatial/holandaGeojsonService');
-                                                                    const geojson = await fetchHolandaGeojsonZip();
-                                                                    // ...resto del código para otros sublayers...
-                                                                    const pedologicalinterestColors = {
-                                                                        'Water': '#D3FEFE',
-                                                                        'Moeras': '#D3FEFE',
-                                                                        'Dijk': '#FE02A7',
-                                                                        'Terp': '#FE02A7',
-                                                                        'Groeve': '#FFFFFF',
-                                                                        'Sterk afgegraven terrein': '#FFFFFF',
-                                                                        'Sterk ge-egaliseerd': '#FFFFFF',
-                                                                        'Sterk verwerkt terrein': '#FFFFFF',
-                                                                        'Mijnstort': '#FFFFFF',
-                                                                        'Bebouwd gebied': '#FFFFFF',
-                                                                        'Bovenland': '#FFFFFF',
-                                                                        'Sterk opgehoogd terrein': '#FFFFFF',
-                                                                        'Met huisvuil opgehoogde gronden': '#D3D3A7',
-                                                                    };
-                                                                    const fillColorExpression = [
-                                                                        'case',
-                                                                        ['has', 'pedologicalinterest'],
-                                                                        [
-                                                                            'match',
-                                                                            ['get', 'pedologicalinterest'],
-                                                                            ...Object.entries(pedologicalinterestColors).flat(),
-                                                                            [
-                                                                                'match',
-                                                                                ['get', 'first_soilcode'],
-                                                                                ...Object.entries(firstSoilcodeColors).flat(),
-                                                                                '#cccccc'
-                                                                            ]
-                                                                        ],
-                                                                        [
-                                                                            'match',
-                                                                            ['get', 'first_soilcode'],
-                                                                            ...Object.entries(firstSoilcodeColors).flat(),
-                                                                            '#cccccc'
-                                                                        ]
-                                                                    ];
-                                                                    if (!map.getSource('holanda-geojson')) {
-                                                                        setShowHolandaLegend(true);
-                                                                        map.addSource('holanda-geojson', {
-                                                                            type: 'geojson',
-                                                                            data: geojson
-                                                                        });
-                                                                        map.addLayer({
-                                                                            id: 'holanda-geojson-layer',
-                                                                            type: 'fill',
-                                                                            source: 'holanda-geojson',
-                                                                            paint: {
-                                                                                'fill-color': fillColorExpression,
-                                                                                'fill-opacity': 0.95,
-                                                                                'fill-outline-color': 'rgba(0,0,0,0)'
-                                                                            }
-                                                                        });
-                                                                        map.fitBounds(bbox(geojson), { padding: 40, duration: 1200 });
-                                                                    } else {
-                                                                        map.setLayoutProperty('holanda-geojson-layer', 'visibility', 'visible');
-                                                                        setShowHolandaLegend(true);
-                                                                    }
-                                                                } catch (e) {
-                                                                    alert('Error cargando capa Holanda: ' + e.message);
                                                                 }
                                                             }}
                                                         >
@@ -704,6 +710,7 @@ const FloatingMenu = () => {
                     <button style={{position: 'absolute', top: 8, right: 8, background: 'transparent', border: 'none', fontSize: 18, cursor: 'pointer'}} onClick={() => setShowHolandaLegend(false)} title="Cerrar leyenda">×</button>
                 </div>
             )}
+            {showLoader && <Loader />}
         </div>
     </div>
     );
