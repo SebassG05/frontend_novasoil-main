@@ -370,9 +370,38 @@ const FloatingMenu = () => {
                     />
                 </button>
 
-                {/* Burbuja de opción "WMS" - Encima de la de estilos */}
                 {isOpen && !activePanel && (
-                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-130px'}}>
+                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-210px'}}>
+
+                        <button
+                            onClick={handleWMSBubbleClick}
+                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
+                                     rounded-full shadow-md border-none flex items-center justify-center
+                                     hover:bg-green-50 hover:shadow-lg active:scale-95 
+                                     transform transition-all duration-300"
+                            style={{ animation: 'bubbleUp 0.4s ease-out forwards' }}
+                            aria-label="Soil health indicators"
+                        >
+                            {/* Icono personalizado para Soil health indicators: hoja y tierra */}
+                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              {/* Tierra */}
+                              <ellipse cx="13" cy="19.5" rx="8" ry="4" fill="#A0522D" stroke="#6B3F19" strokeWidth="1.2"/>
+                              {/* Hoja */}
+                              <path d="M13 19C13 13 21 10 21 5C21 5 17 5 13 9C9 5 5 5 5 5C5 10 13 13 13 19Z" fill="#4CAF50" stroke="#388E3C" strokeWidth="1.2"/>
+                              {/* Nervio central de la hoja */}
+                              <path d="M13 19V11" stroke="#2E7D32" strokeWidth="1" strokeLinecap="round"/>
+                              {/* Raíces */}
+                              <path d="M13 23V21.5" stroke="#6B3F19" strokeWidth="1" strokeLinecap="round"/>
+                              <path d="M11.5 22.5L13 21.5" stroke="#6B3F19" strokeWidth="0.8" strokeLinecap="round"/>
+                              <path d="M14.5 22.5L13 21.5" stroke="#6B3F19" strokeWidth="0.8" strokeLinecap="round"/>
+                            </svg>
+                            <div className="absolute top-0 left-full ml-2 translate-y-[-50%] opacity-0 
+                                          group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                <div className="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                    Soil health indicators
+                                </div>
+                            </div>
+                        </button>
                         <button
                             onClick={handleWMSBubbleClick}
                             className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
