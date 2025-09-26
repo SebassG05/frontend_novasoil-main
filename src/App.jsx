@@ -4,6 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MapContainer from './components/Map/MapContainer';
 import FloatingMenu from './components/Controls/FloatingMenu';
 import SplashScreen from './components/SplashScreen/SplashScreen';
+import Welcome from './components/Welcome/Welcome';
+import useWelcome from './components/Welcome/useWelcome';
 import Model3DLayer from './components/Map/Model3DLayer';
 import './App.css';
 
@@ -16,7 +18,11 @@ const theme = createTheme({
   },
 });
 
+
 function App() {
+  const [splashVisible, setSplashVisible] = React.useState(true);
+  const [showWelcome, setShowWelcome] = useWelcome(splashVisible);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -24,7 +30,8 @@ function App() {
         <MapContainer />
         <Model3DLayer />
         <FloatingMenu />
-                <SplashScreen />
+        <SplashScreen onFinish={() => setSplashVisible(false)} />
+        <Welcome visible={showWelcome} onClose={() => setShowWelcome(false)} />
       </div>
     </ThemeProvider>
   );

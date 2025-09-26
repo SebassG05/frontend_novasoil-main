@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useMapStore } from '../../store/mapStore';
 import logoNovasoil from '../../assets/images/logonovasoil.png';
 
-const SplashScreen = () => {
+const SplashScreen = ({ onFinish }) => {
   const { isLoaded, map } = useMapStore();
   const [visible, setVisible] = useState(true);
   const [resourcesLoaded, setResourcesLoaded] = useState({
@@ -89,6 +89,12 @@ const SplashScreen = () => {
       }, 600);
     }
   }, [resourcesLoaded, progress]);
+
+  useEffect(() => {
+    if (!visible && typeof onFinish === 'function') {
+      onFinish();
+    }
+  }, [visible, onFinish]);
 
   if (!visible) return null;
 
