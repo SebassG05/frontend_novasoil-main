@@ -1,8 +1,8 @@
 /* Alternating column colors */
-.table td:nth-child(even), .table th:nth-child(even) {
+.table tbody tr:nth-child(even) td, .table thead tr:nth-child(even) th {
   background: #eafbe7;
 }
-.table td:nth-child(odd), .table th:nth-child(odd) {
+.table tbody tr:nth-child(odd) td, .table thead tr:nth-child(odd) th {
   background: #ffffff;
 }
 :root {
@@ -11,7 +11,7 @@
   --novasoil-dark: #1a2e0a;
   --novasoil-bg: #0d1408;
   --novasoil-surface: #1f2f17;
-  --novasoil-border: #afe0a6;
+
   background: #f8fff8;
 }
 
@@ -94,7 +94,6 @@
     var(--novasoil-surface) 0%,
     var(--novasoil-bg) 100%
   );
-  border: 2px solid var(--novasoil-border);
   border-radius: 20px;
   box-shadow: 
     0 25px 50px rgba(0, 0, 0, 0.6),
