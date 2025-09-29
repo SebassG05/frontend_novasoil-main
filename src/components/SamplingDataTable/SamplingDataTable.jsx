@@ -238,7 +238,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   });
 
   return (
-    <div className={styles.overlay}>
+  <div className={`${styles.overlay} sampling-table-modal`}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Sampling table</h2>
