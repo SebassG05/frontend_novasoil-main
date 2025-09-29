@@ -1,3 +1,25 @@
+@media (max-width: 1700px) and (min-width: 800px) {
+  .container {
+    max-width: 100% !important;
+    width: 65vw !important;
+    min-width: 1020px !important;
+    margin: 0 auto !important;
+    margin-right: 25% !important;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    max-height: 80vh !important;
+    min-height: 200px;
+  }
+  .header, .footer {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .table th, .table td {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    font-size: 0.85rem !important;
+  }
+}
 :global(.sampling-table-modal),
 .samplingTableModal {
   z-index: 10010 !important;
