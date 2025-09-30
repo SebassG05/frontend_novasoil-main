@@ -6,6 +6,15 @@
   height: auto;
   display: block;
 }
+
+.cecImg {
+  max-width: 300px;
+  max-height: 250px;
+  margin-top: 25px;
+  width: auto;
+  height: auto;
+  display: block;
+}
 /* Right column for title and floating info */
 
 /* Estilo elegante para los 3 cuadros de texto */
