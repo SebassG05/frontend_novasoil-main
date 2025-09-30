@@ -8,6 +8,7 @@ import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
 import Loader from '../Loader/Loader';
+import SoilHealthTable from '../SoilHealthTable/SoilHealthTable';
 
 // Función para extraer subcapas reales del XML (Name y Title)
 function parseWMSLayers(xmlString) {
@@ -89,6 +90,8 @@ const FloatingMenu = () => {
     const [wmsLayers, setWmsLayers] = useState([]);
     // Puede ser 'italia', 'holanda' o null
     const [showVisualizations, setShowVisualizations] = useState(null);
+    // Estado para mostrar el modal de SoilHealthTable
+    const [showSoilHealthTable, setShowSoilHealthTable] = useState(false);
     const [loadingWMS, setLoadingWMS] = useState(false);
     const [successWMS, setSuccessWMS] = useState(false);
     const [showLegend, setShowLegend] = useState(false);
@@ -179,6 +182,21 @@ const FloatingMenu = () => {
         setActivePanel('wms');
         setIsOpen(false);
     };
+
+    // Manejar clic en la burbuja de Soil Health Table (tercer botón)
+    const handleSoilHealthBubbleClick = () => {
+        setShowSoilHealthTable(true);
+        setActivePanel(null);
+        setIsOpen(false);
+    };
+
+    // Cerrar el menú flotante automáticamente cuando se muestre la tabla
+    useEffect(() => {
+        if (showSoilHealthTable) {
+            setIsOpen(false);
+            setActivePanel(null);
+        }
+    }, [showSoilHealthTable]);
 
     // Seleccionar una subcapa WMS real
     const handleSelectWMSLayer = (layer) => {
@@ -370,11 +388,12 @@ const FloatingMenu = () => {
                     />
                 </button>
 
-                {isOpen && !activePanel && (
+                {/* Mostrar siempre el menú de burbujas, no solo cuando isOpen */}
+                {(!activePanel && (isOpen || showSoilHealthTable)) && (
                     <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-210px'}}>
 
                         <button
-                            onClick={handleWMSBubbleClick}
+                            onClick={handleSoilHealthBubbleClick}
                             className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-green-50 hover:shadow-lg active:scale-95 
@@ -402,6 +421,10 @@ const FloatingMenu = () => {
                                 </div>
                             </div>
                         </button>
+            {/* Modal SoilHealthTable */}
+            {showSoilHealthTable && (
+                <SoilHealthTable visible={showSoilHealthTable} onClose={() => setShowSoilHealthTable(false)} />
+            )}
                         <button
                             onClick={handleWMSBubbleClick}
                             className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
