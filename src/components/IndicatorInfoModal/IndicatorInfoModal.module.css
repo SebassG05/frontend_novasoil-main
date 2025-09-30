@@ -1,3 +1,11 @@
+/* Imagen EC más pequeña */
+.ecImg {
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  display: block;
+}
 /* Right column for title and floating info */
 
 /* Estilo elegante para los 3 cuadros de texto */
@@ -46,13 +54,34 @@
   text-align: justify;
   box-sizing: border-box;
 }
+
+.bottomRightBox2 {
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  top: 390px;
+  min-width: 320px;
+  max-width: 440px;
+  border-radius: 12px;
+  padding: 0.7rem 1.2rem;
+  color: #2d5016;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: justify;
+  box-sizing: border-box;
+}
 /* Box for pH range description under the image */
 .phBox {
   max-width: 340px;
   width: 100%;
   margin-top: 1.2rem;
-  border-radius: 12px;
-  padding: 0.5rem 1.1rem 0.5rem 1.1rem;
+  border-radius: 14px;
+  padding: 0.4rem 1.2rem;
+  max-height: 340px;
+  overflow-y: auto;
 }
 .phBox p {
   line-height: 1.3;
