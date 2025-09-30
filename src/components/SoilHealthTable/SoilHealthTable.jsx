@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './SoilHealthTable.module.css';
+import IndicatorInfoModal from '../IndicatorInfoModal/IndicatorInfoModal';
 
 const SOIL_HEALTH_DATA = [
   {
@@ -46,7 +47,20 @@ const SOIL_HEALTH_DATA = [
 
 const SoilHealthTable = ({ visible, onClose }) => {
   const [closing, setClosing] = useState(false);
-  if (!visible && !closing) return null;
+  const [infoModal, setInfoModal] = useState({ open: false, indicator: '' });
+  const [transitioning, setTransitioning] = useState(false);
+
+  // Si el modal informativo está abierto, solo mostrarlo
+  if ((!visible && !closing) || (infoModal.open && !transitioning)) {
+    return (
+      <IndicatorInfoModal
+        visible={infoModal.open}
+        indicator={infoModal.indicator}
+        onClose={() => setInfoModal({ open: false, indicator: '' })}
+      />
+    );
+  }
+
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
@@ -54,6 +68,18 @@ const SoilHealthTable = ({ visible, onClose }) => {
       onClose();
     }, 400);
   };
+
+  // Animación de transición al abrir el modal informativo
+  const handleCardClick = (label) => {
+    setTransitioning(true);
+    setClosing(true);
+    setTimeout(() => {
+      setClosing(false);
+      setInfoModal({ open: true, indicator: label });
+      setTransitioning(false);
+    }, 400);
+  };
+
   // Unificar todos los datos en un solo array de tarjetas con grupo
   const allCards = [
     ...SOIL_HEALTH_DATA.map((row) => row.chemical ? { label: row.chemical, group: 'Chemical' } : null).filter(Boolean),
@@ -71,7 +97,12 @@ const SoilHealthTable = ({ visible, onClose }) => {
         <div className={styles.cardGridWrapper}>
           <div className={styles.cardGridUnified}>
             {allCards.map((item, idx) => (
-              <div className={styles.card} key={idx}>
+              <div
+                className={styles.card}
+                key={idx}
+                onClick={() => handleCardClick(item.label)}
+                style={{ cursor: 'pointer' }}
+              >
                 <span className={styles.cardLabel}>{item.label}</span>
                 <span className={styles.cardGroup}>{item.group}</span>
               </div>

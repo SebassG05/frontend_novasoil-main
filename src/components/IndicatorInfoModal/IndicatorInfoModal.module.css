@@ -1,0 +1,293 @@
+/* Right column for title and floating info */
+
+/* Estilo elegante para los 3 cuadros de texto */
+/* Estilo elegante unificado para los 3 cuadros de texto */
+.bottomRightBox,
+.phBox,
+.description {
+  border-radius: 14px !important;
+  padding: 0.8rem 1.4rem;
+  color: #2d5016;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  text-align: justify;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Efecto hover sutil */
+
+
+
+.rightCol {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  height: 340px;
+  position: relative;
+}
+/* Floating bottom-right info box */
+.bottomRightBox {
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  top: 350px;
+  min-width: 320px;
+  max-width: 440px;
+  border-radius: 12px;
+  padding: 0.7rem 1.2rem;
+  color: #2d5016;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: justify;
+  box-sizing: border-box;
+}
+/* Box for pH range description under the image */
+.phBox {
+  max-width: 340px;
+  width: 100%;
+  margin-top: 1.2rem;
+  border-radius: 12px;
+  padding: 0.5rem 1.1rem 0.5rem 1.1rem;
+}
+.phBox p {
+  line-height: 1.3;
+  margin: 0;
+}
+/* LIMPIEZA TOTAL Y LAYOUT CORRECTO */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10020;
+  background: rgba(255,255,255,0.01);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalBox {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 1.5px 4px 0 rgba(0,0,0,0.12);
+  min-width: 620px;
+  min-height: 460px;
+  max-width: 900px;
+  width: 95vw;
+  padding: 3.2rem 2.5rem 2.2rem 2.5rem;
+  position: relative;
+  display: flex;
+  margin-right: 17%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  animation: indicatorModalFadeIn 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+
+.contentRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2.2rem;
+}
+
+.titleWrapper {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  max-width: 600px;
+  word-break: break-word;
+}
+
+.imageBox {
+  width: 320px;
+  height: 220px;
+  border: 2px solid #eafbe7;
+  border-radius: 18px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 2px 8px rgba(139, 195, 74, 0.13);
+  animation: imageBoxPopIn 0.6s cubic-bezier(0.4,0,0.2,1);
+  flex-shrink: 0;
+}
+
+.description {
+  margin-top: 1.1rem;
+  font-size: 1.08rem;
+  color: #2d5016;
+  line-height: 1.55;
+  text-align: justify;
+  max-width: 600px;
+  width: 100%;
+  white-space: pre-line;
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .contentRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .imageBox {
+    width: 100%;
+    max-width: 340px;
+  }
+  .titleWrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  .description {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+@keyframes indicatorModalFadeIn {
+  from {
+  .imageBox {
+    width: 320px;
+    height: 220px;
+    border: 2px solid #eafbe7;
+    border-radius: 18px;
+    background: #fff;
+    margin-bottom: 0;
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    animation: imageBoxPopIn 0.6s cubic-bezier(0.4,0,0.2,1);
+    flex-shrink: 0;
+  }
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+  .titleWrapper {
+    flex: 1 1 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: auto;
+    min-width: 0;
+    max-width: 540px;
+    word-break: break-word;
+  }
+.closeBtn {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  color: #2d5016;
+  .title {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #2d5016;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    font-family: 'Playfair Display', serif;
+  }
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.closeBtn:hover {
+  color: #8bc34a;
+}
+.titleWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  max-width: 540px;
+  word-break: break-word;
+}
+.title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #2d5016;
+  margin-bottom: 0.2rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  letter-spacing: 1px;
+  width: 100%;
+}
+.groupLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #388e3c;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.85;
+}
+.content {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.contentRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;         /* <--- esto es lo importante */
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2.2rem;
+}
+
+.imageBox {
+  width: 320px;
+  height: 220px;
+  border: 2px solid #eafbe7;
+  border-radius: 18px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 2px 8px rgba(139, 195, 74, 0.13);
+  animation: imageBoxPopIn 0.6s cubic-bezier(0.4,0,0.2,1);
+  flex-shrink: 0;
+}
+
+.titleWrapper {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* o flex-start si prefieres alineado a la izquierda */
+  justify-content: flex-start;
+  min-width: 0;
+  max-width: 600px;
+  word-break: break-word;
+}
+
