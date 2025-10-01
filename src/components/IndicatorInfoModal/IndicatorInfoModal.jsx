@@ -9,6 +9,9 @@ const MACROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v175923
 const MICROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759300659/unnamed-removebg-preview_22_gvh0cw.png';
 const ORGANICMATTER = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759301796/unnamed-removebg-preview_23_z0xhzg.png';
 const SOC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759302541/shutterstock_2346693365_uvetrx.webp';
+const Clay_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759303763/2021-04-22-OnsiteBlogging-42052438-1-1920w_tjuwgf.webp';
+const Silt_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759304364/person-digging-shovel-into-silt-soil-garden_qvbwrh.avif';
+const Sand_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759304568/blade-4110620_1920_xkazod.jpg';
 
 const GROUPS = {
   'pH': 'chemical',
@@ -82,10 +85,18 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                 {indicator === 'Soil Organic Carbon (%)' && (
                 <img src={SOC_IMAGE_URL} alt="Soil Organic Carbon" className={styles.cecImg} />
               )}
-              
+                {indicator === 'Clay (%)' && (
+                <img src={Clay_IMAGE_URL} alt="Clay" className={styles.clayImg} />
+              )}
+                {indicator === 'Silt (%)' && (
+                <img src={Silt_IMAGE_URL} alt="Silt" className={styles.clayImg} />
+              )}
+                {indicator === 'Sand (%)' && (
+                <img src={Sand_IMAGE_URL} alt="Sand" className={styles.clayImg} />
+              )}
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)') && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' ) && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -138,6 +149,27 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High SOC (&gt; 3%):</b> enhances soil structure, water retention, fertility, and overall soil health.</span>
                   ]}
+                  {indicator === 'Clay (%)' && [
+                    <span key="low"><b>Low clay (&lt; 20%):</b> soils are sandy, drain quickly, and retain fewer nutrients.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate clay (20–40%):</b> balanced texture, good water and nutrient retention, suitable for most crops.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High clay (&gt; 40%):</b> soils hold water and nutrients well but may have poor drainage and workability.</span>
+                  ]}
+                  {indicator === 'Silt (%)' && [
+                    <span key="low"><b>Low silt (&lt; 10%):</b> soils are coarse-textured, drain quickly, and retain fewer nutrients.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate silt (10–30%):</b> balanced texture, improves water and nutrient retention, suitable for most crops.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High silt (&gt; 30%):</b> soils retain water and nutrients well but may be prone to compaction and erosion.</span>
+                  ]}
+                  {indicator === 'Sand (%)' && [
+                    <span key="low"><b>Low sand (&lt; 30%):</b> soils retain water and nutrients well but may have poor drainage.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate sand (30–60%):</b> balanced texture, good drainage, suitable for most crops.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High sand (&gt; 60%):</b> coarse soils, drain quickly, low water, may require frequent irrigation and fertilization.</span>
+                  ]}
 
 
                 </p>
@@ -188,6 +220,18 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                   Soil Organic Carbon (SOC) is a key component of soil organic matter, consisting of carbon compounds derived from decomposed plant and animal residues. <b>It is vital for soil fertility, structure, and overall health.</b>
                 </p>
               )}
+              {indicator === 'Clay (%)' && (
+                <div className={styles.description}>
+                  Clay (%) represents the proportion of fine mineral particles in the soil. <b>It influences water retention, nutrient availability, soil structure, and workability, all of which are crucial for plant growth and soil health.</b>                </div>
+              )}
+              {indicator === 'Silt (%)' && (
+                <div className={styles.description}>
+                  Silt (%) represents the proportion of fine mineral particles in the soil. <b>It influences water retention, nutrient availability, soil structure, and workability, all of which are crucial for plant growth and soil health.</b>                </div>
+              )}
+              {indicator === 'Sand (%)' && (
+                <div className={styles.description}>
+                  Sand (%) represents the proportion of coarse mineral particles in the soil. <b>It influences drainage, aeration, and soil texture, all of which are crucial for plant growth and soil health.</b>                </div>
+              )}
             </div>
             <div className={styles.divider}>
             </div>
@@ -230,6 +274,21 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
             {indicator === 'Soil Organic Carbon (%)' && (
               <div className={styles.bottomRightBox2}>
                 Maintaining adequate SOC is essential for soil health, fertility, and crop productivity. SOC improves structure, water retention, and nutrient cycling, and practices like cover cropping, reduced tillage, and adding organic amendments can increase SOC for more sustainable soils.
+              </div>
+            )}
+            {indicator === 'Clay (%)' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining adequate levels of clay in soil is essential for soil health, fertility, and overall ecosystem sustainability. Clay particles improve soil structure, enhance water retention, and promote nutrient cycling, which are crucial for optimal plant growth and development. Implementing practices such as cover cropping, reduced tillage, and organic amendments can help increase clay levels, leading to improved soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Silt (%)' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining adequate levels of silt in soil is essential for soil health, fertility, and overall ecosystem sustainability. Silt particles improve soil structure, enhance water retention, and promote nutrient cycling, which are crucial for optimal plant growth and development. Implementing practices such as cover cropping, reduced tillage, and organic amendments can help increase silt levels, leading to improved soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Sand (%)' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining adequate levels of sand in soil is essential for soil health, fertility, and overall ecosystem sustainability. Sand particles improve soil drainage, aeration, and root penetration, which are crucial for optimal plant growth and development. Implementing practices such as cover cropping, reduced tillage, and organic amendments can help balance sand levels, leading to improved soil quality and agricultural productivity.
               </div>
             )}
           </div>

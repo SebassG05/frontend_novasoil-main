@@ -15,6 +15,17 @@
   height: auto;
   display: block;
 }
+
+.clayImg{
+  max-width: 280px;
+  max-height: 180px;
+  margin-top: 0px;
+  border-radius: 10%;
+  box-shadow: #388e3c 0px 4px 8px;
+  width: auto;
+  height: auto;
+  display: block;
+}
 /* Right column for title and floating info */
 
 /* Estilo elegante para los 3 cuadros de texto */
