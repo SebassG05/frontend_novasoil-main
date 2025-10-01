@@ -25,17 +25,23 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   const cheSamples = sampleData.filter(sample => sample.type === 'CHE').length;
   const chebioSamples = sampleData.filter(sample => sample.type === 'CHEBIO').length;
 
-  // Detectar Letonia y Estonia (igual que en exportToCSV)
+  // Detectar países por sus características únicas
   const isMadrid = sampleData.length > 0 && (
     (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined) &&
     (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
     (sampleData[0]['Longitude'] !== undefined || sampleData[0]['longitude'] !== undefined)
   );
-  const isLetonia = sampleData.length > 0 && !isMadrid && (
+  const isItaly = sampleData.length > 0 && (
+    sampleData[0]['Nitrogen (N) ‰'] !== undefined || 
+    sampleData[0]['Cation exchange capacity(mEq/100g)'] !== undefined ||
+    sampleData[0]['nitrogen_n_permille'] !== undefined ||
+    sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
+  );
+  const isLetonia = sampleData.length > 0 && !isMadrid && !isItaly && (
     (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
     (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
   );
-  const isEstonia = sampleData.length > 0 && !isMadrid && !isLetonia && (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined);
+  const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined);
 
   // Función para exportar datos a CSV
   const exportToCSV = () => {
@@ -50,7 +56,13 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
       (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
       (sampleData[0]['Longitude'] !== undefined || sampleData[0]['longitude'] !== undefined)
     );
-    const isLetonia = sampleData.length > 0 && !isMadrid && (
+    const isItaly = sampleData.length > 0 && (
+      sampleData[0]['Nitrogen (N) ‰'] !== undefined || 
+      sampleData[0]['Cation exchange capacity(mEq/100g)'] !== undefined ||
+      sampleData[0]['nitrogen_n_permille'] !== undefined ||
+      sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
+    );
+    const isLetonia = sampleData.length > 0 && !isMadrid && !isItaly && (
       (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
       (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
     );
@@ -117,6 +129,39 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
           bulgariaHeadersOriginal.map(h => sample[bulgariaHeaderMap[h]] !== undefined ? sample[bulgariaHeaderMap[h]] : '').join(',')
         )
       ].join('\n');
+    } else if (isItaly) {
+      // Headers específicos para Italia
+      const italyHeaders = [
+        'Case Study ID',
+        'Coord (Lat & Long)',
+        'Soil sampling date',
+        'Soil sample depth',
+        'Nitrates (mg/Kg)',
+        'Nitrogen (N) ‰',
+        'Phosphorus mg/kg',
+        'Potassium (K) mg/kg',
+        'pH',
+        'Electrical Conductivity (µS/cm)',
+        'Organic Matter (%w/w)',
+        'Organic Carbon (%)',
+        'C/N',
+        'Active Lime (% w/w)',
+        'Carbonates (‰)',
+        'USDA Classification (units)',
+        'Clay %',
+        'Silt %',
+        'Sand %',
+        'Cation exchange capacity(mEq/100g)',
+        'P.S.I (% Exchangeable Sodium)',
+        'Bulk Density (g/cc of soil)',
+        'Water Volume per Ha (m3 /Ha)'
+      ];
+      csvContent = [
+        italyHeaders.join(','),
+        ...sampleData.map(sample =>
+          italyHeaders.map(h => sample[h] !== undefined ? sample[h] : sample[h.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase()] || '').join(',')
+        )
+      ].join('\n');
     } else if (isLetonia) {
       // ...código Letonia...
       const letoniaHeaders = [
@@ -167,6 +212,8 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
       exportFileName = 'alemania';
     } else if (isBulgaria) {
       exportFileName = 'bulgaria';
+    } else if (isItaly) {
+      exportFileName = 'ItaliaCaseStudy2';
     } else if (isLetonia) {
       exportFileName = 'letonia';
     } else if (isMadrid) {
@@ -174,7 +221,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
     } else if (sampleData.length > 0 && (sampleData[0].case_study_id !== undefined || sampleData[0]['case_study_id'] !== undefined)) {
       exportFileName = 'estonia';
     }
-    link.setAttribute('download', `${exportFileName}_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `${exportFileName}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -211,9 +258,10 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
   const isGermanyTable = allKeys.includes('co2_land_novasoil_id');
   const isBulgariaTable = allKeys.includes('soil_name_bg_classification') || allKeys.includes('soil_name_wrb_2014');
   const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
+  const isItalyTable = allKeys.includes('Nitrogen (N) ‰') || allKeys.includes('Cation exchange capacity(mEq/100g)') || allKeys.includes('nitrogen_n_permille') || allKeys.includes('cation_exchange_capacity_meq100g');
   let visibleColumns;
-  if (isMadridTable) {
-    // Mostrar todas las columnas presentes en el CSV de Madrid, excepto las vacías en todas las filas
+  if (isMadridTable || isItalyTable) {
+    // Mostrar todas las columnas presentes en el CSV de Madrid e Italia, excepto las vacías en todas las filas
     visibleColumns = allKeys
       .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
       .map(key => ({ key, label: key }));
