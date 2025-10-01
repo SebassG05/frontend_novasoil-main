@@ -18,8 +18,8 @@ import { useGeoData } from '../../hooks/useGeoData';
 import { create } from 'zustand';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadMadridArea } = useGeoData();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly } = useMapStore();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadMadridArea } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -86,6 +86,15 @@ const Model3DLayer = () => {
             madridData = useMapStore.getState().samplingDataMadrid;
           }
           setTableData(Array.isArray(madridData) ? madridData : []);
+        } else if (showTable === 'italy') {
+          // Italia
+          let italyData = samplingDataItaly;
+          if (!italyData || italyData.length === 0) {
+            await loadItalyData();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            italyData = useMapStore.getState().samplingDataItaly;
+          }
+          setTableData(Array.isArray(italyData) ? italyData : []);
         }
          else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
@@ -106,6 +115,7 @@ const Model3DLayer = () => {
     loadLetoniaData();
     loadEstoniaData();
     loadMadridData();
+    loadItalyData();
     loadMadridArea(); // <-- Mostrar el shape de Madrid
 
     // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)

@@ -35,6 +35,7 @@ export const useGeoData = () => {
         samplingDataEstonia,
         samplingDataLetonia,
         samplingDataMadrid,
+        samplingDataItaly,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -46,6 +47,7 @@ export const useGeoData = () => {
         setSamplingDataEstonia,
         setSamplingDataLetonia,
         setSamplingDataMadrid,
+        setSamplingDataItaly,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
@@ -370,6 +372,28 @@ export const useGeoData = () => {
         };
     }, [map, isChangingStyle, shapefileData, samplingData, layersVisibility]);
 
+    /**
+     * Carga los datos de muestreo de Italia y añade la capa al mapa
+     */
+    const loadItalyData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const italyData = await geoDataService.makeRequest('/sampling/italy');
+            setSamplingDataItaly(italyData.data);
+            // Si tienes una función para añadir la capa de Italia, agrégala aquí
+            if (map && italyData.data && italyData.data.length > 0) {
+                if (mapLayerService.addItalySamplingPointsLayer) {
+                    mapLayerService.addItalySamplingPointsLayer(map, italyData.data);
+                }
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
     return {
         // Estados
         shapefileData,
@@ -390,6 +414,7 @@ export const useGeoData = () => {
         loadEstoniaData,
         loadLetoniaData,
         loadMadridData,
+        loadItalyData,
         loadMadridArea, // <-- Añadido para exponer la función
         toggleLayerVisibility,
         focusOnSample,
