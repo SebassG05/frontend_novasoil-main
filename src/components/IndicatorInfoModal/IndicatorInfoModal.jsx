@@ -8,6 +8,7 @@ const METALS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759236603/un
 const MACROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759237797/unnamed-removebg-preview_21_n0ikrz.png';
 const MICROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759300659/unnamed-removebg-preview_22_gvh0cw.png';
 const ORGANICMATTER = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759301796/unnamed-removebg-preview_23_z0xhzg.png';
+const SOC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759302541/shutterstock_2346693365_uvetrx.webp';
 
 const GROUPS = {
   'pH': 'chemical',
@@ -78,10 +79,13 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                 {indicator === 'Organic matter (%)' && (
                 <img src={ORGANICMATTER} alt="Organic matter" className={styles.cecImg} />
               )}
+                {indicator === 'Soil Organic Carbon (%)' && (
+                <img src={SOC_IMAGE_URL} alt="Soil Organic Carbon" className={styles.cecImg} />
+              )}
               
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)') && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)') && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -127,6 +131,15 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High organic matter (&gt; 5%):</b> very fertile soils, enhance nutrient retention and water holding capacity.</span>
                   ]}
+                  {indicator === 'Soil Organic Carbon (%)' && [
+                    <span key="low"><b>Low SOC (&lt; 1%):</b> soils have poor structure, low fertility, and limited nutrient retention.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate SOC (1–3%):</b> supports nutrient cycling, microbial activity, and healthy crop growth.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High SOC (&gt; 3%):</b> enhances soil structure, water retention, fertility, and overall soil health.</span>
+                  ]}
+
+
                 </p>
               </div>
             )}
@@ -170,6 +183,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                   Soil organic matter (SOM) is a complex mixture of decomposed plant and animal residues, living microorganisms, and humus. It plays a <b>crucial role in maintaining soil health </b>, fertility, and structure.
                 </p>
               )}
+              {indicator === 'Soil Organic Carbon (%)' && (
+                <p className={styles.description}>
+                  Soil Organic Carbon (SOC) is a key component of soil organic matter, consisting of carbon compounds derived from decomposed plant and animal residues. <b>It is vital for soil fertility, structure, and overall health.</b>
+                </p>
+              )}
             </div>
             <div className={styles.divider}>
             </div>
@@ -207,6 +225,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
             {indicator === 'Organic matter (%)' && (
               <div className={styles.bottomRightBox2}>
                Maintaining adequate levels of soil organic matter (SOM) is essential for soil health, fertility, and overall ecosystem sustainability. SOM improves soil structure, enhances water retention, and promotes nutrient cycling, which are crucial for optimal plant growth and development. Implementing practices such as cover cropping, reduced tillage, and organic amendments can help increase SOM levels, leading to improved soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Soil Organic Carbon (%)' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining adequate SOC is essential for soil health, fertility, and crop productivity. SOC improves structure, water retention, and nutrient cycling, and practices like cover cropping, reduced tillage, and adding organic amendments can increase SOC for more sustainable soils.
               </div>
             )}
           </div>
