@@ -5,6 +5,8 @@ const PH_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759220
 const EC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759230252/unnamed-removebg-preview_17_h3d5xr.png';
 const CEC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759234144/unnamed-removebg-preview_19_oubnuj.png';
 const METALS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759236603/unnamed-removebg-preview_20_r9edhk.png';
+const MACROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759237797/unnamed-removebg-preview_21_n0ikrz.png';
+const MICROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759300659/unnamed-removebg-preview_22_gvh0cw.png';
 
 const GROUPS = {
   'pH': 'chemical',
@@ -66,9 +68,16 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
               {indicator === 'Heavy metals (mg/kg)' && (
                 <img src={METALS} alt="Heavy metals" className={styles.cecImg} />
               )}
+                {indicator === 'Macroelements (mg/kg)' && (
+                <img src={MACROELEMENTS} alt="Macroelements" className={styles.cecImg} />
+              )}
+                {indicator === 'Micronutrients (mb/kg)' && (
+                <img src={MICROELEMENTS} alt="Micronutrients" className={styles.cecImg} />
+              )}
+              
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)') && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)') && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -92,6 +101,20 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <span key="mod"><b>Moderate heavy metals (50–200 mg/kg):</b> some contamination, may affect crops.</span>,
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High heavy metals (&gt; 200 mg/kg):</b> highly contaminated, toxic for plants.</span>
+                  ]}
+                  {indicator === 'Macroelements (mg/kg)' && [
+                    <span key="low"><b>Low macroelements (&lt; 500 mg/kg):</b> soils lack essential nutrients, limiting crop growth.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate macroelements (500–1500 mg/kg):</b> adequate nutrient levels, suitable for most crops.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High macroelements (&gt; 1500 mg/kg):</b> excess nutrients may cause imbalances or environmental risks.</span>
+                  ]}
+                  {indicator === 'Micronutrients (mb/kg)' && [
+                    <span key="low"><b>Low micronutrients (&lt; 10 mb/kg):</b> deficiency risk, may limit plant growth and yield.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate micronutrients (10–50 mb/kg):</b> adequate levels, support healthy crop development.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High micronutrients (&gt; 50 mb/kg):</b> excess may cause toxicity and affect plant health.</span>
                   ]}
                 </p>
               </div>
@@ -121,6 +144,18 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                   Heavy metals in soil, like lead, cadmium, and mercury, can harm plants and microbes even at low levels. Monitoring them is <b>key for soil health</b>, safe crops, and environmental protection.
                 </p>
               )}
+              {indicator === 'Macroelements (mg/kg)' && (
+                <p className={styles.description}>
+                  Macroelements such as nitrogen (N), phosphorus (P), potassium (K), calcium (Ca), magnesium (Mg), and sulfur (S) are <b>essential nutrients</b> required in large amounts for plant growth and development.
+                </p>
+              )}
+              {indicator === 'Micronutrients (mb/kg)' && (
+                <p className={styles.description}>
+                  Micronutrients such as iron (Fe), manganese (Mn), zinc (Zn), copper (Cu), molybdenum (Mo), boron (B), and chlorine (Cl) are <b>essential nutrients</b> required in small amounts for plant growth and development.
+                </p>
+              )}
+            </div>
+            <div className={styles.divider}>
             </div>
             {/* Info box at bottom right of rightCol */}
             {indicator === 'pH' && (
@@ -141,6 +176,16 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
             {indicator === 'Heavy metals (mg/kg)' && (
               <div className={styles.bottomRightBox2}>
                Monitoring and managing heavy metal levels in soil is crucial for maintaining soil health, ensuring safe crop production, and protecting environmental quality. Excessive concentrations of heavy metals can lead to toxicity in plants, reduced microbial activity, and contamination of the food chain. Implementing proper agronomic practices, such as phytoremediation, soil amendments, and crop rotation, can help mitigate the risks associated with heavy metals and promote sustainable agricultural practices.
+              </div>
+            )}
+            {indicator === 'Macroelements (mg/kg)' && (
+              <div className={styles.bottomRightBox2}>
+               Ensuring adequate levels of macroelements in soil is vital for optimal plant growth, development, and crop yield. Macroelements such as nitrogen (N), phosphorus (P), potassium (K), calcium (Ca), magnesium (Mg), and sulfur (S) play crucial roles in various physiological processes, including photosynthesis, energy transfer, and protein synthesis. Proper management of these nutrients through soil testing, fertilization, and crop rotation can enhance nutrient availability, improve soil fertility, and promote sustainable agricultural practices.
+              </div>
+            )}
+            {indicator === 'Micronutrients (mb/kg)' && (
+              <div className={styles.bottomRightBox2}>
+               Ensuring adequate levels of micronutrients in soil is vital for optimal plant growth, development, and crop yield. Micronutrients such as iron (Fe), manganese (Mn), zinc (Zn), copper (Cu), molybdenum (Mo), boron (B), and chlorine (Cl) play crucial roles in various physiological processes, including enzyme activation, photosynthesis, and hormone regulation. Proper management of these nutrients through soil testing, fertilization, and crop rotation can enhance nutrient availability, improve soil fertility, and promote sustainable agricultural practices.
               </div>
             )}
           </div>
