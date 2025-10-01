@@ -28,7 +28,7 @@ const SOIL_HEALTH_DATA = [
     biological: 'Annelid presence',
   },
   {
-    chemical: 'Micronutrients (mb/kg)',
+    chemical: 'Micronutrients (mg/kg)',
     physical: '',
     biological: '',
   },

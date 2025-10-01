@@ -6,7 +6,7 @@ const EC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759230
 const CEC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759234144/unnamed-removebg-preview_19_oubnuj.png';
 const METALS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759236603/unnamed-removebg-preview_20_r9edhk.png';
 const MACROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759237797/unnamed-removebg-preview_21_n0ikrz.png';
-const MICROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759300659/unnamed-removebg-preview_22_gvh0cw.png';
+const MICROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759313331/Taurus-Inbound-Blog-Mar2018-AgriculturalNutrientProfile-Micronutrients-Part2-02a_v45pzs.webp';
 const ORGANICMATTER = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759301796/unnamed-removebg-preview_23_z0xhzg.png';
 const SOC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759302541/shutterstock_2346693365_uvetrx.webp';
 const Clay_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759303763/2021-04-22-OnsiteBlogging-42052438-1-1920w_tjuwgf.webp';
@@ -24,7 +24,7 @@ const GROUPS = {
   'CEC (mEq/100 g)': 'chemical',
   'Heavy metals (mg/kg)': 'chemical',
   'Macroelements (mg/kg)': 'chemical',
-  'Micronutrients (mb/kg)': 'chemical',
+  'Micronutrients (mg/kg)': 'chemical',
   'Organic matter (%)': 'chemical',
   'Soil Organic Carbon (%)': 'chemical',
   'Clay (%)': 'physical',
@@ -80,14 +80,14 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                 {indicator === 'Macroelements (mg/kg)' && (
                 <img src={MACROELEMENTS} alt="Macroelements" className={styles.cecImg} />
               )}
-                {indicator === 'Micronutrients (mb/kg)' && (
-                <img src={MICROELEMENTS} alt="Micronutrients" className={styles.cecImg} />
+                {indicator === 'Micronutrients (mg/kg)' && (
+                <img src={MICROELEMENTS} alt="Micronutrients" className={styles.clayImg} />
               )}
                 {indicator === 'Organic matter (%)' && (
                 <img src={ORGANICMATTER} alt="Organic matter" className={styles.cecImg} />
               )}
                 {indicator === 'Soil Organic Carbon (%)' && (
-                <img src={SOC_IMAGE_URL} alt="Soil Organic Carbon" className={styles.cecImg} />
+                <img src={SOC_IMAGE_URL} alt="Soil Organic Carbon" className={styles.clayImg} />
               )}
                 {indicator === 'Clay (%)' && (
                 <img src={Clay_IMAGE_URL} alt="Clay" className={styles.clayImg} />
@@ -115,7 +115,7 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
               )}
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' || indicator === 'Bulk density (g/cc)' || indicator === 'Nematoda UD/100gr' || indicator === 'Fungi presence' || indicator === 'Microbiological respiration' || indicator === 'Annelid presence') && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mg/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' || indicator === 'Bulk density (g/cc)' || indicator === 'Nematoda UD/100gr' || indicator === 'Fungi presence' || indicator === 'Microbiological respiration' || indicator === 'Annelid presence') && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -147,12 +147,12 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High macroelements (&gt; 1500 mg/kg):</b> excess nutrients may cause imbalances or environmental risks.</span>
                   ]}
-                  {indicator === 'Micronutrients (mb/kg)' && [
-                    <span key="low"><b>Low micronutrients (&lt; 10 mb/kg):</b> deficiency risk, may limit plant growth and yield.</span>,
+                  {indicator === 'Micronutrients (mg/kg)' && [
+                    <span key="low"><b>Low micronutrients (&lt; 10 mg/kg):</b> deficiency risk, may limit plant growth and yield.</span>,
                     <br key="br1" />, <br key="br2" />,
-                    <span key="mod"><b>Moderate micronutrients (10–50 mb/kg):</b> adequate levels, support healthy crop development.</span>,
+                    <span key="mod"><b>Moderate micronutrients (10–50 mg/kg):</b> adequate levels, support healthy crop development.</span>,
                     <br key="br3" />, <br key="br4" />,
-                    <span key="high"><b>High micronutrients (&gt; 50 mb/kg):</b> excess may cause toxicity and affect plant health.</span>
+                    <span key="high"><b>High micronutrients (&gt; 50 mg/kg):</b> excess may cause toxicity and affect plant health.</span>
                   ]}
                   {indicator === 'Organic matter (%)' && [
                     <span key="low"><b>Low organic matter (&lt; 2%):</b> soils have poor structure and low fertility.</span>,
@@ -162,11 +162,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <span key="high"><b>High organic matter (&gt; 5%):</b> very fertile soils, enhance nutrient retention and water holding capacity.</span>
                   ]}
                   {indicator === 'Soil Organic Carbon (%)' && [
-                    <span key="low"><b>Low SOC (&lt; 1%):</b> soils have poor structure, low fertility, and limited nutrient retention.</span>,
+                    <span key="low"><b>Low SOC (&lt; 1%):</b> typically found in arid and semi-arid soils (e.g., dry Mediterranean soils, desert regions, or degraded and over-exploited lands). These soils have poor structure, low fertility, and limited nutrient retention.</span>,
                     <br key="br1" />, <br key="br2" />,
-                    <span key="mod"><b>Moderate SOC (1–3%):</b> supports nutrient cycling, microbial activity, and healthy crop growth.</span>,
+                    <span key="mod"><b>Moderate SOC (1–3%):</b> common in agricultural soils of temperate regions, many grasslands, and cultivated areas managed with moderate fertilisation. These levels support microbial activity, nutrient cycling, and relatively healthy crop growth.</span>,
                     <br key="br3" />, <br key="br4" />,
-                    <span key="high"><b>High SOC (&gt; 3%):</b> enhances soil structure, water retention, fertility, and overall soil health.</span>
+                    <span key="high"><b>High SOC (&gt; 3%):</b> usually present in forest soils, moist grasslands, tropical regions with high biomass, and in agricultural soils under regenerative management (e.g., manure, compost, or no-tillage practices). They enhance soil structure, water retention, fertility, and overall health. Soils with SOC levels well above this threshold are often wetlands or other organic-rich ecosystems.</span>
                   ]}
                   {indicator === 'Clay (%)' && [
                     <span key="low"><b>Low clay (&lt; 20%):</b> soils are sandy, drain quickly, and retain fewer nutrients.</span>,
@@ -257,7 +257,7 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                   Macroelements such as nitrogen (N), phosphorus (P), potassium (K), calcium (Ca), magnesium (Mg), and sulfur (S) are <b>essential nutrients</b> required in large amounts for plant growth and development.
                 </p>
               )}
-              {indicator === 'Micronutrients (mb/kg)' && (
+              {indicator === 'Micronutrients (mg/kg)' && (
                 <p className={styles.description}>
                   Micronutrients such as iron (Fe), manganese (Mn), zinc (Zn), copper (Cu), molybdenum (Mo), boron (B), and chlorine (Cl) are <b>essential nutrients</b> required in small amounts for plant growth and development.
                 </p>
@@ -334,7 +334,7 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                Ensuring adequate levels of macroelements in soil is vital for optimal plant growth, development, and crop yield. Macroelements such as nitrogen (N), phosphorus (P), potassium (K), calcium (Ca), magnesium (Mg), and sulfur (S) play crucial roles in various physiological processes, including photosynthesis, energy transfer, and protein synthesis. Proper management of these nutrients through soil testing, fertilization, and crop rotation can enhance nutrient availability, improve soil fertility, and promote sustainable agricultural practices.
               </div>
             )}
-            {indicator === 'Micronutrients (mb/kg)' && (
+            {indicator === 'Micronutrients (mg/kg)' && (
               <div className={styles.bottomRightBox2}>
                Ensuring adequate levels of micronutrients in soil is vital for optimal plant growth, development, and crop yield. Micronutrients such as iron (Fe), manganese (Mn), zinc (Zn), copper (Cu), molybdenum (Mo), boron (B), and chlorine (Cl) play crucial roles in various physiological processes, including enzyme activation, photosynthesis, and hormone regulation. Proper management of these nutrients through soil testing, fertilization, and crop rotation can enhance nutrient availability, improve soil fertility, and promote sustainable agricultural practices.
               </div>
