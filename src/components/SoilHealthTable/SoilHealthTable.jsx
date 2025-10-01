@@ -56,6 +56,7 @@ const SoilHealthTable = ({ visible, onClose }) => {
         visible={infoModal.open}
         indicator={infoModal.indicator}
         onClose={() => setInfoModal({ open: false, indicator: '' })}
+        onIndicatorChange={(newIndicator) => setInfoModal({ open: true, indicator: newIndicator })}
       />
     );
   }
