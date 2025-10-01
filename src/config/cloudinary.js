@@ -99,6 +99,25 @@ export const CAROUSEL_IMAGES_BULGARIA = [
 
 ];
 
+export const CAROUSEL_IMAGES_ITALY = [
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1759319392/flora_4_bis_td7hr0.jpg`,
+    title: "Italian Soil Analysis",
+    description: "Soil sample and organic matter analysis in Italy."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1759319406/Immagine6_dzkada.jpg`,
+    title: "Italian Soil Analysis",
+    description: "Soil sample and organic matter analysis in Italy."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1759319382/flora_3_bis_rkx5mi.jpg`,
+    title: "Italian Soil Analysis",
+    description: "Soil sample and organic matter analysis in Italy."
+  }
+
+];
+
 // Fallback images for Bulgaria
 export const FALLBACK_IMAGES_BULGARIA = [
   {

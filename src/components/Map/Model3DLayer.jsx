@@ -5,6 +5,7 @@ import InfoModalYellowBulgaria from './InfoModal/InfoModalBulgaria/InfoModalYell
 import InfoModalEstonia from './InfoModal/InfoModalEstonia/InfoModalEstonia';
 import InfoModalLetonia from './InfoModal/InfoModalLetonia/InfoModalLetonia';
 import InfoModalMadrid from './InfoModal/InfoModalMadrid/InfoModalMadrid';
+import InfoModalItaly from './InfoModal/InfoModalItalia/ItalyFlora2/InfoModalFlora';
 import Legend from './Legend/Legend';
 import ImageCarousel from './InfoModal/ImageCarousel';
 import SamplingDataTable from '../SamplingDataTable/SamplingDataTable';
@@ -518,6 +519,15 @@ const Model3DLayer = () => {
         onCloseAll={() => {
           setOpenModal(null);
           closeModalAndLegend('estonia');
+        }}
+      />
+      <InfoModalItaly
+        visible={openModal === 'italy'}
+        onClose={() => setOpenModal(null)}
+        isClosing={isClosing}
+        onCloseAll={() => {
+          setOpenModal(null);
+          closeModalAndLegend('italy');
         }}
       />
       <InfoModalYellow
