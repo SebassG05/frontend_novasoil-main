@@ -226,6 +226,22 @@ const Model3DLayer = () => {
     return true;
   };
 
+  const createItalyMarker = () => {
+    const italyCoordinates = [10.548611, 43.478889];
+    if (!map || !map.isStyleLoaded()) {
+      setTimeout(() => createItalyMarker(), 50);
+      return false;
+    }
+    createPulseLayer('italy-marker', '#009246', italyCoordinates, pulseTimers);
+    map.on('click', 'italy-marker-circle', (e) => {
+  setLegendVisible(true);
+  setOpenModal('italy');
+  setSelectedAreaName('Case study Italy');
+  useMapStore.getState().setHoveredSample(null);
+    });
+    return true;
+  };
+
   const createMadridMarker = () => {
     const madridCoordinates = [-4.938573, 41.422618];
     if (!map || !map.isStyleLoaded()) {
@@ -415,6 +431,7 @@ const Model3DLayer = () => {
         createEstoniaMarker();
         createLetoniaMarker();
         createMadridMarker();
+        createItalyMarker();
         // NO añadir ni remover sampling points layers aquí
       }
       
