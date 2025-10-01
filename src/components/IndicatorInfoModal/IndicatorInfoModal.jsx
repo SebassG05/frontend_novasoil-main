@@ -7,6 +7,7 @@ const CEC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v175923
 const METALS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759236603/unnamed-removebg-preview_20_r9edhk.png';
 const MACROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759237797/unnamed-removebg-preview_21_n0ikrz.png';
 const MICROELEMENTS = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759300659/unnamed-removebg-preview_22_gvh0cw.png';
+const ORGANICMATTER = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759301796/unnamed-removebg-preview_23_z0xhzg.png';
 
 const GROUPS = {
   'pH': 'chemical',
@@ -74,10 +75,13 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                 {indicator === 'Micronutrients (mb/kg)' && (
                 <img src={MICROELEMENTS} alt="Micronutrients" className={styles.cecImg} />
               )}
+                {indicator === 'Organic matter (%)' && (
+                <img src={ORGANICMATTER} alt="Organic matter" className={styles.cecImg} />
+              )}
               
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)') && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)') && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -115,6 +119,13 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <span key="mod"><b>Moderate micronutrients (10–50 mb/kg):</b> adequate levels, support healthy crop development.</span>,
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High micronutrients (&gt; 50 mb/kg):</b> excess may cause toxicity and affect plant health.</span>
+                  ]}
+                  {indicator === 'Organic matter (%)' && [
+                    <span key="low"><b>Low organic matter (&lt; 2%):</b> soils have poor structure and low fertility.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate organic matter (2–5%):</b> good fertility and microbial activity, suitable for most crops.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High organic matter (&gt; 5%):</b> very fertile soils, enhance nutrient retention and water holding capacity.</span>
                   ]}
                 </p>
               </div>
@@ -154,6 +165,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                   Micronutrients such as iron (Fe), manganese (Mn), zinc (Zn), copper (Cu), molybdenum (Mo), boron (B), and chlorine (Cl) are <b>essential nutrients</b> required in small amounts for plant growth and development.
                 </p>
               )}
+              {indicator === 'Organic matter (%)' && (
+                <p className={styles.description}>
+                  Soil organic matter (SOM) is a complex mixture of decomposed plant and animal residues, living microorganisms, and humus. It plays a <b>crucial role in maintaining soil health </b>, fertility, and structure.
+                </p>
+              )}
             </div>
             <div className={styles.divider}>
             </div>
@@ -186,6 +202,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
             {indicator === 'Micronutrients (mb/kg)' && (
               <div className={styles.bottomRightBox2}>
                Ensuring adequate levels of micronutrients in soil is vital for optimal plant growth, development, and crop yield. Micronutrients such as iron (Fe), manganese (Mn), zinc (Zn), copper (Cu), molybdenum (Mo), boron (B), and chlorine (Cl) play crucial roles in various physiological processes, including enzyme activation, photosynthesis, and hormone regulation. Proper management of these nutrients through soil testing, fertilization, and crop rotation can enhance nutrient availability, improve soil fertility, and promote sustainable agricultural practices.
+              </div>
+            )}
+            {indicator === 'Organic matter (%)' && (
+              <div className={styles.bottomRightBox2}>
+               Maintaining adequate levels of soil organic matter (SOM) is essential for soil health, fertility, and overall ecosystem sustainability. SOM improves soil structure, enhances water retention, and promotes nutrient cycling, which are crucial for optimal plant growth and development. Implementing practices such as cover cropping, reduced tillage, and organic amendments can help increase SOM levels, leading to improved soil quality and agricultural productivity.
               </div>
             )}
           </div>
