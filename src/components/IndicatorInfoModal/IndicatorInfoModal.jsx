@@ -16,6 +16,7 @@ const BULK_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v17593
 const Nematoda_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759305918/dae67458-1b8d-475c-9ec6-53525557a6d7_cdhhc1.jpg';
 const FungiPresence = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759308760/7489488d-9157-48e5-80d7-2d1980726613_ej5qzi.jpg';
 const Microbiological = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759310105/aristilde-sugar970__FocusFillMaxWyIwLjAwIiwiMC4wMCIsMTIwMCw2MzBd_rlfxw7.jpg';
+const Annelidpresence = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759311445/360_F_14055374_amxSEbODmQvOTZ29DFzKi4BTnYRnsgZI_rutlzx.jpg';
 
 const GROUPS = {
   'pH': 'chemical',
@@ -33,7 +34,7 @@ const GROUPS = {
   'Nematoda UD/100gr': 'biological',
   'Fungi presence': 'biological',
   'Microbiological respiration': 'biological',
-  'Annelid presence (number of individuals)': 'biological',
+  'Annelid presence': 'biological',
 };
 
 const PH_DESCRIPTION_1 = (
@@ -109,9 +110,12 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
               {indicator === 'Microbiological respiration' && (
                 <img src={Microbiological} alt="Microbiological respiration" className={styles.clayImg} />
               )}
+              {indicator === 'Annelid presence' && (
+                <img src={Annelidpresence} alt="Annelid presence" className={styles.clayImg} />
+              )}
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' || indicator === 'Bulk density (g/cc)' || indicator === 'Nematoda UD/100gr' || indicator === 'Fungi presence' || indicator === 'Microbiological respiration') && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' || indicator === 'Bulk density (g/cc)' || indicator === 'Nematoda UD/100gr' || indicator === 'Fungi presence' || indicator === 'Microbiological respiration' || indicator === 'Annelid presence') && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -213,7 +217,13 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High respiration (&gt; 200 mg CO2/100 g):</b> rapid decomposition and nutrient turnover.</span>
                   ]}
-
+                  {indicator === 'Annelid presence' && [
+                    <span key="low"><b>Low annelids (&lt; 10 UD/100 g):</b> soils have few earthworms, indicating low biological activity.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate annelids (10–50 UD/100 g):</b> healthy population, supports soil structure and nutrient cycling.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High annelids (&gt; 50 UD/100 g):</b> very active population; enhances soil aeration, organic matter decomposition, and fertility.</span>
+                  ]}
                 </p>
               </div>
             )}
@@ -289,6 +299,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
               {indicator === 'Microbiological respiration' && (
                 <div className={styles.description}>
                  Microbiological respiration  measures the amount of carbon dioxide produced by soil microorganisms during respiration. <b>It is an important indicator of soil microbial activity, organic matter decomposition, and overall soil health.</b></div>
+              )}
+              {indicator === 'Annelid presence' && (
+                <div className={styles.description}>
+                  Annelid presence indicates the abundance of earthworms in the soil, which are vital for soil health. <b>They improve soil structure, enhance nutrient cycling, and promote overall soil fertility.</b>
+                </div>
               )}
             </div>
             <div className={styles.divider}>
@@ -368,6 +383,11 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
               <div className={styles.bottomRightBox3}>
             Maintaining adequate microbiological respiration is essential for soil health and fertility. It reflects microbial activity, crucial for organic matter decomposition, nutrient cycling, and soil structure. Practices like adding organic amendments, crop rotation, and reducing chemical inputs help stimulate microbes, improving soil quality and crop productivity. 
               </div>
+            )}
+            {indicator === 'Annelid presence' && (
+              <div className={styles.bottomRightBox3}>
+                Mantaining a healthy population of annelids (earthworms) in soil is essential for soil health, fertility, and overall ecosystem sustainability. Annelids improve soil structure, enhance nutrient cycling, and promote overall soil fertility. Implementing practices such as adding organic matter, reducing tillage, and maintaining adequate moisture levels can help support beneficial annelid populations, leading to improved soil quality and agricultural productivity.
+              </div>  
             )}
           </div>
         </div>
