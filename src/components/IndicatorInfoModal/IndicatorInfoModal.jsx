@@ -12,6 +12,10 @@ const SOC_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v175930
 const Clay_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759303763/2021-04-22-OnsiteBlogging-42052438-1-1920w_tjuwgf.webp';
 const Silt_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759304364/person-digging-shovel-into-silt-soil-garden_qvbwrh.avif';
 const Sand_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759304568/blade-4110620_1920_xkazod.jpg';
+const BULK_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759304982/Phys_-_BD_Meas_Fig2_d6flol.png';
+const Nematoda_IMAGE_URL = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759305918/dae67458-1b8d-475c-9ec6-53525557a6d7_cdhhc1.jpg';
+const FungiPresence = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759308760/7489488d-9157-48e5-80d7-2d1980726613_ej5qzi.jpg';
+const Microbiological = 'https://res.cloudinary.com/drwlnxvqr/image/upload/v1759310105/aristilde-sugar970__FocusFillMaxWyIwLjAwIiwiMC4wMCIsMTIwMCw2MzBd_rlfxw7.jpg';
 
 const GROUPS = {
   'pH': 'chemical',
@@ -26,10 +30,9 @@ const GROUPS = {
   'Silt (%)': 'physical',
   'Sand (%)': 'physical',
   'Bulk density (g/cc)': 'physical',
-  'Nematoda (Saprophytes) UD/100gr': 'biological',
-  'Nematoda (Phytopathogens) UD/100gr': 'biological',
-  'Fungi presence (Trichoderma, Paecilomyces...)': 'biological',
-  'Microbiological respiration (mg CO2/100g)': 'biological',
+  'Nematoda UD/100gr': 'biological',
+  'Fungi presence': 'biological',
+  'Microbiological respiration': 'biological',
   'Annelid presence (number of individuals)': 'biological',
 };
 
@@ -94,9 +97,21 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                 {indicator === 'Sand (%)' && (
                 <img src={Sand_IMAGE_URL} alt="Sand" className={styles.clayImg} />
               )}
+                {indicator === 'Bulk density (g/cc)' && (
+                <img src={BULK_IMAGE_URL} alt="Bulk density" className={styles.clayImg} />
+              )}
+                {indicator === 'Nematoda UD/100gr' && (
+                <img src={Nematoda_IMAGE_URL} alt="Nematoda" className={styles.clayImg} />
+              )}
+                {indicator === 'Fungi presence' && (
+                <img src={FungiPresence} alt="Fungi presence" className={styles.clayImg} />
+              )}
+              {indicator === 'Microbiological respiration' && (
+                <img src={Microbiological} alt="Microbiological respiration" className={styles.clayImg} />
+              )}
             </div>
             {/* PH_DESCRIPTION_2, EC_DESCRIPTION_2, CEC_DESCRIPTION_2, or HEAVY_METALS_DESCRIPTION_2 below the image, outside imageBox */}
-            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' ) && (
+            {(indicator === 'pH' || indicator === 'EC (μS/cm)' || indicator === 'CEC (mEq/100 g)' || indicator === 'Heavy metals (mg/kg)' || indicator === 'Macroelements (mg/kg)' || indicator === 'Micronutrients (mb/kg)' || indicator === 'Organic matter (%)' || indicator === 'Soil Organic Carbon (%)' || indicator === 'Clay (%)' || indicator === 'Silt (%)' || indicator === 'Sand (%)' || indicator === 'Bulk density (g/cc)' || indicator === 'Nematoda UD/100gr' || indicator === 'Fungi presence' || indicator === 'Microbiological respiration') && (
               <div className={styles.phBox}>
                 <p className={styles.description}>
                   {indicator === 'pH' && PH_DESCRIPTION_2}
@@ -170,7 +185,34 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
                     <br key="br3" />, <br key="br4" />,
                     <span key="high"><b>High sand (&gt; 60%):</b> coarse soils, drain quickly, low water, may require frequent irrigation and fertilization.</span>
                   ]}
-
+                  {indicator === 'Bulk density (g/cc)' && [
+                    <span key="low"><b>Low bulk density (&lt; 1.2 g/cc):</b> soils are well-aerated, but may have lower nutrient content.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate bulk density (1.2–1.6 g/cc):</b> ideal for root growth, water infiltration, and nutrient availability.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High bulk density (&gt; 1.6 g/cc):</b> soils are compacted, restrict root growth, water movement, and nutrient uptake.</span>
+                  ]}
+                  {indicator === 'Nematoda UD/100gr' && [
+                    <span key="low"><b>Low nematodes (&lt; 50 UD/100 g):</b> soils have few nematodes, indicating low biological activity.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate nematodes (50–200 UD/100 g):</b> healthy population, supports soil nutrient cycling and ecosystem balance.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High nematodes (&gt; 200 UD/100 g):</b> very active soil fauna; excessive populations may indicate pest risk for some crops.</span>
+                  ]}
+                  {indicator === 'Fungi presence' && [
+                    <span key="low"><b>Low fungi (&lt; 50 UD/100 g):</b> soils have few fungi, indicating low microbial activity.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate fungi (50–200 UD/100 g):</b> healthy fungal population, supports nutrient cycling and soil balance.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High fungi (&gt; 200 UD/100 g):</b> very active fungal community; may indicate high organic matter decomposition.</span>
+                  ]}
+                  {indicator === 'Microbiological respiration' && [
+                    <span key="low"><b>Low respiration (&lt; 50 mg CO2/100 g):</b> soils have low microbial activity.</span>,
+                    <br key="br1" />, <br key="br2" />,
+                    <span key="mod"><b>Moderate respiration (50–200 mg CO2/100 g):</b> healthy microbial activity, supports nutrient cycling.</span>,
+                    <br key="br3" />, <br key="br4" />,
+                    <span key="high"><b>High respiration (&gt; 200 mg CO2/100 g):</b> rapid decomposition and nutrient turnover.</span>
+                  ]}
 
                 </p>
               </div>
@@ -222,15 +264,31 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
               )}
               {indicator === 'Clay (%)' && (
                 <div className={styles.description}>
-                  Clay (%) represents the proportion of fine mineral particles in the soil. <b>It influences water retention, nutrient availability, soil structure, and workability, all of which are crucial for plant growth and soil health.</b>                </div>
+                  Clay (%) represents the proportion of fine mineral particles in the soil. <b>It influences water retention, nutrient availability, soil structure, and workability, all of which are crucial for plant growth and soil health.</b></div>
               )}
               {indicator === 'Silt (%)' && (
                 <div className={styles.description}>
-                  Silt (%) represents the proportion of fine mineral particles in the soil. <b>It influences water retention, nutrient availability, soil structure, and workability, all of which are crucial for plant growth and soil health.</b>                </div>
+                  Silt (%) represents the proportion of fine mineral particles in the soil. <b>It influences water retention, nutrient availability, soil structure, and workability, all of which are crucial for plant growth and soil health.</b></div>
               )}
               {indicator === 'Sand (%)' && (
                 <div className={styles.description}>
-                  Sand (%) represents the proportion of coarse mineral particles in the soil. <b>It influences drainage, aeration, and soil texture, all of which are crucial for plant growth and soil health.</b>                </div>
+                  Sand (%) represents the proportion of coarse mineral particles in the soil. <b>It influences drainage, aeration, and soil texture, all of which are crucial for plant growth and soil health.</b></div>
+              )}
+              {indicator === 'Bulk density (g/cc)' && (
+                <div className={styles.description}>
+                  Bulk density (g/cc) measures the mass of soil per unit volume, including pore spaces. <b>It affects root growth, water infiltration, and aeration, all of which are vital for healthy plant development and soil function.</b></div>
+              )}
+              {indicator === 'Nematoda UD/100gr' && (
+                <div className={styles.description}>
+                  Nematoda UD/100gr indicates the density of nematodes in the soil, which are microscopic roundworms. <b>They play essential roles in nutrient cycling, organic matter decomposition, contributing to overall soil health and fertility.</b></div>
+              )}
+              {indicator === 'Fungi presence' && (
+                <div className={styles.description}>
+                  Fungi presence reflects the abundance of fungal species in soil, essential for nutrient cycling and organic matter decomposition. <b>They form symbiotic relationships</b> with plant roots, improving water and nutrient uptake and supporting .</div>
+              )}
+              {indicator === 'Microbiological respiration' && (
+                <div className={styles.description}>
+                 Microbiological respiration  measures the amount of carbon dioxide produced by soil microorganisms during respiration. <b>It is an important indicator of soil microbial activity, organic matter decomposition, and overall soil health.</b></div>
               )}
             </div>
             <div className={styles.divider}>
@@ -289,6 +347,26 @@ const IndicatorInfoModal = ({ visible, onClose, indicator }) => {
             {indicator === 'Sand (%)' && (
               <div className={styles.bottomRightBox2}>
                 Maintaining adequate levels of sand in soil is essential for soil health, fertility, and overall ecosystem sustainability. Sand particles improve soil drainage, aeration, and root penetration, which are crucial for optimal plant growth and development. Implementing practices such as cover cropping, reduced tillage, and organic amendments can help balance sand levels, leading to improved soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Bulk density (g/cc)' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining optimal bulk density in soil is crucial for soil health, fertility, and overall ecosystem sustainability. Proper bulk density ensures adequate pore space for air and water movement, promoting healthy root growth and microbial activity. Implementing practices such as reduced tillage, cover cropping, and organic amendments can help manage bulk density, leading to improved soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Nematoda UD/100gr' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining a healthy population of nematodes in soil is essential for soil health, fertility, and overall ecosystem sustainability. Nematodes play crucial roles in nutrient cycling, organic matter decomposition, and pest control, which are vital for optimal plant growth and development. Implementing practices such as crop rotation, organic amendments, and reduced pesticide use can help support beneficial nematode populations, leading to improved soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Fungi presence' && (
+              <div className={styles.bottomRightBox2}>
+                Maintaining a healthy population of soil fungi is essential for soil health, fertility, and overall ecosystem sustainability. Fungi play key roles in decomposing organic matter, nutrient cycling, and forming symbiotic relationships with plants, which support optimal growth and development. Implementing practices such as adding organic amendments, reducing tillage, and minimizing chemical inputs can help promote beneficial fungal populations, enhancing soil quality and agricultural productivity.
+              </div>
+            )}
+            {indicator === 'Microbiological respiration' && (
+              <div className={styles.bottomRightBox3}>
+            Maintaining adequate microbiological respiration is essential for soil health and fertility. It reflects microbial activity, crucial for organic matter decomposition, nutrient cycling, and soil structure. Practices like adding organic amendments, crop rotation, and reducing chemical inputs help stimulate microbes, improving soil quality and crop productivity. 
               </div>
             )}
           </div>

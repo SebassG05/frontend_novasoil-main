@@ -6,22 +6,21 @@ const SOIL_HEALTH_DATA = [
   {
     chemical: 'pH',
     physical: 'Clay (%)',
-    biological: 'Nematoda (Saprophytes) UD/100gr',
+    biological: 'Nematoda UD/100gr',
   },
   {
     chemical: 'EC (μS/cm)',
     physical: 'Silt (%)',
-    biological: 'Nematoda (Phytopathogens) UD/100gr',
   },
   {
     chemical: 'CEC (mEq/100 g)',
     physical: 'Sand (%)',
-    biological: 'Fungi presence (Trichoderma, Paecilomyces...)',
+    biological: 'Fungi presence',
   },
   {
     chemical: 'Heavy metals (mg/kg)',
     physical: 'Bulk density (g/cc)',
-    biological: 'Microbiological respiration (mg CO2/100g)',
+    biological: 'Microbiological respiration',
   },
   {
     chemical: 'Macroelements (mg/kg)',
