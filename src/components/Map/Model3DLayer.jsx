@@ -237,6 +237,22 @@ const Model3DLayer = () => {
     return true;
   };
 
+  const createItalyCiraaMarker = () => {
+    const italyCoordinates = [10.310458, 43.669059];
+    if (!map || !map.isStyleLoaded()) {
+      setTimeout(() => createItalyCiraaMarker(), 50);
+      return false;
+    }
+    createPulseLayer('italy-ciraa-marker', '#009246', italyCoordinates, pulseTimers);
+    map.on('click', 'italy-ciraa-marker-circle', (e) => {
+  setLegendVisible(true);
+  setOpenModal('italy');
+  setSelectedAreaName('Case study Italy Ciraa');
+  useMapStore.getState().setHoveredSample(null);
+    });
+    return true;
+  };
+
   const createItalyMarker = () => {
     const italyCoordinates = [10.548611, 43.478889];
     if (!map || !map.isStyleLoaded()) {
@@ -422,6 +438,7 @@ const Model3DLayer = () => {
           map.removeSource('yellow-marker-source');
         }
         // NO remover capas de puntos de muestreo (sampling-points-layer, germany-sampling-points-layer)
+        // Mantener Italia y otros marcadores siempre visibles
         if (!markersRef.current.model3D) {
           markersRef.current.model3D = create3DModel();
           map.addLayer(markersRef.current.model3D);
@@ -438,11 +455,7 @@ const Model3DLayer = () => {
           markersRef.current.htmlMarker = createHtmlMarker();
         }
         createYellowMarker();
-        createBulgariaMarker();
-        createEstoniaMarker();
-        createLetoniaMarker();
-        createMadridMarker();
-        createItalyMarker();
+        // Los demás marcadores ya están creados al inicio
         // NO añadir ni remover sampling points layers aquí
       }
       
@@ -453,6 +466,14 @@ const Model3DLayer = () => {
     const addModel = () => {
       // Pequeño delay para asegurar que el mapa esté completamente listo
       setTimeout(() => {
+        // Crear marcadores que siempre están visibles
+        createMadridMarker();
+        createLetoniaMarker();
+        createEstoniaMarker();
+        createBulgariaMarker();
+        createItalyMarker();
+        createItalyCiraaMarker();
+        
         // Inicializar con el marcador apropiado según el zoom actual
         handleZoomChange();
         
@@ -476,7 +497,7 @@ const Model3DLayer = () => {
       Object.values(pulseTimers.current).forEach(timer => clearInterval(timer));
       // Remover todas las capas y fuentes de pulse
       [
-        'marker', 'yellow-marker', 'estonia-marker', 'bulgaria-marker'
+        'marker', 'yellow-marker', 'estonia-marker', 'bulgaria-marker', 'letonia-marker', 'madrid-marker', 'italy-marker', 'italy-ciraa-marker'
       ].forEach(id => {
         // Eliminar primero las layers, luego la source
         if (map.getLayer(`${id}-pulse`)) map.removeLayer(`${id}-pulse`);

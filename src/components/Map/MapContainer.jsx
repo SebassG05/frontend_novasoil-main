@@ -12,6 +12,7 @@ import EstoniaHoverInfo from './SampleInfoEstonia/EstoniaHoverInfo';
 import LetoniaHoverInfo from './SampleInfoLetonia/LetoniaHoverInfo';
 import MadridHoverInfo from './SampleInfoMadrid/MadridHoverInfo';
 import ItalyFlora2HoverInfo from './SampleInfoItalia/ItalyFlora2/ItalyFlora2HoverInfo';
+import ItalyCiraa3HoverInfo from './SampleInfoItalia/ItalyCiraa3/ItalyCiraa3HoverInfo';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -162,8 +163,8 @@ const MapContainer = () => {
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._letonia && <LetoniaHoverInfo />}
             {/* Mostrar pop-up de Madrid solo si hoveredSample existe y es de Madrid */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._madrid && <MadridHoverInfo />}
-            {/* Mostrar pop-up de Italy Flora2 solo si hoveredSample existe y es de Italy Flora2 */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._italy && <ItalyFlora2HoverInfo />}
+            {/* Mostrar pop-up de Italy Ciraa3 solo si hoveredSample existe y es de Italy Ciraa3 */}
+            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._italy && <ItalyCiraa3HoverInfo />}
             {/* Cargar datos geoespaciales */}
             <GeoDataLoader />
             <MiniMap />
