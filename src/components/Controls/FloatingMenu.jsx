@@ -9,6 +9,7 @@ import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
 import Loader from '../Loader/Loader';
 import SoilHealthTable from '../SoilHealthTable/SoilHealthTable';
+import IconsNewBot from '../iconsnewbot/iconsNewBot.jsx';
 
 // Función para extraer subcapas reales del XML (Name y Title)
 function parseWMSLayers(xmlString) {
@@ -92,6 +93,8 @@ const FloatingMenu = () => {
     const [showVisualizations, setShowVisualizations] = useState(null);
     // Estado para mostrar el modal de SoilHealthTable
     const [showSoilHealthTable, setShowSoilHealthTable] = useState(false);
+    // Estado para mostrar el modal de iconsNewBot
+    const [showIconsNewBot, setShowIconsNewBot] = useState(false);
     const [loadingWMS, setLoadingWMS] = useState(false);
     const [successWMS, setSuccessWMS] = useState(false);
     const [showLegend, setShowLegend] = useState(false);
@@ -183,8 +186,15 @@ const FloatingMenu = () => {
         setIsOpen(false);
     };
 
-    // Manejar clic en la burbuja de Soil Health Table (tercer botón)
+    // Manejar clic en el nuevo botón para iconsNewBot (vacío)
     const handleSoilHealthBubbleClick = () => {
+        setShowIconsNewBot(true);
+        setActivePanel(null);
+        setIsOpen(false);
+    };
+
+    // Manejar clic en el botón de Soil Health normal (con tarjetas)
+    const handleRealSoilHealthBubbleClick = () => {
         setShowSoilHealthTable(true);
         setActivePanel(null);
         setIsOpen(false);
@@ -197,6 +207,14 @@ const FloatingMenu = () => {
             setActivePanel(null);
         }
     }, [showSoilHealthTable]);
+
+    // Cerrar el menú flotante automáticamente cuando se muestre iconsNewBot
+    useEffect(() => {
+        if (showIconsNewBot) {
+            setIsOpen(false);
+            setActivePanel(null);
+        }
+    }, [showIconsNewBot]);
 
     // Seleccionar una subcapa WMS real
     const handleSelectWMSLayer = (layer) => {
@@ -389,28 +407,42 @@ const FloatingMenu = () => {
                 </button>
 
                 {/* Mostrar siempre el menú de burbujas, no solo cuando isOpen */}
-                {(!activePanel && (isOpen || showSoilHealthTable)) && (
+                {(!activePanel && (isOpen || showSoilHealthTable || showIconsNewBot)) && (
                     <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-290px'}}>
-                        {/* Nueva burbuja personalizada (ahora arriba) */}
+                       
                         <button
-                            onClick={() => alert('Nueva burbuja clickeada')}
-                            className="bg-white text-purple-600 w-10 h-10 sm:w-12 sm:h-12 
+                            onClick={handleSoilHealthBubbleClick}
+                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
                                      rounded-full shadow-md border-none flex items-center justify-center
-                                     hover:bg-purple-50 hover:shadow-lg active:scale-95 
+                                     hover:bg-green-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
                             style={{ animation: 'bubbleUp 0.4s ease-out forwards' }}
-                            aria-label="Nueva burbuja"
+                            aria-label="Soil health indicators"
                         >
-                            {/* Icono personalizado, aquí puedes cambiar el SVG por el que prefieras */}
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="11" cy="11" r="10" fill="#A78BFA" stroke="#6D28D9" strokeWidth="1.2"/>
-                              <path d="M11 7v4l3 2" stroke="#6D28D9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            {/* Icono personalizado para Soil health indicators: hoja y tierra */}
+                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              {/* Tierra */}
+                              <ellipse cx="13" cy="19.5" rx="8" ry="4" fill="#A0522D" stroke="#6B3F19" strokeWidth="1.2"/>
+                              {/* Hoja */}
+                              <path d="M13 19C13 13 21 10 21 5C21 5 17 5 13 9C9 5 5 5 5 5C5 10 13 13 13 19Z" fill="#774cafff" stroke="#388E3C" strokeWidth="1.2"/>
+                              {/* Nervio central de la hoja */}
+                              <path d="M13 19V11" stroke="#2E7D32" strokeWidth="1" strokeLinecap="round"/>
+                              {/* Raíces */}
+                              <path d="M13 23V21.5" stroke="#6B3F19" strokeWidth="1" strokeLinecap="round"/>
+                              <path d="M11.5 22.5L13 21.5" stroke="#6B3F19" strokeWidth="0.8" strokeLinecap="round"/>
+                              <path d="M14.5 22.5L13 21.5" stroke="#6B3F19" strokeWidth="0.8" strokeLinecap="round"/>
                             </svg>
+                            <div className="absolute top-0 left-full ml-2 translate-y-[-50%] opacity-0 
+                                          group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                <div className="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                    Soil health indicators
+                                </div>
+                            </div>
                         </button>
 
                         {/* ...existing code... (las demás burbujas) */}
                         <button
-                            onClick={handleSoilHealthBubbleClick}
+                            onClick={handleRealSoilHealthBubbleClick}
                             className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-green-50 hover:shadow-lg active:scale-95 
@@ -438,7 +470,11 @@ const FloatingMenu = () => {
                                 </div>
                             </div>
                         </button>
-            {/* Modal SoilHealthTable */}
+            {/* Modal iconsNewBot */}
+            {showIconsNewBot && (
+                <IconsNewBot visible={showIconsNewBot} onClose={() => setShowIconsNewBot(false)} empty={true} />
+            )}
+            {/* Modal SoilHealthTable normal */}
             {showSoilHealthTable && (
                 <SoilHealthTable visible={showSoilHealthTable} onClose={() => setShowSoilHealthTable(false)} />
             )}

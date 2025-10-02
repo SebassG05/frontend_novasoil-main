@@ -1,0 +1,291 @@
+.cardGridUnified {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 1.3rem 1.7rem;
+	width: 100%;
+	max-width: 900px;
+	justify-content: center;
+	align-items: start;
+}
+.cardLabel {
+	display: block;
+	font-size: 1.13rem;
+	font-weight: 600;
+	color: #2d5016;
+	text-align: center;
+	word-break: break-word;
+	margin-bottom: 0.22em;
+}
+.cardGroup {
+	display: block;
+	font-size: 0.90rem;
+	font-weight: 600;
+	color: #5fae4e;
+	margin-top: 0.10em;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	text-align: center;
+}
+.cardGridUnified {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 1.5rem 2.2rem;
+	width: 100%;
+	max-width: 900px;
+	justify-content: center;
+	align-items: start;
+	max-height: 55vh;
+	overflow-y: auto;
+	padding-right: 0.5rem;
+	padding-left: 1.2rem;
+	padding-top: 1.2rem;
+	scrollbar-width: thin;
+	scrollbar-color: #eafbe7 #f8fff8;
+}
+.cardGridUnified::-webkit-scrollbar {
+	width: 9px;
+	background: #f8fff8;
+	border-radius: 8px;
+}
+.cardGridUnified::-webkit-scrollbar-thumb {
+	background: #eafbe7;
+	border-radius: 8px;
+	border: 2px solid #f8fff8;
+}
+.cardGridUnified::-webkit-scrollbar-thumb:hover {
+	background: #c8e6c9;
+}
+.cardLabel {
+	display: block;
+	font-size: 1.0rem;
+	font-weight: 600;
+	color: #2d5016;
+	text-align: center;
+	word-break: break-word;
+}
+.cardGridWrapper {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 2rem 2.5rem 2rem;
+}
+.cardGrid {
+	display: flex;
+	gap: 2.5rem;
+	width: 100%;
+	max-width: 900px;
+	justify-content: center;
+	align-items: flex-start;
+}
+.cardColumn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1 1 0;
+	min-width: 240px;
+}
+.cardTitle {
+	font-size: 1.3rem;
+	font-weight: 700;
+	color: #2d5016;
+	margin-bottom: 1.2rem;
+	letter-spacing: 0.01em;
+	text-align: center;
+}
+.card {
+	background: linear-gradient(135deg, #f8fff8 60%, #eafbe7 100%);
+	border-radius: 18px;
+	box-shadow: 0 4px 18px 0 rgba(44, 80, 22, 0.10), 0 1.5px 4px 0 rgba(139, 195, 74, 0.10);
+	border: 2.5px solid #eafbe7;
+	margin-bottom: 1.2rem;
+	padding: 1.1rem 1.1rem 0.7rem 1.1rem;
+	min-width: 210px;
+	max-width: 240px;
+	min-height: 70px;
+	max-height: 110px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	letter-spacing: 0.01em;
+	transition: box-shadow 0.22s, border 0.22s, transform 0.18s;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+.card:not(:last-child) {
+	margin-bottom: 1.2rem;
+}
+.card:hover {
+	box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 2px 8px rgba(139, 195, 74, 0.13);
+	border: 2.5px solid #8bc34a;
+	transform: translateY(-2px) scale(1.03);
+	background: linear-gradient(135deg, #eafbe7 60%, #f8fff8 100%);
+}
+.card::after {
+	content: '';
+	position: absolute;
+	left: 0; right: 0; top: 0; bottom: 0;
+	border-radius: 18px;
+	pointer-events: none;
+	box-shadow: 0 1.5px 8px 0 rgba(139, 195, 74, 0.08);
+	opacity: 0.7;
+}
+.soilHealthFadeOut {
+	animation: soilHealthFadeOut 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes soilHealthFadeOut {
+	from {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(32px) scale(0.98);
+	}
+}
+.soilHealthFadeIn {
+	animation: soilHealthFadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes soilHealthFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(32px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+@media (max-width: 1700px) and (min-width: 800px) {
+	.container {
+		max-width: 100% !important;
+		width: 65vw !important;
+		min-width: 1020px !important;
+		margin: 0 auto !important;
+		margin-right: 25% !important;
+		padding-left: 0rem;
+		padding-right: 0rem;
+		max-height: 80vh !important;
+		min-height: 200px;
+	}
+	.header, .footer {
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+	}
+	.table th, .table td {
+		padding-left: 0.5rem !important;
+		padding-right: 0.5rem !important;
+		font-size: 0.85rem !important;
+	}
+}
+@media (min-width: 1400px) {
+	.container {
+		margin-right: 14vw;
+	}
+}
+:global(.soil-health-table-modal),
+.soilHealthTableModal {
+	z-index: 10010 !important;
+	position: fixed !important;
+}
+.table tbody tr:nth-child(even) td, .table thead tr:nth-child(even) th {
+	background: #eafbe7;
+}
+.table tbody tr:nth-child(odd) td, .table thead tr:nth-child(odd) th {
+	background: #ffffff;
+}
+:root {
+	--novasoil-primary: #2d5016;
+	--novasoil-light: #8bc34a;
+	--novasoil-dark: #1a2e0a;
+	--novasoil-bg: #0d1408;
+	--novasoil-surface: #1f2f17;
+
+	background: #f8fff8;
+}
+.overlay {
+	z-index: 10010;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.container {
+	background: #f8fff8;
+	border-radius: 24px;
+	box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 1.5px 4px 0 rgba(0,0,0,0.12);
+	padding: 0;
+	min-width: 340px;
+	min-height: 200px;
+	max-width: 900px;
+	width: 90vw;
+	max-height: 80vh;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
+}
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5rem 2rem 1rem 2rem;
+	border-bottom: 2px solid #eafbe7;
+	background: linear-gradient(90deg, #eafbe7 0%, #f8fff8 100%);
+}
+.title {
+	font-size: 2rem;
+	font-weight: 700;
+	color: #2d5016;
+	letter-spacing: 0.02em;
+	margin: 0;
+}
+.closeBtn {
+	background: none;
+	border: none;
+	font-size: 2rem;
+	color: #2d5016;
+	cursor: pointer;
+	transition: color 0.2s;
+}
+.closeBtn:hover {
+	color: #8bc34a;
+}
+.tableWrapper {
+	flex: 1;
+	overflow: auto;
+	padding: 1.5rem 2rem;
+}
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 1rem;
+	background: #fff;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(44, 80, 22, 0.06);
+}
+.table th, .table td {
+	padding: 0.75rem 1.2rem;
+	text-align: center;
+	border-bottom: 1px solid #eafbe7;
+}
+.table th {
+	background: #eafbe7;
+	color: #2d5016;
+	font-weight: 700;
+	font-size: 1.1rem;
+	letter-spacing: 0.01em;
+}
+.table tr:last-child td {
+	border-bottom: none;
+}
