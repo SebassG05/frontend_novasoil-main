@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SamplingDataTable.module.css';
 
-const SamplingDataTable = ({ visible, onClose, data }) => {
+const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDatasetChange }) => {
   // Lista de columnas a ocultar solo para Alemania
   const hiddenGermanyColumns = [
     'nitrates_mgkg',
@@ -15,9 +15,40 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
 
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString('es-ES'));
+  const [activeDataset, setActiveDataset] = useState('ciraa1');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [tableKey, setTableKey] = useState(0);
 
   // Usar datos por props si existen, si no usar array vacío
   const sampleData = Array.isArray(data) && data.length > 0 ? data : [];
+
+  // Efecto para manejar cambios de datos con animación
+  useEffect(() => {
+    if (isItalyCiraa) {
+      setIsTransitioning(true);
+      setTableKey(prev => prev + 1);
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [data, isItalyCiraa]);
+
+  // Función para manejar el cambio de dataset con animación
+  const handleDatasetChange = (newDataset) => {
+    setIsTransitioning(true);
+    setActiveDataset(newDataset);
+    
+    // Pequeño delay para mostrar la transición
+    setTimeout(() => {
+      if (onDatasetChange) onDatasetChange(newDataset);
+    }, 150);
+    
+    setTimeout(() => {
+      setIsTransitioning(false);
+      setTableKey(prev => prev + 1);
+    }, 300);
+  };
 
 
   // Calcular estadísticas
@@ -292,8 +323,13 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
           <h2 className={styles.title}>Sampling table</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Cerrar tabla">✕</button>
         </div>
-        <div className={styles.tableWrapper}>
-          <table className={styles.table}>
+        <div className={`${styles.tableWrapper} ${isTransitioning ? styles.fadeOut : styles.fadeIn}`}>
+          {isTransitioning && (
+            <div className={styles.loadingOverlay}>
+              <div className={styles.loadingSpinner}></div>
+            </div>
+          )}
+          <table className={styles.table} key={tableKey}>
             <thead>
               <tr>
                 {visibleColumns.map(col => (
@@ -301,7 +337,7 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
                 ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody className={styles.tableContent}>
               {processedData.length === 0 ? (
                 <tr>
                   <td colSpan={visibleColumns.length} className={styles.emptyState}>
@@ -332,6 +368,31 @@ const SamplingDataTable = ({ visible, onClose, data }) => {
             </tbody>
           </table>
         </div>
+        
+        {/* Botones para cambiar dataset de Italy CIRAA */}
+        {isItalyCiraa && (
+          <div className={styles.datasetSwitcher}>
+            <button 
+              onClick={() => handleDatasetChange('ciraa1')}
+              className={`${styles.datasetButton} ${activeDataset === 'ciraa1' ? styles.datasetButtonActive : ''}`}
+            >
+              🌱 Cover Crops
+            </button>
+            <button 
+              onClick={() => handleDatasetChange('ciraa2')}
+              className={`${styles.datasetButton} ${activeDataset === 'ciraa2' ? styles.datasetButtonActive : ''}`}
+            >
+              🚜 Tillage Systems
+            </button>
+            <button 
+              onClick={() => handleDatasetChange('ciraa3')}
+              className={`${styles.datasetButton} ${activeDataset === 'ciraa3' ? styles.datasetButtonActive : ''}`}
+            >
+              🌿 MASCOT Project
+            </button>
+          </div>
+        )}
+        
         <div className={styles.footer}>
           <div className={styles.stats}>
             <div className={styles.statItem}>

@@ -36,6 +36,9 @@ export const useGeoData = () => {
         samplingDataLetonia,
         samplingDataMadrid,
         samplingDataItaly,
+        samplingDataItalyCiraa,
+        samplingDataItalyCiraa2,
+        samplingDataItalyCiraa3,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -48,6 +51,9 @@ export const useGeoData = () => {
         setSamplingDataLetonia,
         setSamplingDataMadrid,
         setSamplingDataItaly,
+        setSamplingDataItalyCiraa,
+        setSamplingDataItalyCiraa2,
+        setSamplingDataItalyCiraa3,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
@@ -394,6 +400,60 @@ export const useGeoData = () => {
         }
     };
 
+    /**
+     * Carga los datos de muestreo de Italia CIRAA y añade la capa al mapa
+     */
+    const loadItalyCiraaData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const italyCiraaData = await geoDataService.makeRequest('/sampling/italy-ciraa');
+            setSamplingDataItalyCiraa(italyCiraaData.data);
+            // Si tienes una función para añadir la capa de Italia CIRAA, agrégala aquí
+            if (map && italyCiraaData.data && italyCiraaData.data.length > 0) {
+                if (mapLayerService.addItalyCiraaSamplingPointsLayer) {
+                    mapLayerService.addItalyCiraaSamplingPointsLayer(map, italyCiraaData.data);
+                }
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    /**
+     * Carga los datos de muestreo de Italia CIRAA2 (Tillage Systems)
+     */
+    const loadItalyCiraa2Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const italyCiraa2Data = await geoDataService.makeRequest('/sampling/italy-ciraa2');
+            setSamplingDataItalyCiraa2(italyCiraa2Data.data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    /**
+     * Carga los datos de muestreo de Italia CIRAA3 (MASCOT)
+     */
+    const loadItalyCiraa3Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const italyCiraa3Data = await geoDataService.makeRequest('/sampling/italy-ciraa3');
+            setSamplingDataItalyCiraa3(italyCiraa3Data.data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
     return {
         // Estados
         shapefileData,
@@ -402,6 +462,11 @@ export const useGeoData = () => {
         samplingDataBulgaria,
         samplingDataEstonia,
         samplingDataLetonia,
+        samplingDataMadrid,
+        samplingDataItaly,
+        samplingDataItalyCiraa,
+        samplingDataItalyCiraa2,
+        samplingDataItalyCiraa3,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -415,6 +480,9 @@ export const useGeoData = () => {
         loadLetoniaData,
         loadMadridData,
         loadItalyData,
+        loadItalyCiraaData,
+        loadItalyCiraa2Data,
+        loadItalyCiraa3Data,
         loadMadridArea, // <-- Añadido para exponer la función
         toggleLayerVisibility,
         focusOnSample,

@@ -1,0 +1,407 @@
+/* Contenedor principal del carrusel */
+.carouselContainer {
+  width: 85%;
+  margin: 0.5rem auto 0;
+  position: relative;
+}
+
+/* Contenedor de logos */
+.logosContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.logoItem:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.logoImage {
+  height: 60px;
+  width: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.logoItem:hover .logoImage {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Track que contiene todas las slides */
+.carouselTrack {
+  display: flex;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Cada slide individual */
+.slide {
+  height: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Contenedor de imagen */
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.imageContainer:hover .image {
+  transform: scale(1.05);
+}
+
+/* Overlay con texto */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+  color: white;
+  padding: 2rem;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.imageContainer:hover .overlay {
+  transform: translateY(0);
+}
+
+.imageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.imageDescription {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones de navegación */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+}
+
+.navButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.prevButton {
+  left: 15px;
+}
+
+.nextButton {
+  right: 15px;
+}
+
+/* Indicadores */
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(10px);
+}
+
+.indicator:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.activeIndicator {
+  background: white;
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+/* Barra de progreso */
+.progressContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 10;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  width: 0%;
+  animation: progress 4s linear infinite;
+  border-radius: 0 2px 2px 0;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Efectos de entrada */
+.carouselContainer {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .carousel {
+    height: 300px;
+  }
+  
+  .navButton {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .prevButton {
+    left: 10px;
+  }
+  
+  .nextButton {
+    right: 10px;
+  }
+  
+  .overlay {
+    padding: 1.5rem;
+  }
+  
+  .imageTitle {
+    font-size: 1.2rem;
+  }
+  
+  .imageDescription {
+    font-size: 0.9rem;
+  }
+  
+  .logosContainer {
+    gap: 2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .logoImage {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel {
+    height: 250px;
+    border-radius: 15px;
+  }
+  
+  .navButton {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .overlay {
+    padding: 1rem;
+  }
+  
+  .imageTitle {
+    font-size: 1.1rem;
+  }
+  
+  .imageDescription {
+    font-size: 0.8rem;
+  }
+  
+  .callToAction {
+    margin-top: 1.5rem;
+  }
+  
+  .ctaText {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .ctaLink {
+    font-size: 0.95rem;
+    padding: 0.7rem 1.6rem;
+  }
+  
+  .logosContainer {
+    gap: 1.5rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .logoImage {
+    height: 45px;
+    width: 45px;
+  }
+}
+
+/* Call to Action elegante */
+.callToAction {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+.ctaText {
+  font-size: 1.1rem;
+  color: #5a6c7d;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.ctaLink {
+  background: linear-gradient(135deg, #4a7c23 0%, #2d5016 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(74, 124, 35, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.ctaLink:hover::before {
+  left: 100%;
+}
+
+.ctaLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(107, 168, 47, 0.4);
+  background: linear-gradient(135deg, #6ba82f 0%, #4a7c23 100%);
+}
+
+.ctaLink:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 15px rgba(74, 124, 35, 0.3);
+  animation: buttonClick 0.3s ease;
+}
+
+/* Animación para el clic del botón */
+@keyframes buttonClick {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(1px) scale(0.98);
+  }
+  100% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+/* Animación ripple para el botón */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
