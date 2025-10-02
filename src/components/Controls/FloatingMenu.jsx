@@ -390,8 +390,25 @@ const FloatingMenu = () => {
 
                 {/* Mostrar siempre el menú de burbujas, no solo cuando isOpen */}
                 {(!activePanel && (isOpen || showSoilHealthTable)) && (
-                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-210px'}}>
+                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-290px'}}>
+                        {/* Nueva burbuja personalizada (ahora arriba) */}
+                        <button
+                            onClick={() => alert('Nueva burbuja clickeada')}
+                            className="bg-white text-purple-600 w-10 h-10 sm:w-12 sm:h-12 
+                                     rounded-full shadow-md border-none flex items-center justify-center
+                                     hover:bg-purple-50 hover:shadow-lg active:scale-95 
+                                     transform transition-all duration-300"
+                            style={{ animation: 'bubbleUp 0.4s ease-out forwards' }}
+                            aria-label="Nueva burbuja"
+                        >
+                            {/* Icono personalizado, aquí puedes cambiar el SVG por el que prefieras */}
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="11" cy="11" r="10" fill="#A78BFA" stroke="#6D28D9" strokeWidth="1.2"/>
+                              <path d="M11 7v4l3 2" stroke="#6D28D9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </button>
 
+                        {/* ...existing code... (las demás burbujas) */}
                         <button
                             onClick={handleSoilHealthBubbleClick}
                             className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
