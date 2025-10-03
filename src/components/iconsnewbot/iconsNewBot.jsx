@@ -91,7 +91,11 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
     <div className={`overlay`}>
       <div className={`container ${closing ? 'soilHealthFadeOut' : 'soilHealthFadeIn'}`}>
         <div className={`header`}>
-          {!empty && <h2 className={`title`}>Soil Health Indicators</h2>}
+          {empty ? (
+            <h2 className={`title`}>Soil Threat Indicators</h2>
+          ) : (
+            <h2 className={`title`}>Soil Health Indicators</h2>
+          )}
           <button className={`closeBtn`} onClick={handleClose} aria-label="Close table">✕</button>
         </div>
         <div className={`cardGridWrapper`}>
@@ -100,8 +104,77 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
               // Modal completamente vacío - solo estructura para agregar contenido después
               <div style={{ 
                 minHeight: '300px',
-                width: '100%'
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginTop: '-10%',
+                marginLeft: '-1%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px 20px',
+                alignContent: 'center'
               }}>
+                <img 
+                  src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759483268/A%C3%B1adir_un_t%C3%ADtulo-removebg-preview_dxwbif.png" 
+                  alt="Soil health icon" 
+                  style={{ 
+                    width: '190px', 
+                    height: '190px', 
+                    opacity: 0.8,
+                    marginLeft: '70px'
+                  }}
+                />
+                <img 
+                  src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759483719/A%C3%B1adir_un_t%C3%ADtulo_1_soae8e-removebg-preview_lzbimi.png" 
+                  alt="Soil health icon" 
+                  style={{ 
+                    width: '180px', 
+                    height: '190px', 
+                    opacity: 0.8,
+                    margin: '10px'
+                  }}
+                />
+                <img 
+                  src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484062/A%C3%B1adir_un_t%C3%ADtulo__6_-removebg-preview_uuwehx.png" 
+                  alt="Soil health icon" 
+                  style={{ 
+                    width: '320px', 
+                    height: '310px', 
+                    opacity: 0.8,
+                    marginLeft: '-45px',
+                  }}
+                />
+                <img 
+                  src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484283/A%C3%B1adir_un_t%C3%ADtulo__8_-removebg-preview_seew8j.png" 
+                  alt="Soil health icon" 
+                  style={{ 
+                    width: '260px', 
+                    height: '260px', 
+                    opacity: 0.8,
+                    marginLeft: '0px'
+                  }}
+                />
+                <img 
+                  src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484400/A%C3%B1adir_un_t%C3%ADtulo__9_-removebg-preview_pplssf.png" 
+                  alt="Soil health icon" 
+                  style={{ 
+                    width: '250px', 
+                    height: '250px', 
+                    opacity: 0.8,
+                    marginLeft: '-49px'
+                  }}
+                />
+                <img 
+                  src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484497/A%C3%B1adir_un_t%C3%ADtulo__10_-removebg-preview_tkjccj.png" 
+                  alt="Soil health icon" 
+                  style={{ 
+                    width: '260px', 
+                    height: '260px', 
+                    opacity: 0.8,
+                    marginLeft: '-45px'
+                  }}
+                />
                 {/* Aquí puedes agregar tu contenido personalizado */}
               </div>
             ) : (
