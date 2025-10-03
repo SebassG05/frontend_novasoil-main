@@ -215,6 +215,17 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
           madridHeaders.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
         )
       ].join('\n');
+    } else if (isItalyCiraa) {
+      // CIRAA: exportar todas las columnas presentes en los datos
+      const ciraaHeaders = Object.keys(sampleData[0] || {}).filter(key => 
+        sampleData.some(row => row[key] !== undefined && row[key] !== '' && row[key] !== null)
+      );
+      csvContent = [
+        ciraaHeaders.join(','),
+        ...sampleData.map(sample =>
+          ciraaHeaders.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
+        )
+      ].join('\n');
     } else {
       // Tamarguillo: usar los nombres normalizados que llegan del backend
       const tamarguilloHeadersSnake = [
@@ -245,6 +256,17 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
       exportFileName = 'bulgaria';
     } else if (isItaly) {
       exportFileName = 'ItaliaCaseStudy2';
+    } else if (isItalyCiraa) {
+      // Para CIRAA, usar nombre específico según el tab activo
+      if (activeDataset === 'ciraa1') {
+        exportFileName = 'cover_crops';
+      } else if (activeDataset === 'ciraa2') {
+        exportFileName = 'tillage_systems';
+      } else if (activeDataset === 'ciraa3') {
+        exportFileName = 'mascot_project';
+      } else {
+        exportFileName = 'italy_ciraa';
+      }
     } else if (isLetonia) {
       exportFileName = 'letonia';
     } else if (isMadrid) {
