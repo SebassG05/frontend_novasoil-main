@@ -1,0 +1,142 @@
+/* Animaciones de entrada y salida */
+.soilThreatFadeOut {
+  animation: soilThreatFadeOut 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes soilThreatFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+  }
+}
+
+.soilThreatFadeIn {
+  animation: soilThreatFadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes soilThreatFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Estilos del modal */
+.overlay {
+  z-index: 10020;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: #f8fff8;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 1.5px 4px 0 rgba(0,0,0,0.12);
+  padding: 0;
+  min-width: 340px;
+  min-height: 300px;
+  max-width: 900px;
+  width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem 1rem 2rem;
+  border-bottom: 2px solid #eafbe7;
+  background: linear-gradient(90deg, #eafbe7 0%, #f8fff8 100%);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d5016;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #2d5016;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.closeBtn:hover {
+  color: #8bc34a;
+}
+
+.contentWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.emptyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 200px;
+  width: 100%;
+}
+
+.emptyMessage {
+  font-size: 1.2rem;
+  color: #2d5016;
+  font-weight: 500;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1700px) and (min-width: 800px) {
+  .container {
+    max-width: 100% !important;
+    width: 65vw !important;
+    min-width: 1020px !important;
+    margin: 0 auto !important;
+    margin-right: 25% !important;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    max-height: 80vh !important;
+    min-height: 300px;
+  }
+  
+  .header {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    margin-right: 14vw;
+  }
+}

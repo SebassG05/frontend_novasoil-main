@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './iconsNewBot.css';
 import IndicatorInfoModal from '../IndicatorInfoModal/IndicatorInfoModal';
+import InfoSoilThreat from '../InfoSoilThreat/InfoSoilThreat';
 
 const SOIL_HEALTH_DATA = [
   {
@@ -48,6 +49,7 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
   const [closing, setClosing] = useState(false);
   const [infoModal, setInfoModal] = useState({ open: false, indicator: '' });
   const [transitioning, setTransitioning] = useState(false);
+  const [soilThreatModal, setSoilThreatModal] = useState({ open: false, indicator: '' });
 
   // Si el modal informativo está abierto, solo mostrarlo
   if ((!visible && !closing) || (infoModal.open && !transitioning)) {
@@ -57,6 +59,17 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
         indicator={infoModal.indicator}
         onClose={() => setInfoModal({ open: false, indicator: '' })}
         onIndicatorChange={(newIndicator) => setInfoModal({ open: true, indicator: newIndicator })}
+      />
+    );
+  }
+
+  // Si el modal de Soil Threat está abierto, solo mostrarlo
+  if (soilThreatModal.open) {
+    return (
+      <InfoSoilThreat
+        visible={soilThreatModal.open}
+        indicator={soilThreatModal.indicator}
+        onClose={() => setSoilThreatModal({ open: false, indicator: '' })}
       />
     );
   }
@@ -76,6 +89,17 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
     setTimeout(() => {
       setClosing(false);
       setInfoModal({ open: true, indicator: label });
+      setTransitioning(false);
+    }, 400);
+  };
+
+  // Función para manejar clic en imágenes
+  const handleImageClick = (indicator) => {
+    setTransitioning(true);
+    setClosing(true);
+    setTimeout(() => {
+      setClosing(false);
+      setSoilThreatModal({ open: true, indicator });
       setTransitioning(false);
     }, 400);
   };
