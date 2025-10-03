@@ -117,63 +117,75 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
               }}>
                 <img 
                   src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759483268/A%C3%B1adir_un_t%C3%ADtulo-removebg-preview_dxwbif.png" 
-                  alt="Soil health icon" 
+                  alt="Soil Compaction" 
                   style={{ 
                     width: '190px', 
                     height: '190px', 
                     opacity: 0.8,
-                    marginLeft: '70px'
+                    marginLeft: '70px',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => handleImageClick('Soil Compaction')}
                 />
                 <img 
                   src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759483719/A%C3%B1adir_un_t%C3%ADtulo_1_soae8e-removebg-preview_lzbimi.png" 
-                  alt="Soil health icon" 
+                  alt="Soil Biodiversity" 
                   style={{ 
                     width: '180px', 
                     height: '190px', 
                     opacity: 0.8,
-                    margin: '10px'
+                    margin: '10px',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => handleImageClick('Soil Biodiversity')}
                 />
                 <img 
                   src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484062/A%C3%B1adir_un_t%C3%ADtulo__6_-removebg-preview_uuwehx.png" 
-                  alt="Soil health icon" 
+                  alt="Soil Organic Carbon" 
                   style={{ 
                     width: '320px', 
                     height: '310px', 
                     opacity: 0.8,
                     marginLeft: '-45px',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => handleImageClick('Soil Organic Carbon')}
                 />
                 <img 
                   src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484283/A%C3%B1adir_un_t%C3%ADtulo__8_-removebg-preview_seew8j.png" 
-                  alt="Soil health icon" 
+                  alt="Soil pH Balance" 
                   style={{ 
                     width: '260px', 
                     height: '260px', 
                     opacity: 0.8,
-                    marginLeft: '0px'
+                    marginLeft: '0px',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => handleImageClick('Soil pH Balance')}
                 />
                 <img 
                   src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484400/A%C3%B1adir_un_t%C3%ADtulo__9_-removebg-preview_pplssf.png" 
-                  alt="Soil health icon" 
+                  alt="Soil Pollution" 
                   style={{ 
                     width: '250px', 
                     height: '250px', 
                     opacity: 0.8,
-                    marginLeft: '-49px'
+                    marginLeft: '-49px',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => handleImageClick('Soil Pollution')}
                 />
                 <img 
                   src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1759484497/A%C3%B1adir_un_t%C3%ADtulo__10_-removebg-preview_tkjccj.png" 
-                  alt="Soil health icon" 
+                  alt="Soil Sealing" 
                   style={{ 
                     width: '260px', 
                     height: '260px', 
                     opacity: 0.8,
-                    marginLeft: '-45px'
+                    marginLeft: '-45px',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => handleImageClick('Soil Sealing')}
                 />
                 {/* Aquí puedes agregar tu contenido personalizado */}
               </div>
