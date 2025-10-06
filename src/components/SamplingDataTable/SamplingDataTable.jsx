@@ -81,7 +81,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
       'Soil name (BG classification)', 'Soil name (WRB 2014)', 'Object', 'Coords', 'Sampling ID', 'Sampling date', 'Horizont', 'Depth (cm)', 'Clay content (%)', 'Bulk density (g/cm3)', 'pH (H2O)', 'Organic Matter (%)', 'Organic Carbon (%)', 'Nitrogen (%)', 'Field Capacity (mm)', 'Carbonates (%)', 'Silt (%)', 'Sand (%)', 'Zinc (mg/kg)', 'Degree of solonetization (%)'
     ];
     const isGermany = sampleData.length > 0 && (sampleData[0].co2_land_novasoil_id !== undefined || sampleData[0].CO2_land_Novasoil_ID !== undefined);
-    const isBulgaria = sampleData.length > 0 && (sampleData[0].soil_name_bg_classification !== undefined || sampleData[0].soil_name_wrb_2014 !== undefined);
+    const isBulgaria = sampleData.length > 0 && (sampleData[0]['Soil name (BG classification)'] !== undefined || sampleData[0]['Soil name (WRB 2014)'] !== undefined);
     const isMadrid = sampleData.length > 0 && (
       (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined) &&
       (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
@@ -132,32 +132,10 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
         'Zinc (mg/kg)',
         'Degree of solonetization (%)'
       ];
-      const bulgariaHeaderMap = {
-        'Soil name (BG classification)': 'soil_name_bg_classification',
-        'Soil name (WRB 2014)': 'soil_name_wrb_2014',
-        'Object': 'object',
-        'Coords': 'coords',
-        'Sampling ID': 'sampling_id',
-        'Sampling date': 'sampling_date',
-        'Horizont': 'horizont',
-        'Depth (cm)': 'depth_cm',
-        'Clay content (%)': 'clay_content',
-        'Bulk density (g/cm3)': 'bulk_density_gcm3',
-        'pH (H2O)': 'ph_h2o',
-        'Organic Matter (%)': 'organic_matter',
-        'Organic Carbon (%)': 'organic_carbon',
-        'Nitrogen (%)': 'nitrogen',
-        'Field Capacity (mm)': 'field_capacity_mm',
-        'Carbonates (%)': 'carbonates',
-        'Silt (%)': 'silt',
-        'Sand (%)': 'sand',
-        'Zinc (mg/kg)': 'zinc_mgkg',
-        'Degree of solonetization (%)': 'degree_of_solonetization'
-      };
       csvContent = [
         bulgariaHeadersOriginal.join(','),
         ...sampleData.map(sample =>
-          bulgariaHeadersOriginal.map(h => sample[bulgariaHeaderMap[h]] !== undefined ? sample[bulgariaHeaderMap[h]] : '').join(',')
+          bulgariaHeadersOriginal.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
         )
       ].join('\n');
     } else if (isItaly) {
@@ -320,7 +298,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
   // Generar columnas dinámicas
   // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id'
   const isGermanyTable = allKeys.includes('co2_land_novasoil_id');
-  const isBulgariaTable = allKeys.includes('soil_name_bg_classification') || allKeys.includes('soil_name_wrb_2014');
+  const isBulgariaTable = allKeys.includes('Soil name (BG classification)') || allKeys.includes('Soil name (WRB 2014)');
   const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
   const isItalyTable = allKeys.includes('Nitrogen (N) ‰') || allKeys.includes('Cation exchange capacity(mEq/100g)') || allKeys.includes('nitrogen_n_permille') || allKeys.includes('cation_exchange_capacity_meq100g');
   let visibleColumns;
