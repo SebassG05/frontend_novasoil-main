@@ -33,15 +33,39 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
               <img src={SOIL_COMPACTION_IMAGE_URL} alt="Soil Compaction" />
             </div>
             <div className="phBox">
+              <h3
+                style={{
+                  marginBottom: '18px',
+                  fontSize: '1.05rem',
+                  color: '#4fc97a',
+                  fontWeight: 700,
+                  letterSpacing: '1px',
+                  fontFamily: 'Montserrat, Arial, sans-serif',
+                  textShadow: '0 2px 8px #e6f7ee',
+                  textAlign: 'left',
+                  border: 'none',
+                  background: 'none',
+                  padding: 0,
+                  display: 'block',
+                  textTransform: 'uppercase',
+                }}
+              >
+                What NOVASOIL recommends...
+              </h3>
             <p className="description">
-              <b>1. Bulk Density (ρb):</b> Represents the mass of dry soil per unit volume <b>(g/cm³ or Mg/m³)</b>. 
-              High values <b>(1.6 g/cm³ in clay soils)</b> indicate severe compaction and reduced root and water movement.<br /><br />
+            <b>Bulk Density (Db)</b>:
+                Represents the dry mass of soil per unit volume <b>(g cm⁻³ or Mg m⁻³)</b>.
+                High values indicate compacted soil with reduced root and water movement.<br /><br />
 
-              <b>2. Penetration Resistance:</b> Measured with a penetrometer, expressing the force required to penetrate the soil <b>(MPa)</b>. 
-              Values above 2 MPa typically restrict root elongation and limit infiltration.<br /><br />
+            <b>SOC/Clay Ratio (Structural Stability Index)</b>:
+                Combines soil organic carbon (SOC) and clay to indicate soil structure resilience. <br /><br />
 
-              <b>3. Total Porosity (%):</b> Derived from bulk density and particle density. 
-              Lower porosity indicates limited aeration, water infiltration, and biological activity.<br /><br />
+            <b>Clay Content (%)</b>:
+                Determines mechanical sensitivity: clay-rich soils are more compactable when wet, but more resistant when dry.<br /><br />
+
+            <b>Air Capacity (AC %)</b>:
+                Percentage of air-filled porosity.
+                <br /><br />
             </p>
           </div>
           </div>
@@ -50,11 +74,11 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
               <h3 className="title">Soil Compaction</h3>
             </div>
             <p className="description">
-             <b>Soil compaction</b> is a physical process in which soil particles are pressed together, reducing the pore space between them. This results in decreased <b>total porosity</b>, limiting the soil’s ability to store and transmit air and water. Compaction negatively affects <b>root growth, water infiltration, and biological activity</b>, making it a major threat to <b>soil quality and agricultural productivity</b>, particularly in intensively managed systems or where heavy machinery traffic occurs.
+             Soil compaction is a physical process in which soil particles are pressed together, reducing pore space and <b>limiting air and water movement</b>. This leads to decreased <b>porosity, infiltration, and biological activity, affecting root growth and crop productivity.</b><br></br> <br></br>Topsoil compaction can sometimes be reversed through tillage or biological activity, while <b>subsoil compaction is persistent and long-lasting</b>, making it a critical soil degradation threat in intensive agricultural systems.
             </p>
             <div className="divider"></div>
             <div className="bottomRightBox">
-             Maintaining low soil compaction preserves structure, aeration, and water infiltration. Managing <b>bulk density, penetration resistance, and porosity</b> supports root growth and biological activity. Practices like reducing machinery traffic, controlled tillage, and rotations with deep-rooted crops help minimize compaction, enhancing soil health and agricultural productivity.
+            Maintaining low soil compaction preserves soil structure, aeration, and water flow. Managing bulk density, clay content, and the SOC/clay ratio helps prevent structural degradation. Reducing machinery traffic, using controlled tillage, and deep-rooted crops improves porosity, supporting root growth, biological activity, and soil productivity.
             </div>
           </div>
         </div>
