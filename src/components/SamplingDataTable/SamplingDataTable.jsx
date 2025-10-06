@@ -72,7 +72,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
     (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
     (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
   );
-  const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined);
+  const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined);
 
   // Función para exportar datos a CSV
   const exportToCSV = () => {
@@ -226,6 +226,17 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
           ciraaHeaders.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
         )
       ].join('\n');
+    } else if (isEstonia) {
+      // Estonia: usar los headers originales del CSV
+      const estoniaHeaders = [
+        'Case Study ID','Field name','Field ID','Coord (Lat)','Coord (Long)','Soil sampling ID','Soil sampling date','Soil sample depth','Nitrates (mg/Kg)','Nitrogen (N) %','Phosphorus mg/kg','Potassium (K) mg/kg','Magnesium (Mg) mg/kg','Calcium (Ca) mg/kg','pH','Soil Texture','Organic Carbon (%)','C/N','Comments','Total Aluminum (Al) mg/kg','Total Lead (Pb) mg/kg','Total Zinc (Zn) mg/kg','Sulfur (S) mg/kg','Manganese (Mn) mg/kg','Electrical Conductivity (µS/cm)','Organic Matter (%w/w)','Active Lime (% w/w)','Carbonates (%)','USDA Classification (units)','Clay %','Silt %','Sand %','C.I.C (mEq/100g)','P.S.I (% Exchangeable Sodium)','Field Capacity (% w/w)','Wilting Point (% w/w)','Available Water (% w/w)','% Base Saturation (% w/w)','Bulk Density (g/cc of soil)','Water Volume per Ha (m3 /Ha)','Saprophytes','Anguina spp','Aphelenchoides spp','Aphelenchus spp','Belonolaimus spp','Criconema spp','Criconemoides spp','Ditylenchus spp','Globodera spp','Helicotylenchus spp','Hemicotylenchus spp','Hemicyclophora spp','Heterodera spp','Hoplolaimus spp','Longidorus spp','Meloidogyne spp','Paratylenchus spp','Pratylenchus spp','Radopholus spp','Rotylenchulus spp','Trichodorus spp','Tylenchulus spp','Tylenchus spp','Tylencorhynchus spp','Xiphinema spp','Aureobasidium sp','Aspergillus sp','Penicillium sp.','Mortierella sp.','Chaetomium sp.','Paecilomyces sp.','Thichoderma sp.','Didymellaceae','Epicoccum sp.','Septoria sp.','Cladosporium sp.','Fusarium sp.','Mucorales','Phytaceas (Phytopthora) ','Acremonium','Myrothecium','Humicola','Helminthosporium sp.'
+      ];
+      csvContent = [
+        estoniaHeaders.join(','),
+        ...sampleData.map(sample =>
+          estoniaHeaders.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
+        )
+      ].join('\n');
     } else {
       // Tamarguillo: usar los nombres normalizados que llegan del backend
       const tamarguilloHeadersSnake = [
@@ -271,7 +282,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
       exportFileName = 'letonia';
     } else if (isMadrid) {
       exportFileName = 'madrid';
-    } else if (sampleData.length > 0 && (sampleData[0].case_study_id !== undefined || sampleData[0]['case_study_id'] !== undefined)) {
+    } else if (sampleData.length > 0 && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined)) {
       exportFileName = 'estonia';
     }
     link.setAttribute('download', `${exportFileName}.csv`);
