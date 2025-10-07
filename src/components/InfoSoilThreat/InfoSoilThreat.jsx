@@ -30,8 +30,26 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
     }, 600);
   };
 
-  // URL de la imagen de Soil Compaction (puedes cambiarla por la que prefieras)
-  const SOIL_COMPACTION_IMAGE_URL = "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759741088/istockphoto-1221232054-612x612_kty2mf.jpg";
+  // Función para obtener contenido dinámico
+  const getIndicatorContent = (indicator) => {
+    const contents = {
+      'Soil Compaction': {
+        title: 'Soil Compaction',
+        image: "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759741088/istockphoto-1221232054-612x612_kty2mf.jpg",
+        description: 'Soil compaction is a physical process in which soil particles are pressed together, reducing pore space and <b>limiting air and water movement</b>. This leads to decreased <b>porosity, infiltration, and biological activity, affecting root growth and crop productivity.</b><br></br>Topsoil compaction can sometimes be reversed through tillage or biological activity, while <b>subsoil compaction is persistent and long-lasting</b>, making it a critical soil degradation threat in intensive agricultural systems.',
+        recommendation: 'Maintaining low soil compaction preserves <b>soil structure, aeration, and water flow</b>. Managing bulk density, clay content, and the SOC/clay ratio helps <b>prevent structural degradation</b>. Reducing machinery traffic, using controlled tillage, and deep-rooted crops improves porosity, supporting root growth, biological activity, and soil productivity.'
+      },
+      'Soil Biodiversity': {
+        title: 'Soil Biodiversity',
+        image: "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759483719/A%C3%B1adir_un_t%C3%ADtulo_1_soae8e-removebg-preview_lzbimi.png",
+        description: 'Soil biodiversity refers to the variety of life forms that exist within soil ecosystems, including <b>bacteria, fungi, protozoa, nematodes, arthropods, and other microorganisms</b>. This diversity is essential for <b>nutrient cycling, organic matter decomposition, and soil structure formation.</b><br></br>High soil biodiversity indicates a healthy ecosystem that supports <b>plant growth, disease suppression, and ecosystem resilience</b>, making it a critical indicator for sustainable agriculture and environmental health.',
+        recommendation: 'Enhancing soil biodiversity promotes <b>ecosystem health, nutrient cycling, and natural pest control</b>. Implementing organic amendments, cover crops, and reduced tillage helps <b>support diverse soil communities</b>. Avoiding excessive pesticides, maintaining soil moisture, and promoting crop rotation creates favorable conditions for beneficial microorganisms and soil fauna.'
+      }
+    };
+    return contents[indicator] || contents['Soil Compaction'];
+  };
+
+  const content = getIndicatorContent(indicator);
 
   return (
     <div className="overlay">
@@ -44,21 +62,20 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
         <div className="contentRow">
           <div className="leftCol">
             <div className="imageBox">
-              <img src={SOIL_COMPACTION_IMAGE_URL} alt="Soil Compaction" />
+              <img src={content.image} alt={content.title} />
             </div>
           </div>
           <div className="rightCol">
             <div className="titleWrapper">
-              <h3 className="title">Soil Compaction</h3>
+              <h3 className="title">{content.title}</h3>
             </div>
-            <p className="description">
-             Soil compaction is a physical process in which soil particles are pressed together, reducing pore space and <b>limiting air and water movement</b>. This leads to decreased <b>porosity, infiltration, and biological activity, affecting root growth and crop productivity.</b><br></br> <br></br>Topsoil compaction can sometimes be reversed through tillage or biological activity, while <b>subsoil compaction is persistent and long-lasting</b>, making it a critical soil degradation threat in intensive agricultural systems.
+            <p className="description" style={{marginBottom: '10px'}} dangerouslySetInnerHTML={{ __html: content.description }}>
             </p>
             <div className="divider"></div>
           </div>
         </div>
         <div className="recommendationBox" style={{width: '100%', marginBottom: '4%', marginTop: '-6%', padding: '18px 32px 0 32px', fontSize: '1rem', color: '#2d5016', fontWeight: 500, textAlign: 'justify'}}>
-          Maintaining low soil compaction preserves <b>soil structure, aeration, and water flow</b>. Managing bulk density, clay content, and the SOC/clay ratio helps <b>prevent structural degradation</b>. Reducing machinery traffic, using controlled tillage, and deep-rooted crops improves porosity, supporting root growth, biological activity, and soil productivity.
+          <span dangerouslySetInnerHTML={{ __html: content.recommendation }}></span>
           
           <button 
             className="recommendationsBtn" 
