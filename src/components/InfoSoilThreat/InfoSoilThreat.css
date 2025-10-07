@@ -178,6 +178,7 @@ img{
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  margin-top: 80px;
 }
 
 .header {
