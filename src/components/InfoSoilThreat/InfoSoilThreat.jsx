@@ -50,6 +50,24 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
         image: "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759822889/ngeo_hero_collections_Jul20-aa081b1cc04e462788eaef23b8e46bff_gn3o9w.jpg",
         description: 'Soil Organic Carbon <b>(SOC)</b> is the carbon component of organic matter in the soil — originating from plant and animal residues, root exudates, and microbial biomass. It is <b>crucial for soil fertility, structure, nutrient retention, and water regulation</b>, and acts as a major <b>carbon sink</b>, helping mitigate climate change.<br> </br>Loss of SOC reduces soil productivity, increases erosion and compaction risk, and decreases resilience to drought and degradation. Key drivers of SOC decline include <b>intensive tillage, removal of residues, low organic inputs, erosion, and land-use change</b>.',
         recommendation: 'Monitoring SOC relies on indicators that reflect both its quantity and stability. The main variables include SOC content and stock, which show how much carbon is stored, and the <b>SOC/clay ratio</b>, a key indicator of soil structure and vulnerability to degradation. <b>Bulk density</b> and the <b>C/N ratio</b> help assess how carbon interacts with soil texture and organic matter turnover. Tracking these parameters allows identification of soils at risk of carbon loss and guides management actions to maintain fertility, structure, and long-term carbon sequestration potential.'
+      },
+      'Soil pH Balance': {
+        title: 'Soil pH Balance',
+        image: "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759824773/soil-ph-meter-farmers-fill-600nw-2279512865_wawv8c.webp",
+        description: 'Soil pH is a measure of its <b>acidity or alkalinity</b> and is one of the most important chemical indicators of soil health. It is measured on a logarithmic scale from <b>0 to 14</b>, where a value of 7 is <b>neutral</b>. Values below 7 indicate <b>acidity</b>, and values above 7 indicate <b>alkalinity </b>.<br></br>pH directly influences the availability of nutrients for plants (as it affects their solubility), the activity of beneficial microorganisms, and, in extreme cases, can cause <b> toxicity of certain elements such as aluminum (in acidic soils) or deficiencies of others such as iron or zinc (in alkaline soils)</b>.',
+        recommendation: 'Within the context of European soil health, <b>Soil pH monitoring</b> is critical because its imbalance represents a major <b>chemical threat</b>. This degradation harms the soils <b>functional properties</b>, thus reducing its capacity to provide essential ecosystem services like crop productivity. To evaluate this risk, the EEA report stresses the use of <b>critical limits or thresholds</b>—specific values that identify the <b>tipping points</b> where soil functions are severely impaired, demanding immediate restorative action.'
+      },
+      'Soil Pollution': {
+        title: 'Soil Pollution',
+        image: "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759829314/1_fhhete.webp",
+        description: 'Soil Pollution is defined as a major <b>chemical threat</b> that results from the <b>accumulation of contaminants</b> and excess nutrients, leading to soil chemical and biological degradation. This degradation can reduce soil functions like <b>filtering</b> and water storage, and is often responsible for surface water or groundwater pollution. Assessing this threat is based on a <b> risk-based approach</b> that utilizes <b>Soil Screening Values (SSVs)</b> as critical thresholds.<br></br> The ultimate objective of this assessment is the <b>protection of human health </b> and <b>ecosystems</b> (endpoints) by evaluating the concentration of pollutants against acceptable risk levels across different <b>exposure pathways</b> (e.g., soil to food, soil to water).',
+        recommendation: 'The implementation of these thresholds across Europe is <b>highly challenging </b> due to the complex interplay of <b>soil functions</b>, diverse site conditions, and varied <b>management practices</b>. As a result, there is <b>no EU consensus on unified critical limits</b>, and national standards remain inconsistent. The report emphasizes that <b>Soil Screening Values (SSVs)</b> must incorporate factors like <b>soil properties</b>, groundwater depth, and local practices (e.g., self-supply gardening) to accurately link pollutant concentration to its eventual impact on endpoints like food quality or human health.'
+      },
+      'Soil Sealing': {
+        title: 'Soil Sealing',
+        image: "https://res.cloudinary.com/drwlnxvqr/image/upload/v1759830578/huge_k8bbfa.jpg",
+        description: 'Soil Sealing is considered a major <b>physical threat</b> where a land surface is covered by <b>impervious materials</b> such as concrete, asphalt, or buildings. This process, primarily driven by urban sprawl and development, leads to the continued loss of soil and its replacement by artificial surfaces. Critically, in the case of soil sealing, the soil\'s functions are largely and <b>irreversibly lost</b>. This includes the fundamental capacities for:<br><br>1. <b>Water management:</b> Stopping infiltration and storage.<br>2. <b>Gas exchange:</b> Cutting off aeration and respiration.<br>3. <b>Biomass production:</b> Eliminating the habitat for plant and microbial life.',
+        recommendation: 'To mitigate soil sealing, it is crucial to implement <b>sustainable urban planning</b>, incorporate <b>green infrastructure</b> (e.g., permeable pavements, green roofs), and protect <b>remaining natural soil areas</b>. Awareness and policy measures are necessary to limit the irreversible loss of soil functions due to artificial surface coverage.'
       }
     };
     return contents[indicator] || contents['Soil Compaction'];
@@ -132,6 +150,81 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
           }
         ],
         additionalText: 'SOC decline below critical thresholds indicates reduced soil fertility and higher degradation risk. Combining SOC content, SOC/clay ratio, and bulk density gives a robust view of soil carbon status. Maintaining adequate SOC supports soil structure, water retention, and nutrient cycling, enhancing climate resilience.'
+      },
+      'Soil pH Balance': {
+        cards: [
+          {
+            title: 'Soil Rigidity Ratio:',
+            description: 'This is the ratio between precompression stress (the soil\'s internal resistance) and the actual stress applied by machinery or loads.',
+            color: 'green'
+          },
+          {
+            title: 'Saturated Hydraulic Conductivity (Ks):',
+            description: 'A sensitive parameter representing the functional quality of the soil structure and its saturated pore continuity, which is crucial for water movement.',
+            color: 'blue'
+          },
+          {
+            title: 'Air Capacity (AC):',
+            description: 'Measures the volume of macropores necessary for gas exchange (oxygen) and root respiration. It is a functional indicator of soil structure.',
+            color: 'amber'
+          },
+          {
+            title: 'Precompression Stress:',
+            description: 'Measures the internal force or resistance of the soil, developed naturally or through management, which must be overcome for deformation to occur.',
+            color: 'purple'
+          }
+        ],
+        additionalText: 'The report from the European Environment Agency classifies soil pH as a Key Indicator of soil health. This indicator is used to assess critical functions such as biodiversity support capacity and biomass production potential. The report states that deviations from the optimal range are considered a chemical threat and provides thresholds for monitoring soil quality across Europe.'
+      },
+      'Soil Pollution': {
+        cards: [
+          {
+            title: 'Concentration of Inorganic Pollutants (Heavy Metals):',
+            description: 'Direct measurement of the total content of heavy metals (e.g., Cd, Pb, As) in the soil, specifically noting if the content is in excess of thresholds (SSVs).',
+            color: 'green'
+          },
+          {
+            title: 'Concentration of Persistent Organic Pollutants (POPs):',
+            description: 'Direct measurement of the concentration of organic compounds (e.g., pesticides, PCDD/PCDF) in the topsoil against established thresholds.',
+            color: 'blue'
+          },
+          {
+            title: 'Soil Screening Values (SSVs) / Critical Limits:',
+            description: 'These are the calculated risk-based thresholds that define the maximum acceptable concentration of a specific contaminant in the soil. They are derived from complex risk assessment models (e.g., for human health or ecological impact).',
+            color: 'amber'
+          },
+          {
+            title: 'Impact on Ecosystems and Human Health (Endpoints):',
+            description: 'The final impact indicator that assesses the effect of pollution on the protection targets (endpoints), such as above/below-ground biodiversity, crop quality, and the state of surface water/groundwater.',
+            color: 'purple'
+          }
+        ],
+        additionalText: 'Due to the complexity of soil functions, site conditions, and management practices, there is no EU consensus on unified critical limits for soil pollutants. National standards vary widely. Soil Screening Values (SSVs) must consider factors like soil properties, groundwater depth, and local practices to accurately link pollutant concentration to its eventual impact on endpoints like food quality or human health.'
+      },
+      'Soil Sealing': {
+        cards: [
+          {
+            title: 'Degree of Imperviousness:',
+            description: 'This is the key measure of the extent of the threat, calculated as the percentage of sealed area per total land area. It is used at the European level (EEA indicator LSI002) and typically measured using satellite methods.',
+            color: 'green'
+          },
+          {
+            title: 'Imperviousness Change:',
+            description: 'This measures the rate of change or the difference in sealed area over defined time periods (e.g., 2012–2018). This indicator of change is crucial for monitoring progress towards environmental policy goals.',
+            color: 'blue'
+          },
+          {
+            title: 'National Target: "No Net Land Take":',
+            description: 'This represents the ultimate political and policy target for monitoring the threat. The target is used to assess the effectiveness of measures aimed at halting the progression of soil loss to sealing.',
+            color: 'amber'
+          },
+          {
+            title: 'Land Take	:',
+            description: 'This broader indicator tracks the loss of natural or semi-natural land (e.g., agricultural or forest land) being converted to urban and artificial uses, which often includes sealing.',
+            color: 'purple'
+          }
+        ],
+        additionalText: 'Soil sealing is an irreversible process that results in the permanent loss of soil functions. The primary driver is urban sprawl and development, leading to the replacement of natural soil with impervious surfaces. Sustainable urban planning, green infrastructure, and protection of natural soil areas are essential to mitigate this threat.'
       }
     };
     return recommendations[indicator] || recommendations['Soil Compaction'];
@@ -180,7 +273,7 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
         </button>
         <div className="contentRow">
           <div className="leftCol">
-            <div className="imageBox">
+            <div className="imageBox" style={{marginBottom: '30px'}}>
               <img src={content.image} alt={content.title} />
             </div>
           </div>
@@ -275,7 +368,7 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
                         <span className={`w-3 h-3 ${colors.dot} rounded-full mr-3`}></span>
                         {card.title}
                       </h4>
-                      <p className="text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: card.description }}>
+                      <p className="text-gray-700 leading-relaxed" style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: card.description }}>
                       </p>
                     </div>
                   );
