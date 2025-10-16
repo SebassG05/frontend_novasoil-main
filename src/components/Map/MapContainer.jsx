@@ -13,6 +13,7 @@ import LetoniaHoverInfo from './SampleInfoLetonia/LetoniaHoverInfo';
 import MadridHoverInfo from './SampleInfoMadrid/MadridHoverInfo';
 import ItalyFlora2HoverInfo from './SampleInfoItalia/ItalyFlora2/ItalyFlora2HoverInfo';
 import ItalyCiraa3HoverInfo from './SampleInfoItalia/ItalyCiraa3/ItalyCiraa3HoverInfo';
+import AsajaHoverInfo from './SampleInfoAsaja/AsajaHoverInfo';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -152,7 +153,7 @@ const MapContainer = () => {
             <div ref={mapContainer} className="w-full h-full" />
             {/* Solo mostrar un pop-up según el tipo de punto */}
             {/* Mostrar pop-up de Sevilla solo si hoveredSample existe y no es de Alemania ni Bulgaria */}
-            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia && !useMapStore.getState().hoveredSample._letonia && !useMapStore.getState().hoveredSample._madrid && <SampleHoverInfo />}
+            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia && !useMapStore.getState().hoveredSample._letonia && !useMapStore.getState().hoveredSample._madrid && !useMapStore.getState().hoveredSample._asaja && <SampleHoverInfo />}
             {/* Mostrar pop-up de Alemania solo si hoveredSample existe y es de Alemania */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._germany && <GermanyHoverInfo />}
             {/* Mostrar pop-up de Bulgaria solo si hoveredSample existe y es de Bulgaria */}
@@ -165,6 +166,8 @@ const MapContainer = () => {
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._madrid && <MadridHoverInfo />}
             {/* Mostrar pop-up de Italy Ciraa3 solo si hoveredSample existe y es de Italy Ciraa3 */}
             {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._italy && <ItalyCiraa3HoverInfo />}
+            {/* Mostrar pop-up de Asaja solo si hoveredSample existe y es de Asaja */}
+            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._asaja && <AsajaHoverInfo />}
             {/* Cargar datos geoespaciales */}
             <GeoDataLoader />
             <MiniMap />

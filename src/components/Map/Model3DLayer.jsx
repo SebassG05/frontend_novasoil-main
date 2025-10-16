@@ -392,6 +392,22 @@ const Model3DLayer = () => {
     return true;
   };
 
+  const createAsajaMarker = () => {
+    const asajaCoordinates = [-4.536049, 37.300834];
+    if (!map || !map.isStyleLoaded()) {
+      setTimeout(() => createAsajaMarker(), 50);
+      return false;
+    }
+    createPulseLayer('asaja-marker', '#9E1B34', asajaCoordinates, pulseTimers);
+    map.on('click', 'asaja-marker-circle', (e) => {
+  setLegendVisible(true);
+  setOpenModal('asaja');
+  setSelectedAreaName('Case study Asaja');
+  useMapStore.getState().setHoveredSample(null);
+    });
+    return true;
+  };
+
   const createLetoniaMarker = () => {
     const letoniaCoordinates = [24.178259, 56.715607];
     if (!map || !map.isStyleLoaded()) {
@@ -580,6 +596,7 @@ const Model3DLayer = () => {
         createBulgariaMarker();
         createItalyMarker();
         createItalyCiraaMarker();
+        createAsajaMarker();
         
         // Inicializar con el marcador apropiado según el zoom actual
         handleZoomChange();
