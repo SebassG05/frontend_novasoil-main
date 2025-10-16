@@ -118,6 +118,39 @@ export const CAROUSEL_IMAGES_ITALY = [
 
 ];
 
+export const CAROUSEL_IMAGES_GERMANY = [
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099141/IMG_20250925_154445_f42vrk.jpg`,
+    title: "German Soil Analysis 1",
+    description: "Análisis de suelo y materia orgánica en Alemania."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099181/PXL_20250925_140345974_l4ld6y.jpg`,
+    title: "German Soil Analysis 2",
+    description: "Muestreo y análisis de nutrientes en suelos de Alemania."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099156/IMG_20250925_155447_dniykp.jpg`,
+    title: "German Soil Analysis 3",
+    description: "Estudio de textura y capacidad hídrica en suelos alemanes."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099146/IMG_20250925_154452_xdwfog.jpg`,
+    title: "German Soil Analysis 4",
+    description: "Evaluación de biodiversidad microbiana en suelos forestales."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099166/IMG_20250925_163526_y7z7iw.jpg`,
+    title: "German Soil Analysis 5",
+    description: "Medición de carbono orgánico y suelos saludables."
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099171/PXL_20250925_134458427_wxvu2k.jpg`,
+    title: "German Soil Analysis 6",
+    description: "Análisis integral de suelos en zonas agrícolas."
+  }
+];
+
 // Fallback images for Bulgaria
 export const FALLBACK_IMAGES_BULGARIA = [
   {
@@ -126,7 +159,7 @@ export const FALLBACK_IMAGES_BULGARIA = [
     description: "Fallback image for Bulgaria soil analysis."
   }
 ];
-
+ 
 // URLs de fallback en caso de que Cloudinary no esté disponible
 export const FALLBACK_IMAGES = [
   {
@@ -148,5 +181,13 @@ export const FALLBACK_IMAGES = [
     url: "data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%239C27B0;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%236A1B9A;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grad4)'/%3E%3Ctext x='50%25' y='45%25' font-family='Arial' font-size='24' fill='white' text-anchor='middle'%3ERetención de Agua%3C/text%3E%3Ctext x='50%25' y='55%25' font-family='Arial' font-size='16' fill='white' text-anchor='middle'%3ECapacidad Hídrica%3C/text%3E%3C/svg%3E",
     title: "Retención de Agua",
     description: "Capacidad de almacenamiento hídrico y su relación con la estructura del suelo"
+  }
+];
+
+export const FALLBACK_IMAGES_GERMANY = [
+  {
+    url: "data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23000000;stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:%23DD0000;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23FFCE00;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23grad1)'/%3E%3Ctext x='50%25' y='45%25' font-family='Arial' font-size='24' fill='white' text-anchor='middle'%3EGerman Soil%3C/text%3E%3Ctext x='50%25' y='55%25' font-family='Arial' font-size='16' fill='white' text-anchor='middle'%3EAnalysis%3C/text%3E%3C/svg%3E",
+    title: "German Soil",
+    description: "Fallback image for Germany soil analysis."
   }
 ];

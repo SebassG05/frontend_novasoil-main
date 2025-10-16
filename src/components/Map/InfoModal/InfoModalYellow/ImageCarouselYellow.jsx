@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './ImageCarouselYellow.module.css';
-import { CAROUSEL_IMAGES, FALLBACK_IMAGES } from '../../../../config/cloudinary';
+import { CAROUSEL_IMAGES_GERMANY, FALLBACK_IMAGES_GERMANY } from '../../../../config/cloudinary';
 
 const ImageCarousel = ({ onCloseAll }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -11,7 +11,7 @@ const ImageCarousel = ({ onCloseAll }) => {
   const trackRef = useRef(null);
 
   // Usar imágenes de Cloudinary o fallback según disponibilidad
-  const images = usesFallback ? FALLBACK_IMAGES : CAROUSEL_IMAGES;
+  const images = usesFallback ? FALLBACK_IMAGES_GERMANY : CAROUSEL_IMAGES_GERMANY;
 
   // Auto-play functionality con bucle simple
   useEffect(() => {
