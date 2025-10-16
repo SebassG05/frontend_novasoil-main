@@ -20,8 +20,8 @@ import { useGeoData } from '../../hooks/useGeoData';
 import { create } from 'zustand';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3 } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea } = useGeoData();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3, samplingDataAsaja } = useMapStore();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea, loadAsajaData } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -122,7 +122,7 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(germanyData) ? germanyData : []);
           setCurrentDatasetType('germany');
-        } else if (showTable === 'bulgaria') {
+  } else if (showTable === 'bulgaria') {
           // Bulgaria
           let bulgariaData = samplingDataBulgaria;
           if (!bulgariaData || bulgariaData.length === 0) {
@@ -132,7 +132,7 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(bulgariaData) ? bulgariaData : []);
           setCurrentDatasetType('bulgaria');
-        } else if (showTable === 'estonia') {
+  } else if (showTable === 'estonia') {
           // Estonia
           let estoniaData = samplingDataEstonia;
           if (!estoniaData || estoniaData.length === 0) {
@@ -172,7 +172,7 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyData) ? italyData : []);
           setCurrentDatasetType('italy');
-        } else if (showTable === 'italy-ciraa') {
+  } else if (showTable === 'italy-ciraa') {
           // Italia CIRAA
           let italyCiraaData = samplingDataItalyCiraa;
           if (!italyCiraaData || italyCiraaData.length === 0) {
@@ -182,7 +182,7 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyCiraaData) ? italyCiraaData : []);
           setCurrentDatasetType('italy-ciraa');
-        } else if (showTable === 'italy-ciraa2') {
+  } else if (showTable === 'italy-ciraa2') {
           // Italia CIRAA2
           let italyCiraa2Data = samplingDataItalyCiraa2;
           if (!italyCiraa2Data || italyCiraa2Data.length === 0) {
@@ -192,7 +192,7 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyCiraa2Data) ? italyCiraa2Data : []);
           setCurrentDatasetType('italy-ciraa2');
-        } else if (showTable === 'italy-ciraa3') {
+  } else if (showTable === 'italy-ciraa3') {
           // Italia CIRAA3
           let italyCiraa3Data = samplingDataItalyCiraa3;
           if (!italyCiraa3Data || italyCiraa3Data.length === 0) {
@@ -202,8 +202,17 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyCiraa3Data) ? italyCiraa3Data : []);
           setCurrentDatasetType('italy-ciraa3');
-        }
-         else {
+        } else if (showTable === 'asaja') {
+          // Asaja
+          let asajaData = samplingDataAsaja;
+          if (!asajaData || asajaData.length === 0) {
+            await loadAsajaData();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            asajaData = useMapStore.getState().samplingDataAsaja;
+          }
+          setTableData(Array.isArray(asajaData) ? asajaData : []);
+          setCurrentDatasetType('asaja');
+        } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
           setCurrentDatasetType('default');
         }

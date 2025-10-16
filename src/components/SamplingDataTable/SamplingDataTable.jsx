@@ -301,9 +301,16 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
   const isBulgariaTable = allKeys.includes('Soil name (BG classification)') || allKeys.includes('Soil name (WRB 2014)');
   const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
   const isItalyTable = allKeys.includes('Nitrogen (N) ‰') || allKeys.includes('Cation exchange capacity(mEq/100g)') || allKeys.includes('nitrogen_n_permille') || allKeys.includes('cation_exchange_capacity_meq100g');
+  // Detectar tabla Asaja por columnas únicas (normalizadas)
+  const isAsajaTable = allKeys.includes('coord_x') && allKeys.includes('coord_y') && allKeys.includes('parcela');
   let visibleColumns;
   if (isMadridTable || isItalyTable) {
     // Mostrar todas las columnas presentes en el CSV de Madrid e Italia, excepto las vacías en todas las filas
+    visibleColumns = allKeys
+      .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
+      .map(key => ({ key, label: key }));
+  } else if (isAsajaTable) {
+    // Mostrar todas las columnas presentes en el CSV de Asaja, excepto las vacías en todas las filas
     visibleColumns = allKeys
       .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
       .map(key => ({ key, label: key }));

@@ -39,6 +39,7 @@ export const useGeoData = () => {
         samplingDataItalyCiraa,
         samplingDataItalyCiraa2,
         samplingDataItalyCiraa3,
+        samplingDataAsaja,
         isLoadingGeoData,
         geoDataError,
         layersVisibility,
@@ -54,6 +55,7 @@ export const useGeoData = () => {
         setSamplingDataItalyCiraa,
         setSamplingDataItalyCiraa2,
         setSamplingDataItalyCiraa3,
+        setSamplingDataAsaja,
         setIsLoadingGeoData,
         setGeoDataError,
         setHoveredSample,
@@ -75,6 +77,25 @@ export const useGeoData = () => {
             if (map && madridData.data && madridData.data.length > 0) {
                 if (mapLayerService.addMadridSamplingPointsLayer) {
                     mapLayerService.addMadridSamplingPointsLayer(map, madridData.data);
+                }
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    const loadAsajaData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const asajaData = await geoDataService.makeRequest('/sampling/asaja');
+            setSamplingDataAsaja(asajaData.data);
+            // Si tienes una función para añadir la capa de Asaja, agrégala aquí
+            if (map && asajaData.data && asajaData.data.length > 0) {
+                if (mapLayerService.addAsajaSamplingPointsLayer) {
+                    mapLayerService.addAsajaSamplingPointsLayer(map, asajaData.data);
                 }
             }
         } catch (error) {
@@ -483,6 +504,7 @@ export const useGeoData = () => {
         loadItalyCiraaData,
         loadItalyCiraa2Data,
         loadItalyCiraa3Data,
+        loadAsajaData,
         loadMadridArea, // <-- Añadido para exponer la función
         toggleLayerVisibility,
         focusOnSample,
