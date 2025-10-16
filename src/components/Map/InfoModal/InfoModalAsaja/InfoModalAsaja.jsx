@@ -17,8 +17,8 @@ const InfoModalAsaja = ({ visible, onClose, isClosing, children, onCloseAll }) =
         </div>
         <div className={styles.companyLogo}>
                   <img 
-                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1757578071/Logo_CONSOLE-removebg-preview_xxfxxl.png"
-                    alt="Evenor-Tech"
+                    src="https://res.cloudinary.com/drwlnxvqr/image/upload/v1760615463/Logo_ASAJA-removebg-preview_ngjoga.png"
+                    alt="ASAJA"
                     className={styles.companyLogoImage}
                   />
                 </div>
