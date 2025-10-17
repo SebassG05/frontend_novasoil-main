@@ -98,7 +98,16 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
       (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
     );
     let csvContent;
-    if (isGermany) {
+    if (isAsajaTable) {
+      // Exportar todos los campos presentes en el CSV original de Asaja
+      const asajaHeaders = allKeys;
+      csvContent = [
+        asajaHeaders.join(';'),
+        ...sampleData.map(sample =>
+          asajaHeaders.map(h => sample[h] !== undefined ? sample[h] : '').join(';')
+        )
+      ].join('\n');
+    } else if (isGermany) {
       const germanyHeaders = [
         'CO2_land_Novasoil_ID', 'Coord (Lat & Long)', 'Soil sampling date', 'Nitrates (mg/Kg)', 'Total Cadmium (mg/Kg)', 'Total Aluminum (Al) mg/kg', 'Total Lead (Pb) mg/kg', 'Total Zinc (Zn) mg/kg', 'Sulfur (S) mg/kg', 'Nitrogen (N) %', 'Phosphorus mg/kg', 'Potassium (K) mg/kg', 'Magnesium (Mg) mg/kg', 'Calcium (Ca) mg/kg', 'Sodium mg/kg', 'Boron (B) mg/kg', 'Iron (Fe) mg/kg', 'Copper (Cu) mg/kg', 'Zinc (Zn) mg/kg', 'Manganese (Mn) mg/kg', 'pH', 'Electrical Conductivity (µS/cm)', 'Organic Matter (%w/w)', 'Organic Carbon (mg/ha)', 'C/N', 'Active Lime (% w/w)', 'Carbonates (%)', 'USDA Classification (units) soil texture ', 'Clay %', 'Silt %', 'Sand %', 'C.I.C (mEq/100g)', 'P.S.I (% Exchangeable Sodium)', 'Field Capacity (% w/w)', 'Wilting Point (% w/w)', 'Available Water (% w/w)', '% Base Saturation (% w/w)', 'Bulk Density (g/cc of soil)', 'Water Volume per Ha (m3 /Ha)', 'Saprophytes', 'Anguina spp', 'Aphelenchoides spp', 'Aphelenchus spp', 'Belonolaimus spp', 'Criconema spp', 'Criconemoides spp', 'Ditylenchus spp', 'Globodera spp', 'Helicotylenchus spp', 'Hemicotylenchus spp', 'Hemicyclophora spp', 'Heterodera spp', 'Hoplolaimus spp', 'Longidorus spp', 'Meloidogyne spp', 'Paratylenchus spp', 'Pratylenchus spp', 'Radopholus spp', 'Rotylenchulus spp', 'Trichodorus spp', 'Tylenchulus spp', 'Tylenchus spp', 'Tylencorhynchus spp', 'Xiphinema spp', 'Aureobasidium sp', 'Aspergillus sp', 'Penicillium sp.', 'Mortierella sp.', 'Chaetomium sp.', 'Paecilomyces sp.', 'Thichoderma sp.', 'Didymellaceae', 'Epicoccum sp.', 'Septoria sp.', 'Cladosporium sp.', 'Fusarium sp.', 'Mucorales', 'Phytaceas (Phytopthora) ', 'Acremonium', 'Myrothecium', 'Humicola', 'Helminthosporium sp.'
       ];
@@ -239,7 +248,9 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     let exportFileName = 'tamarguillo';
-    if (isGermany) {
+    if (isAsajaTable) {
+      exportFileName = 'Asaja';
+    } else if (isGermany) {
       exportFileName = 'alemania';
     } else if (isBulgaria) {
       exportFileName = 'bulgaria';
