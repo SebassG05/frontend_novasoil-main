@@ -4,6 +4,109 @@ import mapboxgl from 'mapbox-gl';
  * Servicio para manejar las capas del mapa de Mapbox
  */
 class MapLayerService {
+    addAsajaSamplingPointsLayer(map, asajaData) {
+        // Ocultar hover al hacer click en un punto de Asaja
+        map.on('click', this.LAYER_IDS.ASAJA_POINTS, () => {
+            window.setHoveredSample && window.setHoveredSample(null);
+        });
+        try {
+            console.log('[Asaja] Intentando añadir capa de puntos de muestreo...');
+            if (!map) {
+                console.error('[Asaja] El objeto map no está disponible');
+                return;
+            }
+            // Remove only Asaja layer/source
+            if (map.getLayer(this.LAYER_IDS.ASAJA_POINTS)) {
+                map.removeLayer(this.LAYER_IDS.ASAJA_POINTS);
+            }
+            if (map.getSource(this.SOURCE_IDS.ASAJA)) {
+                map.removeSource(this.SOURCE_IDS.ASAJA);
+            }
+            let geojsonData;
+            console.log('[Asaja] Datos recibidos:', asajaData);
+            if (asajaData && Array.isArray(asajaData)) {
+                geojsonData = {
+                    type: 'FeatureCollection',
+                    features: asajaData.map(row => {
+                        // Asaja: coord_x = latitud, coord_y = longitud
+                        let lat = parseFloat(row.coord_x);
+                        let lon = parseFloat(row.coord_y);
+                        let motivo = '';
+                        if (isNaN(lat) || isNaN(lon)) {
+                            motivo = `No se pudo parsear coord_x/coord_y. coord_x: ${row.coord_x}, coord_y: ${row.coord_y}`;
+                        }
+                        if (isNaN(lat) || isNaN(lon)) {
+                            console.warn('[Asaja][DESCARTADO] Punto con coordenadas inválidas:', row, 'Motivo:', motivo);
+                            return null;
+                        }
+                        // Verificar rango de coordenadas (España: lat ~36-44, lon ~-10 a 4)
+                        if (lat < 36 || lat > 44 || lon < -10 || lon > 4) {
+                            console.warn('[Asaja][DESCARTADO] Coordenadas fuera de rango esperado:', row, `lat: ${lat}, lon: ${lon}`);
+                            return null;
+                        }
+                        return {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [lon, lat]
+                            },
+                            properties: row
+                        };
+                    }).filter(f => f !== null)
+                };
+            } else {
+                geojsonData = asajaData;
+            }
+            console.log('[Asaja] GeoJSON generado:', geojsonData);
+            if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+                console.warn('[Asaja] No hay datos válidos para los puntos de muestreo de Asaja');
+                return;
+            }
+            map.addSource(this.SOURCE_IDS.ASAJA, {
+                type: 'geojson',
+                data: geojsonData
+            });
+            map.addLayer({
+                id: this.LAYER_IDS.ASAJA_POINTS,
+                type: 'circle',
+                source: this.SOURCE_IDS.ASAJA,
+                paint: {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        6, 4,
+                        10, 6,
+                        15, 12,
+                        20, 20
+                    ],
+                    'circle-color': '#9E1B34', // Rojo oscuro igual que Madrid
+                    'circle-stroke-color': '#fff',
+                    'circle-stroke-width': 2,
+                    'circle-opacity': 0.85
+                },
+                layout: {
+                    'visibility': 'visible'
+                },
+                minzoom: 6
+            });
+            // Interacción: mostrar tooltip al pasar el ratón por los puntos de Asaja
+            map.on('mouseenter', this.LAYER_IDS.ASAJA_POINTS, (e) => {
+                map.getCanvas().style.cursor = 'pointer';
+                if (e.features.length > 0 && window.setHoveredSample) {
+                    const feature = e.features[0];
+                    window.setHoveredSample({ ...feature.properties, _asaja: true });
+                }
+            });
+            map.on('mouseleave', this.LAYER_IDS.ASAJA_POINTS, () => {
+                map.getCanvas().style.cursor = '';
+                window.setHoveredSample && window.setHoveredSample(null);
+            });
+            console.log('[Asaja] Capa de puntos de Asaja añadida correctamente');
+        } catch (error) {
+            console.error('[Asaja] Error añadiendo capa de puntos de muestreo de Asaja:', error);
+        }
+    }
     /**
      * Añade el polígono del recinto de Madrid al mapa
      */
@@ -41,7 +144,8 @@ class MapLayerService {
             BULGARIA_POINTS: 'bulgaria-sampling-points-layer', // Nueva capa para Bulgaria
             ESTONIA_POINTS: 'estonia-sampling-points-layer', // Nueva capa para Estonia
             LETONIA_POINTS: 'letonia-sampling-points-layer', // Nueva capa para Letonia
-            MADRID_POINTS: 'madrid-sampling-points-layer' // Nueva capa para Madrid
+            MADRID_POINTS: 'madrid-sampling-points-layer', // Nueva capa para Madrid
+            ASAJA_POINTS: 'asaja-sampling-points-layer' // Nueva capa para Asaja
         };
         this.SOURCE_IDS = {
             SHAPEFILE: 'shapefile-source',
@@ -50,7 +154,8 @@ class MapLayerService {
             BULGARIA: 'bulgaria-sampling-source', // Nueva fuente para Bulgaria
             ESTONIA: 'estonia-sampling-source', // Nueva fuente para Estonia
             LETONIA: 'letonia-sampling-source', // Nueva fuente para Letonia
-            MADRID: 'madrid-sampling-source' // Nueva fuente para Madrid
+            MADRID: 'madrid-sampling-source', // Nueva fuente para Madrid
+            ASAJA: 'asaja-sampling-source' // Nueva fuente para Asaja
         };
     }
 

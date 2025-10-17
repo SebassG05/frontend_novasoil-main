@@ -304,6 +304,7 @@ export const useGeoData = () => {
             loadEstoniaData();
             loadLetoniaData();
             loadMadridData();
+            loadAsajaData();
         }
     }, [map, isLoaded]);
 
@@ -354,6 +355,10 @@ export const useGeoData = () => {
                 // Reañadir capa de puntos de muestreo de Madrid
                 if (samplingDataMadrid && samplingDataMadrid.length > 0) {
                     mapLayerService.addMadridSamplingPointsLayer(map, samplingDataMadrid);
+                }
+                // Reañadir capa de puntos de muestreo de Asaja
+                if (samplingDataAsaja && samplingDataAsaja.length > 0) {
+                    mapLayerService.addAsajaSamplingPointsLayer(map, samplingDataAsaja);
                 }
 
                 // Aplicar configuraciones de visibilidad

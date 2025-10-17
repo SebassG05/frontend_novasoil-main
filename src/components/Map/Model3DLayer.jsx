@@ -229,11 +229,12 @@ const Model3DLayer = () => {
     if (!map) return;
 
     // Cargar automáticamente los puntos de muestreo y el shape de Madrid al iniciar el mapa
-    loadLetoniaData();
-    loadEstoniaData();
-    loadMadridData();
-    loadItalyData();
-    loadMadridArea(); // <-- Mostrar el shape de Madrid
+  loadLetoniaData();
+  loadEstoniaData();
+  loadMadridData();
+  loadItalyData();
+  loadMadridArea(); // <-- Mostrar el shape de Madrid
+  loadAsajaData(); // <-- Mostrar puntos de Asaja igual que los demás
 
     // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
     const coordinates = [-5.911, 37.406];
