@@ -239,21 +239,11 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         )
       ].join('\n');
     } else {
-      // Tamarguillo: usar los nombres normalizados que llegan del backend
-      const tamarguilloHeadersSnake = [
-        'code',
-        'id',
-        'x_wg84',
-        'y_wg84',
-        'date',
-        'sampling_type',
-        'lithology_description',
-        'observations'
-      ];
+      // Tamarguillo: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
-        tamarguilloHeadersSnake.join(';'),
-        ...sampleData.map(sample =>
-          tamarguilloHeadersSnake.map(h => sample[h] !== undefined ? sample[h] : '').join(';')
+        visibleColumns.map(col => col.label).join(';'),
+        ...processedData.map(row =>
+          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
         )
       ].join('\n');
     }
@@ -262,7 +252,18 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     let exportFileName = 'tamarguillo';
-    if (isAsajaTable) {
+    if (isTamarguillo) {
+      // Usar el texto del botón activo para el nombre del archivo
+      if (activeDataset === 'tamarguillo1') {
+        exportFileName = 'General_Information';
+      } else if (activeDataset === 'tamarguillo2') {
+        exportFileName = 'Depth_25_50_cm';
+      } else if (activeDataset === 'tamarguillo3') {
+        exportFileName = 'Depth_0_25_cm';
+      } else {
+        exportFileName = 'tamarguillo';
+      }
+    } else if (isAsajaTable) {
       exportFileName = 'Asaja';
     } else if (isGermany) {
       exportFileName = 'alemania';
