@@ -1,13 +1,69 @@
-// API base URL
 const API_BASE_URL = 'http://localhost:3000/api/geo';
 
-/**
- * Servicio para manejar las comunicaciones con el backend de datos geoespaciales
- */
 class GeoDataService {
     /**
-     * Obtiene el shapefile de Madrid en formato GeoJSON
+     * Obtiene la tabla Tamarguillo 1
      */
+    async getTamarguillo1() {
+        try {
+            const response = await this.makeRequest('/sampling/tamarguillo1');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo Tamarguillo 1:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Obtiene la tabla Tamarguillo 2
+     */
+    async getTamarguillo2() {
+        try {
+            const response = await this.makeRequest('/sampling/tamarguillo2');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo Tamarguillo 2:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Obtiene la tabla Tamarguillo 3
+     */
+    async getTamarguillo3() {
+        try {
+            const response = await this.makeRequest('/sampling/tamarguillo3');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo Tamarguillo 3:', error);
+            throw error;
+        }
+    }
+    /**
+     * Obtiene la tabla TOPSOIL del CSV ESTADISTICOS.SUELO - R. F-Q (1).csv
+     */
+    async getEstadisticosTopsoil() {
+        try {
+            const response = await this.makeRequest('/sampling/estadisticos-topsoil');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo TOPSOIL:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Obtiene la tabla SUBSOIL del CSV ESTADISTICOS.SUELO - R. F-Q (1).csv
+     */
+    async getEstadisticosSubsoil() {
+        try {
+            const response = await this.makeRequest('/sampling/estadisticos-subsoil');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo SUBSOIL:', error);
+            throw error;
+        }
+    }
     async getMadridShapefile() {
         try {
             const response = await this.makeRequest('/shapefile?area=madrid');

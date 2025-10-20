@@ -20,8 +20,8 @@ import { useGeoData } from '../../hooks/useGeoData';
 import { create } from 'zustand';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3, samplingDataAsaja } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea, loadAsajaData } = useGeoData();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3, samplingDataTamarguillo1, samplingDataTamarguillo2, samplingDataTamarguillo3, samplingDataAsaja } = useMapStore();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea, loadAsajaData, loadTamarguillo1Data, loadTamarguillo2Data, loadTamarguillo3Data } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -31,48 +31,77 @@ const Model3DLayer = () => {
   const [legendVisible, setLegendVisible] = useState(false);
   const [activeItalyTab, setActiveItalyTab] = useState('ciraa1');
   const [currentDatasetType, setCurrentDatasetType] = useState('italy-ciraa'); // Para rastrear qué dataset está mostrando
+  const [activeTamarguilloTab, setActiveTamarguilloTab] = useState('tamarguillo1');
 
   // Función simple para cambiar dataset desde la tabla
   const handleDatasetChangeFromTable = async (datasetId) => {
-    setActiveItalyTab(datasetId);
-    
-    const datasetMap = {
-      'ciraa1': 'italy-ciraa',
-      'ciraa2': 'italy-ciraa2',
-      'ciraa3': 'italy-ciraa3'
-    };
-    
-    const newDatasetType = datasetMap[datasetId];
-    setCurrentDatasetType(newDatasetType);
-    
-    // Cargar nuevos datos según el dataset seleccionado
-    let newData = null;
-    if (datasetId === 'ciraa1') {
-      if (!samplingDataItalyCiraa || samplingDataItalyCiraa.length === 0) {
-        await loadItalyCiraaData();
-        newData = useMapStore.getState().samplingDataItalyCiraa;
-      } else {
-        newData = samplingDataItalyCiraa;
+    // CIRAA
+    if (['ciraa1', 'ciraa2', 'ciraa3'].includes(datasetId)) {
+      setActiveItalyTab(datasetId);
+      const datasetMap = {
+        'ciraa1': 'italy-ciraa',
+        'ciraa2': 'italy-ciraa',
+        'ciraa3': 'italy-ciraa'
+      };
+      const newDatasetType = datasetMap[datasetId];
+      setCurrentDatasetType(newDatasetType);
+      let newData = null;
+      if (datasetId === 'ciraa1') {
+        if (!samplingDataItalyCiraa || samplingDataItalyCiraa.length === 0) {
+          await loadItalyCiraaData();
+          newData = useMapStore.getState().samplingDataItalyCiraa;
+        } else {
+          newData = samplingDataItalyCiraa;
+        }
+      } else if (datasetId === 'ciraa2') {
+        if (!samplingDataItalyCiraa2 || samplingDataItalyCiraa2.length === 0) {
+          await loadItalyCiraa2Data();
+          newData = useMapStore.getState().samplingDataItalyCiraa2;
+        } else {
+          newData = samplingDataItalyCiraa2;
+        }
+      } else if (datasetId === 'ciraa3') {
+        if (!samplingDataItalyCiraa3 || samplingDataItalyCiraa3.length === 0) {
+          await loadItalyCiraa3Data();
+          newData = useMapStore.getState().samplingDataItalyCiraa3;
+        } else {
+          newData = samplingDataItalyCiraa3;
+        }
       }
-    } else if (datasetId === 'ciraa2') {
-      if (!samplingDataItalyCiraa2 || samplingDataItalyCiraa2.length === 0) {
-        await loadItalyCiraa2Data();
-        newData = useMapStore.getState().samplingDataItalyCiraa2;
-      } else {
-        newData = samplingDataItalyCiraa2;
-      }
-    } else if (datasetId === 'ciraa3') {
-      if (!samplingDataItalyCiraa3 || samplingDataItalyCiraa3.length === 0) {
-        await loadItalyCiraa3Data();
-        newData = useMapStore.getState().samplingDataItalyCiraa3;
-      } else {
-        newData = samplingDataItalyCiraa3;
+      if (newData && Array.isArray(newData)) {
+        setTableData(newData);
       }
     }
-    
-    // Actualizar los datos de la tabla
-    if (newData && Array.isArray(newData)) {
-      setTableData(newData);
+    // TAMARGUILLO
+    if (['tamarguillo1', 'tamarguillo2', 'tamarguillo3'].includes(datasetId)) {
+      setActiveTamarguilloTab(datasetId);
+      setCurrentDatasetType('tamarguillo');
+      let newData = null;
+      if (datasetId === 'tamarguillo1') {
+        if (!samplingDataTamarguillo1 || samplingDataTamarguillo1.length === 0) {
+          await loadTamarguillo1Data();
+          newData = useMapStore.getState().samplingDataTamarguillo1;
+        } else {
+          newData = samplingDataTamarguillo1;
+        }
+      } else if (datasetId === 'tamarguillo2') {
+        if (!samplingDataTamarguillo2 || samplingDataTamarguillo2.length === 0) {
+          await loadTamarguillo2Data();
+          newData = useMapStore.getState().samplingDataTamarguillo2;
+        } else {
+          newData = samplingDataTamarguillo2;
+        }
+      } else if (datasetId === 'tamarguillo3') {
+        if (!samplingDataTamarguillo3 || samplingDataTamarguillo3.length === 0) {
+          await loadTamarguillo3Data();
+          newData = useMapStore.getState().samplingDataTamarguillo3;
+        } else {
+          newData = samplingDataTamarguillo3;
+        }
+      }
+      if (newData && Array.isArray(newData)) {
+        setTableData(newData);
+      }
     }
   };
 
@@ -83,8 +112,8 @@ const Model3DLayer = () => {
     // Mapear el tabId al tipo de datos correspondiente
     const tabDataMap = {
       'ciraa1': 'italy-ciraa',
-      'ciraa2': 'italy-ciraa2', 
-      'ciraa3': 'italy-ciraa3'
+      'ciraa2': 'italy-ciraa', 
+      'ciraa3': 'italy-ciraa'
     };
     
     const dataType = tabDataMap[tabId];
@@ -108,11 +137,12 @@ const Model3DLayer = () => {
   const closeModalAndLegend = (showTable = false) => {
     setIsClosing(true);
     setTimeout(async () => {
-  setOpenModal(null);
-  setLegendVisible(false);
+      setOpenModal(null);
+      setLegendVisible(false);
       setIsClosing(false);
+      let showTableType = showTable;
       setTimeout(async () => {
-        if (showTable === true) {
+        if (showTableType === true) {
           // Alemania
           let germanyData = samplingDataGermany;
           if (!germanyData || germanyData.length === 0) {
@@ -122,7 +152,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(germanyData) ? germanyData : []);
           setCurrentDatasetType('germany');
-  } else if (showTable === 'bulgaria') {
+          setTableVisible(true);
+        } else if (showTableType === 'bulgaria') {
           // Bulgaria
           let bulgariaData = samplingDataBulgaria;
           if (!bulgariaData || bulgariaData.length === 0) {
@@ -132,7 +163,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(bulgariaData) ? bulgariaData : []);
           setCurrentDatasetType('bulgaria');
-  } else if (showTable === 'estonia') {
+          setTableVisible(true);
+        } else if (showTableType === 'estonia') {
           // Estonia
           let estoniaData = samplingDataEstonia;
           if (!estoniaData || estoniaData.length === 0) {
@@ -142,7 +174,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(estoniaData) ? estoniaData : []);
           setCurrentDatasetType('estonia');
-        } else if (showTable === 'letonia') {
+          setTableVisible(true);
+        } else if (showTableType === 'letonia') {
           // Letonia
           let letoniaData = samplingDataLetonia;
           if (!letoniaData || letoniaData.length === 0) {
@@ -152,7 +185,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(letoniaData) ? letoniaData : []);
           setCurrentDatasetType('letonia');
-        } else if (showTable === 'madrid') {
+          setTableVisible(true);
+        } else if (showTableType === 'madrid') {
           // Madrid
           let madridData = samplingDataMadrid;
           if (!madridData || madridData.length === 0) {
@@ -162,7 +196,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(madridData) ? madridData : []);
           setCurrentDatasetType('madrid');
-        } else if (showTable === 'italy') {
+          setTableVisible(true);
+        } else if (showTableType === 'italy') {
           // Italia
           let italyData = samplingDataItaly;
           if (!italyData || italyData.length === 0) {
@@ -172,7 +207,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyData) ? italyData : []);
           setCurrentDatasetType('italy');
-  } else if (showTable === 'italy-ciraa') {
+          setTableVisible(true);
+        } else if (showTableType === 'italy-ciraa') {
           // Italia CIRAA
           let italyCiraaData = samplingDataItalyCiraa;
           if (!italyCiraaData || italyCiraaData.length === 0) {
@@ -182,7 +218,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyCiraaData) ? italyCiraaData : []);
           setCurrentDatasetType('italy-ciraa');
-  } else if (showTable === 'italy-ciraa2') {
+          setTableVisible(true);
+        } else if (showTableType === 'italy-ciraa2') {
           // Italia CIRAA2
           let italyCiraa2Data = samplingDataItalyCiraa2;
           if (!italyCiraa2Data || italyCiraa2Data.length === 0) {
@@ -192,7 +229,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyCiraa2Data) ? italyCiraa2Data : []);
           setCurrentDatasetType('italy-ciraa2');
-  } else if (showTable === 'italy-ciraa3') {
+          setTableVisible(true);
+        } else if (showTableType === 'italy-ciraa3') {
           // Italia CIRAA3
           let italyCiraa3Data = samplingDataItalyCiraa3;
           if (!italyCiraa3Data || italyCiraa3Data.length === 0) {
@@ -202,7 +240,8 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(italyCiraa3Data) ? italyCiraa3Data : []);
           setCurrentDatasetType('italy-ciraa3');
-        } else if (showTable === 'asaja') {
+          setTableVisible(true);
+        } else if (showTableType === 'asaja') {
           // Asaja
           let asajaData = samplingDataAsaja;
           if (!asajaData || asajaData.length === 0) {
@@ -212,11 +251,24 @@ const Model3DLayer = () => {
           }
           setTableData(Array.isArray(asajaData) ? asajaData : []);
           setCurrentDatasetType('asaja');
+          setTableVisible(true);
+        } else if (showTableType === 'tamarguillo') {
+          // Tamarguillo: cargar por defecto la tabla 1 y mostrar el selector
+          let tamarguillo1Data = samplingDataTamarguillo1;
+          if (!tamarguillo1Data || tamarguillo1Data.length === 0) {
+            await loadTamarguillo1Data();
+            await new Promise(resolve => setTimeout(resolve, 200));
+            tamarguillo1Data = useMapStore.getState().samplingDataTamarguillo1;
+          }
+          setTableData(Array.isArray(tamarguillo1Data) ? tamarguillo1Data : []);
+          setCurrentDatasetType('tamarguillo');
+          setActiveTamarguilloTab('tamarguillo1');
+          setTableVisible(true);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
           setCurrentDatasetType('default');
+          setTableVisible(true);
         }
-        setTableVisible(true);
       }, 200);
     }, 300);
   };
@@ -647,6 +699,9 @@ const Model3DLayer = () => {
     };
   }, [map]);
 
+  // Eliminar el efecto que abre la tabla automáticamente al abrir el modal
+  // Ahora la tabla solo se abrirá cuando el usuario haga clic en el botón "Click Here" dentro del modal
+
   return (
     <>
       <InfoModal 
@@ -658,7 +713,10 @@ const Model3DLayer = () => {
           <h1 className={styles.modalTitle}>CO2-Land Initiative in Seville</h1>
           <h2 className={styles.modalSubtitle}>(Parque Tamarguillo)</h2>
         </div>
-        <ImageCarousel onCloseAll={closeModalAndLegend} />
+        <ImageCarousel onCloseAll={() => {
+          setOpenModal(null);
+          closeModalAndLegend('tamarguillo');
+        }} />
       </InfoModal>
       <InfoModalMadrid
         visible={openModal === 'madrid'}
@@ -733,18 +791,37 @@ const Model3DLayer = () => {
         isClosing={isClosing}
         onCloseAll={() => closeModalAndLegend('bulgaria')}
       />
-      <SamplingDataTable 
-        visible={tableVisible}
-        onClose={() => setTableVisible(false)}
-        data={tableData}
-        isItalyCiraa={currentDatasetType === 'italy-ciraa' || currentDatasetType === 'italy-ciraa2' || currentDatasetType === 'italy-ciraa3'}
-        onDatasetChange={handleDatasetChangeFromTable}
-      />
-      {/* Tabla Alemania, solo visible tras cerrar modal amarillo */}
-      {/* <SamplingDataTableGermany 
-        visible={tableGermanyVisible}
-        onClose={() => setTableGermanyVisible(false)}
-      /> */}
+      {/* Renderizado separado para Tamarguillo e Italia CIRAA */}
+      {currentDatasetType === 'tamarguillo' && ['tamarguillo1','tamarguillo2','tamarguillo3'].includes(activeTamarguilloTab) && (
+        <SamplingDataTable 
+          visible={tableVisible}
+          onClose={() => setTableVisible(false)}
+          data={tableData}
+          isTamarguillo={true}
+          activeDataset={activeTamarguilloTab}
+          onDatasetChange={handleDatasetChangeFromTable}
+        />
+      )}
+      {['italy-ciraa','italy-ciraa2','italy-ciraa3'].includes(currentDatasetType) && (
+        <SamplingDataTable 
+          visible={tableVisible}
+          onClose={() => setTableVisible(false)}
+          data={tableData}
+          isItalyCiraa={true}
+          activeDataset={activeItalyTab}
+          onDatasetChange={handleDatasetChangeFromTable}
+        />
+      )}
+      {/* Renderizado para el resto de países */}
+      {['germany','bulgaria','estonia','letonia','madrid','italy','asaja'].includes(currentDatasetType) && (
+        <SamplingDataTable 
+          visible={tableVisible}
+          onClose={() => setTableVisible(false)}
+          data={tableData}
+          activeDataset={undefined}
+          onDatasetChange={undefined}
+        />
+      )}
     </>
   );
 };

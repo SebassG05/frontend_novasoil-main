@@ -7,6 +7,72 @@ import mapLayerService from '../services/geospatial/mapLayerService';
  * Hook personalizado para manejar la carga y gestión de datos geoespaciales
  */
 export const useGeoData = () => {
+    // --- TAMARGUILLO ---
+    const loadTamarguillo1Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getTamarguillo1();
+            setSamplingDataTamarguillo1(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    const loadTamarguillo2Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getTamarguillo2();
+            setSamplingDataTamarguillo2(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    const loadTamarguillo3Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getTamarguillo3();
+            setSamplingDataTamarguillo3(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+    // Cargar tabla TOPSOIL
+    const loadEstadisticosTopsoil = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getEstadisticosTopsoil();
+            setSamplingDataEstadisticosTopsoil(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    // Cargar tabla SUBSOIL
+    const loadEstadisticosSubsoil = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getEstadisticosSubsoil();
+            setSamplingDataEstadisticosSubsoil(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
     /**
      * Carga el recinto (polígono) de Madrid y lo añade al mapa
      */
@@ -39,6 +105,9 @@ export const useGeoData = () => {
         samplingDataItalyCiraa,
         samplingDataItalyCiraa2,
         samplingDataItalyCiraa3,
+        samplingDataTamarguillo1,
+        samplingDataTamarguillo2,
+        samplingDataTamarguillo3,
         samplingDataAsaja,
         isLoadingGeoData,
         geoDataError,
@@ -55,6 +124,9 @@ export const useGeoData = () => {
         setSamplingDataItalyCiraa,
         setSamplingDataItalyCiraa2,
         setSamplingDataItalyCiraa3,
+        setSamplingDataTamarguillo1,
+        setSamplingDataTamarguillo2,
+        setSamplingDataTamarguillo3,
         setSamplingDataAsaja,
         setIsLoadingGeoData,
         setGeoDataError,
@@ -493,7 +565,13 @@ export const useGeoData = () => {
         samplingDataItalyCiraa,
         samplingDataItalyCiraa2,
         samplingDataItalyCiraa3,
-        isLoadingGeoData,
+    isLoadingGeoData,
+    samplingDataTamarguillo1,
+    samplingDataTamarguillo2,
+    samplingDataTamarguillo3,
+    loadTamarguillo1Data,
+    loadTamarguillo2Data,
+    loadTamarguillo3Data,
         geoDataError,
         layersVisibility,
 

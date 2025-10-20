@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SamplingDataTable.module.css';
 
-const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDatasetChange }) => {
+const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTamarguillo = false, onDatasetChange, activeDataset: externalActiveDataset }) => {
   // Lista de columnas a ocultar solo para Alemania
   const hiddenGermanyColumns = [
     'nitrates_mgkg',
@@ -13,9 +13,32 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
   ];
   if (!visible) return null;
 
+
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString('es-ES'));
-  const [activeDataset, setActiveDataset] = useState('ciraa1');
+  // CIRAA: 'ciraa1', 'ciraa2', 'ciraa3' | Tamarguillo: 'tamarguillo1', 'tamarguillo2', 'tamarguillo3'
+  const [activeDataset, setActiveDataset] = useState(externalActiveDataset || (isTamarguillo ? 'tamarguillo1' : 'ciraa1'));
+
+  // Sincronizar con el dataset activo externo (Model3DLayer)
+  useEffect(() => {
+    if (externalActiveDataset && externalActiveDataset !== activeDataset) {
+      setActiveDataset(externalActiveDataset);
+    }
+  }, [externalActiveDataset]);
+
+  // Si cambia el tab visual (botón), notificar al padre para que cambie el dataset real
+  const handleDatasetChange = (newDataset) => {
+    setIsTransitioning(true);
+    setActiveDataset(newDataset);
+    setTimeout(() => {
+      if (onDatasetChange && newDataset !== externalActiveDataset) onDatasetChange(newDataset);
+    }, 150);
+    setTimeout(() => {
+      setIsTransitioning(false);
+      setTableKey(prev => prev + 1);
+    }, 300);
+  };
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [tableKey, setTableKey] = useState(0);
 
@@ -24,7 +47,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
 
   // Efecto para manejar cambios de datos con animación
   useEffect(() => {
-    if (isItalyCiraa) {
+    if (isItalyCiraa || isTamarguillo) {
       setIsTransitioning(true);
       setTableKey(prev => prev + 1);
       const timer = setTimeout(() => {
@@ -32,23 +55,14 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [data, isItalyCiraa]);
+  }, [data, isItalyCiraa, isTamarguillo]);
 
-  // Función para manejar el cambio de dataset con animación
-  const handleDatasetChange = (newDataset) => {
-    setIsTransitioning(true);
-    setActiveDataset(newDataset);
-    
-    // Pequeño delay para mostrar la transición
-    setTimeout(() => {
-      if (onDatasetChange) onDatasetChange(newDataset);
-    }, 150);
-    
-    setTimeout(() => {
-      setIsTransitioning(false);
-      setTableKey(prev => prev + 1);
-    }, 300);
-  };
+    // DEBUG: Mostrar props para depuración visual
+  useEffect(() => {
+    console.log('[SamplingDataTable] Props:', { isItalyCiraa, isTamarguillo, activeDataset: externalActiveDataset, visible, data });
+  }, [isItalyCiraa, isTamarguillo, externalActiveDataset, visible, data]);
+
+
 
 
   // Calcular estadísticas
@@ -398,29 +412,52 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, onDat
           </table>
         </div>
         
-        {/* Botones para cambiar dataset de Italy CIRAA */}
-        {isItalyCiraa && (
-          <div className={styles.datasetSwitcher}>
-            <button 
-              onClick={() => handleDatasetChange('ciraa1')}
-              className={`${styles.datasetButton} ${activeDataset === 'ciraa1' ? styles.datasetButtonActive : ''}`}
-            >
-              🌱 Cover Crops
-            </button>
-            <button 
-              onClick={() => handleDatasetChange('ciraa2')}
-              className={`${styles.datasetButton} ${activeDataset === 'ciraa2' ? styles.datasetButtonActive : ''}`}
-            >
-              🚜 Tillage Systems
-            </button>
-            <button 
-              onClick={() => handleDatasetChange('ciraa3')}
-              className={`${styles.datasetButton} ${activeDataset === 'ciraa3' ? styles.datasetButtonActive : ''}`}
-            >
-              🌿 MASCOT Project
-            </button>
-          </div>
-        )}
+        {/* Botones para cambiar dataset de Italy CIRAA o Tamarguillo */}
+  {/* Solo mostrar los botones de un dataset a la vez */}
+  {isItalyCiraa && !isTamarguillo && (
+    <div className={styles.datasetSwitcher}>
+      <button 
+        onClick={() => handleDatasetChange('ciraa1')}
+        className={`${styles.datasetButton} ${activeDataset === 'ciraa1' ? styles.datasetButtonActive : ''}`}
+      >
+        🌱 Cover Crops
+      </button>
+      <button 
+        onClick={() => handleDatasetChange('ciraa2')}
+        className={`${styles.datasetButton} ${activeDataset === 'ciraa2' ? styles.datasetButtonActive : ''}`}
+      >
+        🚜 Tillage Systems
+      </button>
+      <button 
+        onClick={() => handleDatasetChange('ciraa3')}
+        className={`${styles.datasetButton} ${activeDataset === 'ciraa3' ? styles.datasetButtonActive : ''}`}
+      >
+        🌿 MASCOT Project
+      </button>
+    </div>
+  )}
+  {isTamarguillo && !isItalyCiraa && (
+    <div className={styles.datasetSwitcher}>
+      <button
+        onClick={() => handleDatasetChange('tamarguillo1')}
+        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo1' ? styles.datasetButtonActive : ''}`}
+      >
+        🟢 Tamarguillo 1
+      </button>
+      <button
+        onClick={() => handleDatasetChange('tamarguillo2')}
+        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo2' ? styles.datasetButtonActive : ''}`}
+      >
+        🟡 Tamarguillo 2
+      </button>
+      <button
+        onClick={() => handleDatasetChange('tamarguillo3')}
+        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo3' ? styles.datasetButtonActive : ''}`}
+      >
+        🟣 Tamarguillo 3
+      </button>
+    </div>
+  )}
         
         <div className={styles.footer}>
           <div className={styles.stats}>
