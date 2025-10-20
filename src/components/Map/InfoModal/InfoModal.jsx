@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './InfoModal.module.css';
 
-const InfoModal = ({ visible, onClose, children, isClosing }) => {
-  if (!visible) return null;
+const InfoModal = ({ visible, onClose, children }) => {
+  const [isClosing, setIsClosing] = useState(false);
+  // Handler para animación de cierre
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300); // Debe coincidir con la duración de modalSlideOut
+  };
+  if (!visible && !isClosing) return null;
   return (
     <div className={`${styles.overlay} ${isClosing ? styles.overlayClosing : ''}`}>
       <div className={`${styles.modal} ${isClosing ? styles.modalClosing : ''}`}>
-        <button className={styles.closeBtn} onClick={onClose}>&times;</button>
+        <button className={styles.closeBtn} onClick={handleClose}>&times;</button>
         <div className={styles.content}>{children}</div>
         <div className={styles.companyLogo}>
           <img 

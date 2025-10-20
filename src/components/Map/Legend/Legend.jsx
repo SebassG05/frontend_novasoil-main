@@ -3,11 +3,12 @@ import { useMapStore } from '../../../store/mapStore';
 import { useGeoData } from '../../../hooks/useGeoData';
 import styles from './Legend.module.css';
 
-const Legend = ({ isOpen, onClose, isClosing }) => {
+const Legend = ({ isOpen, onClose }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const totalPages = 4; // Aumentamos las páginas para incluir datos geoespaciales
-  
+  const [isClosing, setIsClosing] = useState(false);
+  const totalPages = 4;
+
   const { 
     shapefileData, 
     samplingData, 
@@ -15,21 +16,25 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
     isLoadingGeoData,
     selectedAreaName
   } = useMapStore();
-  
+
   const { toggleLayerVisibility } = useGeoData();
 
-  if (!isOpen) return null;
+  // Animación de cierre
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300); // Debe coincidir con la duración de modalSlideOut
+  };
+
+  if (!isOpen && !isClosing) return null;
 
   const changePage = (newPage) => {
     if (newPage === currentPage || isTransitioning) return;
-    
     setIsTransitioning(true);
-    
-    // Pequeño delay para la animación de salida
     setTimeout(() => {
       setCurrentPage(newPage);
-      
-      // Delay para la animación de entrada
       setTimeout(() => {
         setIsTransitioning(false);
       }, 50);
@@ -300,26 +305,21 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
       <div className={`${styles.modal} ${isClosing ? styles.modalClosing : ''}`}>
         <button 
           className={styles.closeBtn} 
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Cerrar leyenda"
         >
           ×
         </button>
-        
         <div className={styles.content}>
           <div className={styles.header}>
             <h1 className={styles.title}>Legend</h1>
           </div>
-          
           {/* Contenido de la página actual */}
           <div className={`${styles.pageContent} ${isTransitioning ? styles.transitioning : styles.visible}`}>
             {renderPageContent()}
           </div>
-          
           {/* Controles de paginación */}
           <div className={styles.pagination}>
-            
-            
             <div className={styles.pageIndicators}>
               {[...Array(totalPages)].map((_, index) => (
                 <button
@@ -331,9 +331,7 @@ const Legend = ({ isOpen, onClose, isClosing }) => {
                 </button>
               ))}
             </div>
-        
           </div>
-          
         </div>
       </div>
     </div>
