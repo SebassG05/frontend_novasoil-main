@@ -442,19 +442,19 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         onClick={() => handleDatasetChange('tamarguillo1')}
         className={`${styles.datasetButton} ${activeDataset === 'tamarguillo1' ? styles.datasetButtonActive : ''}`}
       >
-        🟢 Tamarguillo 1
-      </button>
-      <button
-        onClick={() => handleDatasetChange('tamarguillo2')}
-        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo2' ? styles.datasetButtonActive : ''}`}
-      >
-        🟡 Tamarguillo 2
+        🟢 General Information
       </button>
       <button
         onClick={() => handleDatasetChange('tamarguillo3')}
         className={`${styles.datasetButton} ${activeDataset === 'tamarguillo3' ? styles.datasetButtonActive : ''}`}
       >
-        🟣 Tamarguillo 3
+        🟣 Depth 0 - 25 cm
+      </button>
+      <button
+        onClick={() => handleDatasetChange('tamarguillo2')}
+        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo2' ? styles.datasetButtonActive : ''}`}
+      >
+        🟡 Depth 25 - 50 cm
       </button>
     </div>
   )}
