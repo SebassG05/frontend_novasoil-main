@@ -122,13 +122,11 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         )
       ].join('\n');
     } else if (isGermany) {
-      const germanyHeaders = [
-        'CO2_land_Novasoil_ID', 'Coord (Lat & Long)', 'Soil sampling date', 'Nitrates (mg/Kg)', 'Total Cadmium (mg/Kg)', 'Total Aluminum (Al) mg/kg', 'Total Lead (Pb) mg/kg', 'Total Zinc (Zn) mg/kg', 'Sulfur (S) mg/kg', 'Nitrogen (N) %', 'Phosphorus mg/kg', 'Potassium (K) mg/kg', 'Magnesium (Mg) mg/kg', 'Calcium (Ca) mg/kg', 'Sodium mg/kg', 'Boron (B) mg/kg', 'Iron (Fe) mg/kg', 'Copper (Cu) mg/kg', 'Zinc (Zn) mg/kg', 'Manganese (Mn) mg/kg', 'pH', 'Electrical Conductivity (µS/cm)', 'Organic Matter (%w/w)', 'Organic Carbon (mg/ha)', 'C/N', 'Active Lime (% w/w)', 'Carbonates (%)', 'USDA Classification (units) soil texture ', 'Clay %', 'Silt %', 'Sand %', 'C.I.C (mEq/100g)', 'P.S.I (% Exchangeable Sodium)', 'Field Capacity (% w/w)', 'Wilting Point (% w/w)', 'Available Water (% w/w)', '% Base Saturation (% w/w)', 'Bulk Density (g/cc of soil)', 'Water Volume per Ha (m3 /Ha)', 'Saprophytes', 'Anguina spp', 'Aphelenchoides spp', 'Aphelenchus spp', 'Belonolaimus spp', 'Criconema spp', 'Criconemoides spp', 'Ditylenchus spp', 'Globodera spp', 'Helicotylenchus spp', 'Hemicotylenchus spp', 'Hemicyclophora spp', 'Heterodera spp', 'Hoplolaimus spp', 'Longidorus spp', 'Meloidogyne spp', 'Paratylenchus spp', 'Pratylenchus spp', 'Radopholus spp', 'Rotylenchulus spp', 'Trichodorus spp', 'Tylenchulus spp', 'Tylenchus spp', 'Tylencorhynchus spp', 'Xiphinema spp', 'Aureobasidium sp', 'Aspergillus sp', 'Penicillium sp.', 'Mortierella sp.', 'Chaetomium sp.', 'Paecilomyces sp.', 'Thichoderma sp.', 'Didymellaceae', 'Epicoccum sp.', 'Septoria sp.', 'Cladosporium sp.', 'Fusarium sp.', 'Mucorales', 'Phytaceas (Phytopthora) ', 'Acremonium', 'Myrothecium', 'Humicola', 'Helminthosporium sp.'
-      ];
+      // Alemania: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
-        germanyHeaders.join(','),
-        ...sampleData.map(sample =>
-          germanyHeaders.map(h => (sample[h] !== undefined ? sample[h] : sample[h.replace(/ /g, '_').replace(/[().,%/]/g, '').toLowerCase()] || '')).join(',')
+        visibleColumns.map(col => col.label).join(';'),
+        ...processedData.map(row =>
+          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
         )
       ].join('\n');
   } else if (isBulgaria) {
