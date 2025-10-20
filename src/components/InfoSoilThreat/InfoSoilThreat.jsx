@@ -114,21 +114,29 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
           {
             title: 'Microbial Biomass & Respiration:',
             description: 'Measures total microbial activity and carbon cycling capacity. Higher values indicate active soil communities supporting nutrient availability.',
+            extra: '<b>Method:</b> Soil respiration assays (CO₂ release measured in incubation chambers).',
+            interpretation:'<b>Interpretation:</b> Soil respiration, expressed as mg CO₂ per 100 g of soil per day, reflects how biologically active and fertile a soil is. Very low values (<15 mg) indicate degraded soils with little organic matter and weak microbial life. Moderate levels (26–52 mg) are typical of functioning agricultural soils, showing balanced nutrient cycling. High values (52–105 mg) reflect healthy, biologically rich soils such as grasslands or croplands with organic inputs. When respiration is very high (>105 mg), as in peatlands or freshly amended fields, it signals strong microbial activity but also a risk of rapid carbon loss.',
             color: 'green'
           },
           {
-            title: 'Earthworm & Nematode Diversity:',
+            title: 'Fungi presence:',
             description: 'Reflects soil food web complexity and ecosystem functionality. Diverse populations enhance soil structure and nutrient cycling.',
+            extra:'<b>Methods:</b> Serial dilutions - Inoculation on enriched media Isolation on selective/enriched media - Macroscopic and microscopic examination -Literature review / bibliographic research',
+            interpretation: '<b>Interpretation:</b> Culturing and examining soil fungi provides valuable insight into soil health. Saprotrophic genera such as Mortierella, Chaetomium and Trichoderma point to active decomposition and nutrient cycling, with Trichoderma also acting as a natural biocontrol agent. Arbuscular mycorrhizal fungi (e.g. Glomeraceae) are key indicators of well-functioning soils, as they improve plant nutrient uptake and resilience. In forests, ectomycorrhizal fungi like Russula or Cortinarius signal strong tree–soil interactions and stable carbon inputs. By contrast, a dominance of pathogens such as Fusarium or Rhizoctonia reveals soil stress and imbalance. Fast-growing decomposers like Aspergillus and Penicillium are common in organic-rich soils, showing strong biological activity but also the risk of rapid carbon loss. Overall, the balance between beneficial fungi and pathogens provides a clear picture of soil vitality and sustainability.',
             color: 'blue'
           },
           {
-            title: 'Nematode community composition:',
+            title: 'Nematode presence:',
             description: 'Represents trophic diversity and soil food web structure. Links microbial processes with nutrient cycling and ecosystem stability.',
+            extra: '<b>Method:</b> Morphological identification of nematodes into trophic groups after Baermann extraction.',
+            interpretation:'Interpretation: Different nematode groups represent distinct trophic roles (bacterivores, fungivores, herbivores, predators). A balanced community shows ecosystem stability, with strong links between microbial activity and nutrient cycling. Dominance of plant-parasitic nematodes suggests soil stress, while a diverse trophic structure indicates healthy soils with multiple functional groups. A soil with a high concentration of saprophytes indicates that the bio-community is very active in decomposing dead organic matter such as plant residues, roots, and crop litter.',
             color: 'amber'
           },
           {
             title: 'DNA-based Microbial Richness:',
             description: 'Advanced molecular techniques to assess microbial community diversity and functional potential in soil ecosystems.',
+            extra: '<b>Method:</b> Metagenomics or metabarcoding for broader functional and taxonomic insights.',
+            interpretation: '<b>Interpretation:</b> DNA sequencing reveals the richness and diversity of microbial taxa. High richness indicates a resilient soil with many functional groups, supporting nutrient turnover and disease suppression. Low richness suggests a simplified ecosystem, more vulnerable to stress and less efficient in cycling organic matter.',
             color: 'purple'
           }
         ],
@@ -169,25 +177,12 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
       'Soil pH Balance': {
         cards: [
           {
-            title: 'Soil Rigidity Ratio:',
+            title: 'Soil pH (measured in H₂O or CaCl₂):',
             description: 'This is the ratio between precompression stress (the soil\'s internal resistance) and the actual stress applied by machinery or loads.',
+            extra:'<b>Method:</b> Potentiometric measurement with a calibrated glass electrode after preparing a soil–water suspension (commonly 1:2.5 or 1:5 soil:solution ratio).',
+            interpretation: '<b>Interpretation:</b> Soil pH is a master variable controlling nutrient availability, microbial activity, and pollutant mobility. Neutral to slightly acidic soils (pH 6.0–7.5) are generally optimal for most crops and microbial processes. Acidic soils (pH < 5.5) often suffer from aluminium and manganese toxicity, reduced nutrient availability, and loss of biological activity. Alkaline soils (pH > 8.0) are prone to micronutrient deficiencies (iron, zinc, manganese) and can indicate sodicity problems. Maintaining pH within the 6–7 range is typically a marker of healthy, resilient soils, while values far outside this range suggest constraints on fertility and potential degradation risks.',
             color: 'green'
           },
-          {
-            title: 'Saturated Hydraulic Conductivity (Ks):',
-            description: 'A sensitive parameter representing the functional quality of the soil structure and its saturated pore continuity, which is crucial for water movement.',
-            color: 'blue'
-          },
-          {
-            title: 'Air Capacity (AC):',
-            description: 'Measures the volume of macropores necessary for gas exchange (oxygen) and root respiration. It is a functional indicator of soil structure.',
-            color: 'amber'
-          },
-          {
-            title: 'Precompression Stress:',
-            description: 'Measures the internal force or resistance of the soil, developed naturally or through management, which must be overcome for deformation to occur.',
-            color: 'purple'
-          }
         ],
         additionalText: 'The report from the European Environment Agency classifies soil pH as a Key Indicator of soil health. This indicator is used to assess critical functions such as biodiversity support capacity and biomass production potential. The report states that deviations from the optimal range are considered a chemical threat and provides thresholds for monitoring soil quality across Europe.'
       },
@@ -195,23 +190,17 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
         cards: [
           {
             title: 'Concentration of Inorganic Pollutants (Heavy Metals):',
-            description: 'Direct measurement of the total content of heavy metals (e.g., Cd, Pb, As) in the soil, specifically noting if the content is in excess of thresholds (SSVs).',
+            description: ' Most important indicators of soil contamination and health decline. Elements such as lead, cadmium, arsenic, mercury and chromium often originate from mining, industrial activities, fertilisers, and irrigation with polluted water.',
+            extra:'<b>Method:</b> ICP-OES/Dig.Ác.',
+            interpretation:'<b>Interpretation:</b> In uncontaminated agricultural soils, typical background values are usually Lead (Pb) < 50 mg/kg, Cadmium (Cd) < 1 mg/kg, Arsenic (As) < 10–20 mg/kg, Mercury (Hg) < 0.1 mg/kg, and Chromium (Cr) < 70–100 mg/kg. Concentrations significantly above these ranges suggest anthropogenic contamination (from industry, mining, fertilisers or pesticides) and represent a potential risk for soil health, crop uptake, and food safety.',
             color: 'green'
           },
           {
-            title: 'Concentration of Persistent Organic Pollutants (POPs):',
+            title: 'Concentration of Persistent Organic Pollutants (POPs) (µg/kg)',
             description: 'Direct measurement of the concentration of organic compounds (e.g., pesticides, PCDD/PCDF) in the topsoil against established thresholds.',
+            extra:'<b>Method:</b> Gas Chromatography–Mass Spectrometry (GC–MS) or High-Resolution GC/HRMS',
+            interpretation: '<b>Interpretation:</b> In healthy, uncontaminated soils, concentrations of POPs such as organochlorine pesticides (e.g. DDT, HCH, aldrin, dieldrin), polychlorinated biphenyls (PCBs), and dioxins/furans (PCDD/PCDF) are generally below detection limits or <10 µg/kg. Levels above regulatory thresholds (e.g. 50–100 µg/kg for DDT, 20–50 µg/kg for PCBs, or a few ng/kg TEQ for dioxins/furans) indicate contamination that may impair soil biodiversity, disrupt microbial processes, and pose risks to human and ecosystem health through bioaccumulation.',
             color: 'blue'
-          },
-          {
-            title: 'Soil Screening Values (SSVs) / Critical Limits:',
-            description: 'These are the calculated risk-based thresholds that define the maximum acceptable concentration of a specific contaminant in the soil. They are derived from complex risk assessment models (e.g., for human health or ecological impact).',
-            color: 'amber'
-          },
-          {
-            title: 'Impact on Ecosystems and Human Health (Endpoints):',
-            description: 'The final impact indicator that assesses the effect of pollution on the protection targets (endpoints), such as above/below-ground biodiversity, crop quality, and the state of surface water/groundwater.',
-            color: 'purple'
           }
         ],
         additionalText: 'Due to the complexity of soil functions, site conditions, and management practices, there is no EU consensus on unified critical limits for soil pollutants. National standards vary widely. Soil Screening Values (SSVs) must consider factors like soil properties, groundwater depth, and local practices to accurately link pollutant concentration to its eventual impact on endpoints like food quality or human health.'
@@ -219,24 +208,22 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
       'Soil Sealing': {
         cards: [
           {
-            title: 'Degree of Imperviousness:',
-            description: 'This is the key measure of the extent of the threat, calculated as the percentage of sealed area per total land area. It is used at the European level (EEA indicator LSI002) and typically measured using satellite methods.',
+            title: 'Degree of Imperviousness (DI, %):',
+            description: 'Share of sealed/impervious surfaces (buildings, asphalt, concrete) relative to the total land area.',
+            extra:'<b>Method:</b> Derived mainly from remote sensing (e.g. Copernicus High-Resolution Layer – Imperviousness, Sentinel-2, Landsat) and validated with aerial imagery. Calculated as sealed pixels ÷ total pixels × 100.<br/><b>Interpretation:</b> The degree of imperviousness shows how much of the land surface is covered by sealed materials such as asphalt, concrete, or buildings. Low percentages, below 1%, indicate largely natural or rural areas where soils remain functional. Moderate levels, around 10–30%, are typical of expanding suburban zones, while higher values above 30% reflect dense urbanisation where soils lose their capacity to infiltrate water, recharge aquifers, and support biological activity.',
             color: 'green'
           },
           {
-            title: 'Imperviousness Change:',
-            description: 'This measures the rate of change or the difference in sealed area over defined time periods (e.g., 2012–2018). This indicator of change is crucial for monitoring progress towards environmental policy goals.',
+            title: 'Imperviousness Change (ΔDI):',
+            description: 'Rate of increase or decrease in sealed surfaces over a defined period.',
+            extra: '<b>Method:</b> Compare DI maps from different years (e.g. 2012–2018–2021). Change = DI₂ – DI₁, expressed in percentage points or hectares/year.<br/><b>Interpretation:</b> The change in imperviousness reveals whether sealing is expanding or retreating. An increase over time signals ongoing soil loss to construction and infrastructure, while stable values mean land use is not shifting further towards sealing. Negative changes are rare but highly significant, as they indicate successful de-sealing or renaturalisation efforts, such as creating green roofs, restoring permeable surfaces, or removing obsolete infrastructure.',
             color: 'blue'
           },
           {
-            title: 'National Target: "No Net Land Take":',
-            description: 'This represents the ultimate political and policy target for monitoring the threat. The target is used to assess the effectiveness of measures aimed at halting the progression of soil loss to sealing.',
+            title: 'National Target: “No Net Land Take”',
+            description: 'Policy target aiming at zero net increase in sealed land by a given year (EU vision: 2050)',
+            extra:'<b>Method:</b> Balance between newly sealed land and land that has been restored or de-sealed. Calculated as: Net Land Take = (newly sealed area) – (restored area). <br/><b>Interpretation:</b> translates these measurements into a clear policy goal: halting the overall increase in sealed land. When the balance of newly sealed versus restored surfaces is close to zero or even negative, it means that management and planning measures are working. If the balance is positive and growing, it indicates that soil is still being lost despite commitments, highlighting the need for stronger interventions.',
             color: 'amber'
-          },
-          {
-            title: 'Land Take	:',
-            description: 'This broader indicator tracks the loss of natural or semi-natural land (e.g., agricultural or forest land) being converted to urban and artificial uses, which often includes sealing.',
-            color: 'purple'
           }
         ],
         additionalText: 'Soil sealing is an irreversible process that results in the permanent loss of soil functions. The primary driver is urban sprawl and development, leading to the replacement of natural soil with impervious surfaces. Sustainable urban planning, green infrastructure, and protection of natural soil areas are essential to mitigate this threat.'
