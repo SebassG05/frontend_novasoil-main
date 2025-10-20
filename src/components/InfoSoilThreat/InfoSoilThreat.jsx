@@ -131,21 +131,28 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
           {
             title: 'SOC content (%) or g C/kg soil:',
             description: 'Core measure of organic carbon in the soil; indicates soil fertility and degradation risk. Directly shows how much carbon is in the fine soil fraction.',
+            extra: '<b>Method:</b> Walkley-Black Interpretation: Soil organic carbon content is highly variable, depending on climate, soil type, vegetation and land use. In tropical soils, values are often below 1–2% because high temperatures accelerate decomposition. Mediterranean croplands usually contain 1–3%, while temperate agricultural soils often reach 2–5%, with grasslands exceeding 5% under good management. Organic soils such as peatlands can store over 20–30%. From a soil health perspective, values below 1% are critical and often indicate poor fertility and vulnerability to degradation. Values above 2–3% are generally linked to healthy soils with better nutrient cycling, water retention and resilience.',
             color: 'green'
           },
           {
             title: 'SOC stock (t C/ha):',
             description: 'Represents the total carbon stored in a soil layer; crucial for carbon budgeting and climate impact. Integrates SOC content with depth and bulk density.',
+            extra: '<b>Method:</b> SOC stock = SOC content × Bulk density × Depth × Conversion factor ',
+            interpretation: '<b>Interpretation:</b> SOC stock represents the total carbon stored in the soil and is one of the clearest indicators of long-term soil functioning. Values are lowest in degraded croplands of semi-arid areas (20–40 t C/ha in the top 30 cm), moderate in Mediterranean systems (30–60 t C/ha), and much higher in temperate croplands and grasslands (50–150 t C/ha). By contrast, peatlands and wetlands such as marshes can exceed 300–400 t C/ha, sometimes reaching several hundred tonnes per hectare. The reason is that water saturation creates anaerobic (oxygen-poor) conditions which slow down the decomposition of organic matter. Plant residues accumulate faster than they can break down, forming peat or thick organic layers that act as a long-term carbon sink. From a soil health perspective, low SOC stocks signal soils with reduced resilience and fertility, while high stocks indicate soils with strong buffering capacity, better water regulation and significant climate mitigation potential.',
             color: 'blue'
           },
           {
             title: 'Bulk density (g/cm³):',
-            description: 'Essential for converting SOC content to SOC stock.Also influences aeration, root growth, and microbial activity.',
+            description: 'Mass of oven-dry soil per unit volume. Crucial for converting SOC content into SOC stock and strongly affects aeration, root development and microbial activity.',
+            extra: '<b>Method:</b> Drying samples at 105 °C until constant weight to determine dry mass',
+            interpretation: '<b>Interpretation:</b> Bulk density reflects compaction and porosity, two properties central to soil health. Sandy soils usually show higher values (1.4–1.7 g/cm³), loams are moderate (1.2–1.5 g/cm³), clays lower (1.0–1.3 g/cm³), and organic soils very low (<0.9 g/cm³). Healthy soils generally balance strength and porosity; bulk density values above 1.6 g/cm³ restrict root growth and water infiltration, leading to stress for plants and microbes. Values below 1.2 g/cm³ are favourable, indicating loose, aerated soils that sustain biological activity and water movement.',
             color: 'amber'
           },
           {
             title: 'SOC/Clay ratio:',
-            description: 'Reflects soil structural stability and susceptibility to degradation. Important for long-term soil health and erosion resistance.',
+            description: 'The ratio between organic carbon and clay fraction. It reflects structural stability, resilience against degradation and the soil’s long-term capacity to stabilise carbon.',
+            extra: '<b>Method:</b> calculated as SOC (%) ÷ clay (%)',
+            interpretation: '<b>Interpretation:</b> The SOC/clay ratio is an effective proxy for soil structural stability and long-term carbon protection. Ratios above 0.10 (1:10) signal that enough organic carbon is associated with the clay fraction to stabilise aggregates and resist erosion. Ratios between 0.05 and 0.10 are typical of many mineral soils and suggest moderate resilience. Ratios below 0.05 indicate vulnerable soils, where organic matter is insufficiently protected and easily lost under tillage or drought. Healthy soils tend to maintain higher ratios, ensuring both physical stability and sustained carbon sequestration potential.',
             color: 'purple'
           }
         ],
@@ -368,8 +375,13 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
                         <span className={`w-3 h-3 ${colors.dot} rounded-full mr-3`}></span>
                         {card.title}
                       </h4>
-                      <p className="text-gray-700 leading-relaxed" style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: card.description }}>
-                      </p>
+                      <p className="text-gray-700 leading-relaxed" style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: card.description }} />
+                      {card.extra && (
+                        <p className="text-gray-700 leading-relaxed mt-5" style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: card.extra }} />
+                      )}
+                      {card.interpretation && (
+                        <p className="text-gray-700 leading-relaxed mt-3" style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: card.interpretation }} />
+                      )}
                     </div>
                   );
                 })}
