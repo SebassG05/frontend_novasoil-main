@@ -79,23 +79,31 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
       'Soil Compaction': {
         cards: [
           {
-            title: 'Bulk Density (Db):',
-            description: 'Represents the dry mass of soil per unit volume <span className="font-semibold text-green-700">(g cm⁻³ or Mg m⁻³)</span>. High values indicate compacted soil with reduced root and water movement.',
+            title: 'Bulk Density (g/cm³):',
+            description: 'Mass of oven-dry soil per unit volume. Crucial for converting SOC content into SOC stock and strongly affects aeration, root development and microbial activity.',
+            extra:'<b>Method:</b> Drying samples at 105 °C until constant weight to determine dry mass.',
+            interpretation: '<b>Interpretation: </b>Bulk density reflects compaction and porosity, two properties central to soil health. Sandy soils usually show higher values (1.4–1.7 g/cm³), loams are moderate (1.2–1.5 g/cm³), clays lower (1.0–1.3 g/cm³), and organic soils very low (<0.9 g/cm³). Healthy soils generally balance strength and porosity; bulk density values above 1.6 g/cm³ restrict root growth and water infiltration, leading to stress for plants and microbes. Values below 1.2 g/cm³ are favourable, indicating loose, aerated soils that sustain biological activity and water movement.',
             color: 'green'
           },
           {
             title: 'SOC/Clay Ratio (Structural Stability Index):',
-            description: 'Combines soil organic carbon (SOC) and clay to indicate soil structure resilience.',
+            description: 'The ratio between organic carbon and clay fraction. It reflects structural stability, resilience against degradation and the soil’s long-term capacity to stabilise carbon.',
+            extra:'<b>Method:</b> calculated as SOC (%) ÷ clay (%)',
+            interpretation: '<b>Interpretation:</b> The SOC/clay ratio is an effective proxy for soil structural stability and long-term carbon protection. Ratios above 0.10 (1:10) signal that enough organic carbon is associated with the clay fraction to stabilise aggregates and resist erosion. Ratios between 0.05 and 0.10 are typical of many mineral soils and suggest moderate resilience. Ratios below 0.05 indicate vulnerable soils, where organic matter is insufficiently protected and easily lost under tillage or drought. Healthy soils tend to maintain higher ratios, ensuring both physical stability and sustained carbon sequestration potential.',
             color: 'blue'
           },
           {
             title: 'Clay Content (%):',
             description: 'Determines mechanical sensitivity: clay-rich soils are more compactable when wet, but more resistant when dry.',
+            extra:'<b>Method:</b> Hydrometer method (Bouyoucos method)',
+            interpretation: '<b>Interpretation:</b> Clay content defines many of the soil’s physical and chemical properties. Soils rich in clay are more compactable when wet, but once dry they are harder and more resistant to mechanical stress. High clay content increases nutrient and water retention capacity, as clay minerals provide a large reactive surface for binding cations and organic matter. However, very clay-rich soils (>40–50%) can be prone to waterlogging, swelling and cracking, which complicates root penetration. Sandy soils (<10% clay) have poor nutrient retention but are well aerated.',
             color: 'amber'
           },
           {
             title: 'Air Capacity (AC %):',
-            description: 'Percentage of air-filled porosity.',
+            description: ' Air capacity is measured as the percentage of soil volume that remains air-filled after water has drained.',
+            extra:'<b>Method:</b> Undisturbed core method combined with pressure plate.',
+            interpretation: '<b>Interpretation:</b> Healthy soils usually maintain 10–20% air capacity, which provides sufficient oxygen for roots and microorganisms while still retaining adequate water. Low values (<10%) indicate compaction or excessive water retention, conditions that can cause oxygen stress, reduced root growth and limited microbial activity, especially in clay-rich or poorly drained soils. High values (>25%), often found in sandy soils, indicate very good aeration but also rapid drying and nutrient leaching, which reduces fertility. Thus, optimal air capacity is a balance: enough to ensure oxygen supply, but not so high that soils become drought-prone and infertile.',
             color: 'purple'
           }
         ],
@@ -272,7 +280,8 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
 
   return (
     <div className="overlay">
-      <div className={`container ${closing ? 'soilThreatFadeOut' : 'soilThreatFadeIn'}`}
+      <div
+        className={`container ${closing ? 'soilThreatFadeOut' : 'soilThreatFadeIn'}${indicator === 'Soil Pollution' ? ' tallModal' : ''}`}
         style={{ position: 'relative', display: showRecommendations ? 'none' : 'flex' }}>
         <button className="closeBtn" onClick={handleClose} aria-label="Close modal"
           style={{ position: 'absolute', top: 24, right: 32, zIndex: 10 }}>
@@ -293,9 +302,8 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
             <div className="divider"></div>
           </div>
         </div>
-        <div className="recommendationBox" style={{width: '100%', marginBottom: '4%', marginTop: '-6%', padding: '18px 32px 0 32px', fontSize: '1rem', color: '#2d5016', fontWeight: 500, textAlign: 'justify'}}>
-          <span dangerouslySetInnerHTML={{ __html: content.recommendation }}></span>
-          
+        <div className="recommendationBox" style={{width: '100%', marginBottom: '4%', marginTop: '-6%', padding: '18px 32px 0 32px'}}>
+          <span className="description justified" dangerouslySetInnerHTML={{ __html: content.recommendation }}></span>
           <button 
             className="recommendationsBtn" 
             onClick={handleShowRecommendations}
