@@ -206,14 +206,11 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         )
       ].join('\n');
     } else if (isMadrid) {
-      // Madrid: usar los headers originales del CSV fuente
-      const madridHeaders = [
-        'Case Study ID','Coord (Lat & Long)','Soil sampling ID','Soil sampling date','Soil sample depth','Nitrates (mg/Kg)','Nitrogen (N) %','Phosphorus mg/kg','Sodium (Na) mg/kg','Potassium (K) mg/kg','Magnesium (Mg) mg/kg','Calcium (Ca) mg/kg','pH','Soil Texture','Total Aluminum (Al) mg/kg','Total Lead (Pb) mg/kg','Total Zinc (Zn) mg/kg','Sulfur (S) mg/kg','Manganese (Mn) mg/kg','Electrical Conductivity (µS/cm)','Sulfates (mg/kg)','Organic Matter (%w/w)','Organic Carbon (mg/ha)','C/N','Active Lime (% w/w)','Carbonates (%)','USDA Classification (units)','Clay %','Silt %','Sand %','C.I.C (mEq/100g)','P.S.I (% Exchangeable Sodium)','Field Capacity (% w/w)','Wilting Point (% w/w)','Available Water (% w/w)','% Base Saturation (% w/w)','Bulk Density (g/cc of soil)','Water Volume per Ha (m3 /Ha)','Aureobasidium (log-transform count)','Trichoderma (log-transform count)','Diaporthe-Phomopsis (log-transform count)','Cryptovalsa (log-transform count)','Botrytis(log-transform count)','Aureobasidium sp (log-transformed count)','Thichoderma sp. (log-transform count)','Fusarium sp. (log-transform count)','Dotiora','Alternaria','Nothophona','Aspergillus','Solicoccozyma','Penicillium','Talaromyces','Naganishia','Cladosporium','Ryzopus','Paraphoma','Trichocladium ','Stachybotrys','Clonostachys','Tubakia','Ascomycota unidentified','Rubrobacter (log-transform count)','Rhizobium (log-transform count)','Rhodobacter (log-transform count)','Hymenobacter (log-transform count)','Desmopora (log-transform count)','Sphingomonas (log-transform count)','Agromyces (log-transform count)','Basillus(log-transform count)','Acidobacterium (log-transform count)','Bosea ','Pseudarthobacter','Nocardioides','Streptomyces','Niveispirillum','Acidobacteriota unidentified','Geodrematophilacea unidentified','Delta proteobacteria unidentified','Acidimicrobiales unidentified','Planctomyzcea unidentified','Bacteroidota unidentified','Saprophytes','Anguina spp','Aphelenchoides spp','Aphelenchus spp','Belonolaimus spp','Criconema spp','Criconemoides spp','Ditylenchus spp','Globodera spp','Helicotylenchus spp','Hemicotylenchus spp','Hemicyclophora spp','Heterodera spp','Hoplolaimus spp','Longidorus spp','Meloidogyne spp','Paratylenchus spp','Pratylenchus spp','Radopholus spp','Rotylenchulus spp','Trichodorus spp','Tylenchulus spp','Tylenchus spp','Tylencorhynchus spp','Xiphinema spp','Aspergillus sp','Penicillium sp.','Mortierella sp.','Chaetomium sp.','Paecilomyces sp.','Didymellaceae','Epicoccum sp.','Septoria sp.','Cladosporium sp.','Mucorales','Phytaceas (Phytopthora) ','Acremonium','Myrothecium','Humicola','Helminthosporium sp.','Latitude','Longitude'
-      ];
+      // Madrid: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
-        madridHeaders.join(','),
-        ...sampleData.map(sample =>
-          madridHeaders.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
+        visibleColumns.map(col => col.label).join(';'),
+        ...processedData.map(row =>
+          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
         )
       ].join('\n');
     } else if (isItalyCiraa) {
