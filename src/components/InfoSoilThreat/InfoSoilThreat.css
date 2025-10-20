@@ -1,3 +1,29 @@
+.imageBox-pollution {
+  height: 420px !important;
+  min-height: 420px !important;
+  max-height: 540px;
+  padding: 18px;
+}
+.imageBox-pollution img {
+  height: 100% !important;
+  width: auto;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+/* Solo para la imagen de Soil Biodiversity */
+.imageBox-tall {
+  height: 360px !important;
+  min-height: 340px !important;
+  max-height: 420px;
+}
+.imageBox-tall img {
+  height: 100% !important;
+  width: auto;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
 .tallModal {
   min-height: 800px !important;
   max-height: 78vh !important;

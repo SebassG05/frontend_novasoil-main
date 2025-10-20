@@ -289,7 +289,10 @@ const InfoSoilThreat = ({ visible, onClose, indicator }) => {
         </button>
         <div className="contentRow">
           <div className="leftCol">
-            <div className="imageBox" style={{marginBottom: '30px'}}>
+            <div
+              className={`imageBox${['Soil Biodiversity', 'Soil Organic Carbon', 'Soil Sealing'].includes(indicator) ? ' imageBox-tall' : ''}${indicator === 'Soil Pollution' ? ' imageBox-pollution' : ''}`}
+              style={{ marginBottom: '30px' }}
+            >
               <img src={content.image} alt={content.title} />
             </div>
           </div>
