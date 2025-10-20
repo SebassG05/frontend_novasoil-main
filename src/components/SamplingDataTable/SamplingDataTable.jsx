@@ -130,33 +130,11 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         )
       ].join('\n');
   } else if (isBulgaria) {
-      // Mapear headers originales a campos normalizados
-      const bulgariaHeadersOriginal = [
-        'Soil name (BG classification)',
-        'Soil name (WRB 2014)',
-        'Object',
-        'Coords',
-        'Sampling ID',
-        'Sampling date',
-        'Horizont',
-        'Depth (cm)',
-        'Clay content (%)',
-        'Bulk density (g/cm3)',
-        'pH (H2O)',
-        'Organic Matter (%)',
-        'Organic Carbon (%)',
-        'Nitrogen (%)',
-        'Field Capacity (mm)',
-        'Carbonates (%)',
-        'Silt (%)',
-        'Sand (%)',
-        'Zinc (mg/kg)',
-        'Degree of solonetization (%)'
-      ];
+      // Bulgaria: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
-        bulgariaHeadersOriginal.join(','),
-        ...sampleData.map(sample =>
-          bulgariaHeadersOriginal.map(h => sample[h] !== undefined ? sample[h] : '').join(',')
+        visibleColumns.map(col => col.label).join(';'),
+        ...processedData.map(row =>
+          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
         )
       ].join('\n');
     } else if (isItaly) {
@@ -194,15 +172,13 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
       ].join('\n');
     } else if (isLetonia) {
       // ...código Letonia...
-      const letoniaHeaders = [
-        'Case Study ID','Coord (Lat & Long)','Soil sampling ID','Soil sampling date','Soil sample depth','Nitrates (mg/Kg)','Total Cadmium (mg/Kg)','Total Aluminum (Al) mg/kg','Total Lead (Pb) mg/kg','Total Zinc (Zn) mg/kg','Sulfur (S) mg/kg','Nitrogen (N) %','Phosphorus mg/kg','Potassium (K) mg/kg','Magnesium (Mg) mg/kg','Calcium (Ca) mg/kg','Sodium mg/kg','Boron (B) mg/kg','Iron (Fe) mg/kg','Copper (Cu) mg/kg','Zinc (Zn) mg/kg','Manganese (Mn) mg/kg','pH','Electrical Conductivity (µS/cm)','Organic Matter (%w/w)','Organic Carbon (mg/ha)','C/N','Active Lime (% w/w)','Carbonates (%)','USDA Classification (units)','Clay %','Silt %','Sand %','C.I.C (mEq/100g)','P.S.I (% Exchangeable Sodium)','Field Capacity (% w/w)','Wilting Point (% w/w)','Available Water (% w/w)','% Base Saturation (% w/w)','Bulk Density (g/cc of soil)','Water Volume per Ha (m3 /Ha)','Saprophytes','Anguina spp','Aphelenchoides spp','Aphelenchus spp','Belonolaimus spp','Criconema spp','Criconemoides spp','Ditylenchus spp','Globodera spp','Helicotylenchus spp','Hemicotylenchus spp','Hemicyclophora spp','Heterodera spp','Hoplolaimus spp','Longidorus spp','Meloidogyne spp','Paratylenchus spp','Pratylenchus spp','Radopholus spp','Rotylenchulus spp','Trichodorus spp','Tylenchulus spp','Tylenchus spp','Tylencorhynchus spp','Xiphinema spp','Aureobasidium sp','Aspergillus sp','Penicillium sp.','Mortierella sp.','Chaetomium sp.','Paecilomyces sp.','Thichoderma sp.','Didymellaceae','Epicoccum sp.','Septoria sp.','Cladosporium sp.','Fusarium sp.','Mucorales','Phytaceas (Phytopthora) ','Acremonium','Myrothecium','Humicola','Helminthosporium sp.'
-      ];
-      csvContent = [
-        letoniaHeaders.join(','),
-        ...sampleData.map(sample =>
-          letoniaHeaders.map(h => sample[h] !== undefined ? sample[h] : sample[h.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase()] || '').join(',')
-        )
-      ].join('\n');
+        // Letonia: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
+        csvContent = [
+          visibleColumns.map(col => col.label).join(';'),
+          ...processedData.map(row =>
+            visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
+          )
+        ].join('\n');
     } else if (isMadrid) {
       // Madrid: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
