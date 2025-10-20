@@ -55,8 +55,9 @@
   min-width: 1000px;
   width: 60vw;
   max-width: 900px;
-  min-height: 600px;
-  max-height: 90vh;
+  min-height: 500px;
+  max-height: 84vh;
+  margin-top: 130px;
   position: relative;
   display: flex;
   flex-direction: column;
