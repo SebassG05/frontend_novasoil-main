@@ -18,7 +18,7 @@ const InfoModalAsaja = ({ visible, onClose, children, onCloseAll }) => {
       <div className={isClosing ? `${styles.modal} ${styles.modalClosing}` : styles.modal}>
         <button className={styles.closeBtn} onClick={handleClose} aria-label="Cerrar modal">×</button>
         <div className={styles.modalHeader}>
-          <h1 className={styles.modalTitle}>ASAJA: Producción Integrada en Olivar</h1>
+          <h1 className={styles.modalTitle}>ASAJA: Integrated Olive Production</h1>
         </div>
         <div className={styles.content}>
           <ImageCarouselAsaja onCloseAll={onCloseAll} />

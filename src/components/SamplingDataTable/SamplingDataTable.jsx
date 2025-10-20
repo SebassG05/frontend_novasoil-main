@@ -223,44 +223,43 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     let exportFileName = 'tamarguillo';
-    if (isTamarguillo) {
-      // Usar el texto del botón activo para el nombre del archivo
+    if (isAsajaTable) {
+      link.setAttribute('download', `Olive groves Integrated Production.csv`);
+    } else if (isTamarguillo) {
       if (activeDataset === 'tamarguillo1') {
-        exportFileName = 'General_Information';
+        link.setAttribute('download', 'General_Information.csv');
       } else if (activeDataset === 'tamarguillo2') {
-        exportFileName = 'Depth_25_50_cm';
+        link.setAttribute('download', 'Depth_25_50_cm.csv');
       } else if (activeDataset === 'tamarguillo3') {
-        exportFileName = 'Depth_0_25_cm';
+        link.setAttribute('download', 'Depth_0_25_cm.csv');
       } else {
-        exportFileName = 'tamarguillo';
+        link.setAttribute('download', 'tamarguillo.csv');
       }
-    } else if (isAsajaTable) {
-      exportFileName = 'Asaja';
     } else if (isGermany) {
-      exportFileName = 'alemania';
+      link.setAttribute('download', 'Bodenfruchtbarkeitsfonds.csv');
     } else if (isBulgaria) {
-      exportFileName = 'bulgaria';
+      link.setAttribute('download', 'Integrated production in the vineyards with vinery and rural tourism.csv');
     } else if (isItaly) {
-      exportFileName = 'ItaliaCaseStudy2';
+      link.setAttribute('download', 'A model for multifunctional and sustainable development of marginal areas.csv');
     } else if (isItalyCiraa) {
-      // Para CIRAA, usar nombre específico según el tab activo
       if (activeDataset === 'ciraa1') {
-        exportFileName = 'cover_crops';
+        link.setAttribute('download', 'cover_crops.csv');
       } else if (activeDataset === 'ciraa2') {
-        exportFileName = 'tillage_systems';
+        link.setAttribute('download', 'tillage_systems.csv');
       } else if (activeDataset === 'ciraa3') {
-        exportFileName = 'mascot_project';
+        link.setAttribute('download', 'mascot_project.csv');
       } else {
-        exportFileName = 'italy_ciraa';
+        link.setAttribute('download', 'italy_ciraa.csv');
       }
     } else if (isLetonia) {
-      exportFileName = 'letonia';
+      link.setAttribute('download', 'Crop ZSA production and animal farming.csv');
     } else if (isMadrid) {
-      exportFileName = 'madrid';
+      link.setAttribute('download', 'Organic Vineyards.csv');
     } else if (sampleData.length > 0 && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined)) {
-      exportFileName = 'estonia';
+      link.setAttribute('download', 'Integrated Production.csv');
+    } else {
+      link.setAttribute('download', 'Olive groves Integrated Production.csv');
     }
-    link.setAttribute('download', `${exportFileName}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
