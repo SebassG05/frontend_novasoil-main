@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem 1rem 2rem;
+  border-bottom: 2px solid #eafbe7;
+  background: linear-gradient(90deg, #eafbe7 0%, #f8fff8 100%);
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d5016;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #2d5016;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-left: 12px;
+}
+.closeBtn:hover {
+  color: #8bc34a;
+}

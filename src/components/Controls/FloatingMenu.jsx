@@ -8,6 +8,8 @@ import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
 import Loader from '../Loader/Loader';
+import { GeneralDocuments, SpecialDocuments } from '../DownloadSections/GeneralDocuments';
+import ModalHeader from '../DownloadSections/ModalHeader';
 import SoilHealthTable from '../SoilHealthTable/SoilHealthTable';
 import IconsNewBot from '../iconsnewbot/iconsNewBot.jsx';
 
@@ -85,6 +87,8 @@ const sublayerNames = {
 };
 
 const FloatingMenu = () => {
+    // Estado para mostrar el modal de archivos descargables
+    const [showDownloadsModal, setShowDownloadsModal] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [activePanel, setActivePanel] = useState(null);
     const [selectedWMSLayer, setSelectedWMSLayerState] = useState(null);
@@ -408,7 +412,29 @@ const FloatingMenu = () => {
 
                 {/* Mostrar siempre el menú de burbujas, no solo cuando isOpen */}
                 {(!activePanel && (isOpen || showSoilHealthTable || showIconsNewBot)) && (
-                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-290px'}}>
+                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-350px'}}>
+                        {/* Burbuja de archivos descargables */}
+                        <button
+                            onClick={() => setShowDownloadsModal(true)}
+                            className="bg-white text-blue-600 w-10 h-10 sm:w-12 sm:h-12 
+                                     rounded-full shadow-md border-none flex items-center justify-center
+                                     hover:bg-blue-50 hover:shadow-lg active:scale-95 
+                                     transform transition-all duration-300"
+                            style={{ animation: 'bubbleUp 0.4s ease-out forwards' }}
+                            aria-label="Descargas"
+                        >
+                            {/* Icono de descarga */}
+                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M13 3v14m0 0l-5-5m5 5l5-5" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <rect x="5" y="21" width="16" height="2" rx="1" fill="#2563eb"/>
+                            </svg>
+                            <div className="absolute top-0 left-full ml-2 translate-y-[-50%] opacity-0 
+                                          group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                <div className="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                    Descargas
+                                </div>
+                            </div>
+                        </button>
                        
                         <button
                             onClick={handleSoilHealthBubbleClick}
@@ -471,6 +497,21 @@ const FloatingMenu = () => {
                             </div>
                         </button>
             {/* Modal iconsNewBot */}
+            {/* Modal de archivos descargables */}
+            {showDownloadsModal && (
+                                <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+                                  <div className="bg-white rounded-2xl shadow-2xl p-0 min-w-[560px] max-w-[98vw] relative animate-[panelIn_0.4s] border border-blue-100" style={{boxShadow: '0 12px 48px rgba(99,102,241,0.18)', minHeight: '480px'}}>
+                                    <ModalHeader title="Document Center" onClose={() => setShowDownloadsModal(false)} />
+                                        {/* Contenido principal */}
+                                                            <div className="flex items-center justify-center w-full h-full py-10">
+                                                                                                                                <div className="flex flex-row items-center justify-center gap-8">
+                                                                                                                                    <GeneralDocuments />
+                                                                                                                                    <SpecialDocuments />
+                                                                                                                                </div>
+                                                            </div>
+                                    </div>
+                                </div>
+            )}
             {showIconsNewBot && (
                 <IconsNewBot visible={showIconsNewBot} onClose={() => setShowIconsNewBot(false)} empty={true} />
             )}

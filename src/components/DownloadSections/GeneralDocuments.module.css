@@ -1,0 +1,73 @@
+.squareCardGray {
+  width: 240px;
+  height: 240px;
+  background: #f3f4f6;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(168,139,250,0.10);
+  border: 2.5px solid #a78bfa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+  margin: 0 auto 2rem auto;
+  position: relative;
+  gap: 1.2rem;
+.card {
+  background: linear-gradient(135deg, #f8fff8 60%, #eafbe7 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px 0 rgba(44, 80, 22, 0.10), 0 1.5px 4px 0 rgba(139, 195, 74, 0.10);
+  border: 2.5px solid #eafbe7;
+  margin-bottom: 1.2rem;
+  padding: 1.1rem;
+  width: 220px;
+  height: 220px;
+  min-width: 220px;
+  min-height: 220px;
+  max-width: 220px;
+  max-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  transition: box-shadow 0.22s, border 0.22s, transform 0.18s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+  box-shadow: 0 8px 32px rgba(99,102,241,0.10);
+  border: 2.5px solid #c7d2fe;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+  margin: 0 auto 2rem auto;
+  position: relative;
+  gap: 1.2rem;
+}
+.squareCard:hover {
+  box-shadow: 0 12px 48px rgba(99,102,241,0.18);
+  border-color: #6366f1;
+  transform: translateY(-2px) scale(1.04);
+}
+.iconWrap {
+  margin-bottom: 0.7rem;
+}
+.titleGray {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #7c3aed;
+  margin-bottom: 0;
+  text-align: center;
+}
+.subtitleGray {
+  color: #6b7280;
+  font-size: 1.05rem;
+  text-align: center;
+  margin-top: 0;
+}
