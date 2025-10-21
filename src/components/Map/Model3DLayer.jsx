@@ -710,8 +710,8 @@ const Model3DLayer = () => {
         isClosing={isClosing}
       >
         <div className={styles.modalHeader}>
-          <h1 className={styles.modalTitle}>CO2-Land Initiative in Seville</h1>
-          <h2 className={styles.modalSubtitle}>(Parque Tamarguillo)</h2>
+          <h1 className={styles.modalTitle}>Payment for Ecosystem Services in Tamarguillo</h1>
+          <h2 className={styles.modalSubtitle}>(Tamarguillo Park)</h2>
         </div>
         <ImageCarousel onCloseAll={() => {
           setOpenModal(null);

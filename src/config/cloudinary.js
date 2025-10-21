@@ -154,47 +154,47 @@ export const CAROUSEL_IMAGES_GERMANY = [
 export const CAROUSEL_IMAGES_ASAJA = [{
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609217/55df23b7-9c3b-4c9a-bb4e-90b1a2ed027a_hwers8.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609226/f2ba402b-c3ea-4827-bfb5-8673c05d544f_vwcycm.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609236/a05a5f5c-b20a-48a5-ac27-3ebc025606b4_mpcel6.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609242/ec72972e-abd4-4ea3-b554-50d257076d09_xltwbv.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609251/283547f8-7a57-4c08-b976-e4dc7ee7fd87_tdt0yn.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609280/9b531d26-81bc-4bc9-bdb3-796a7f8101d9_b3mbfu.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609284/a037d1be-f2d0-438a-a591-a35baddf4d43_pgfkuw.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609294/18f26887-5ef5-47cc-a4a6-2fcdb61eb914_brvyop.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609301/13342ea9-c20b-4102-a7ad-474f627b1cb1_dqkxsu.jpg`,
     title: "ASAJA: Integrated Olive Production",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    description: "Images of organic olive groves in Andalusia, Estepa."
   }
 
 ];
