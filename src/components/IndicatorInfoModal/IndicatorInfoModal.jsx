@@ -343,7 +343,7 @@ Depending on the <b>presence of certain fungal species, genera, or families</b> 
             <div className={styles.titleWrapper}>
               <h3 className={styles.title}>
                 {currentIndicator === 'Microbiological respiration'
-                  ? 'Microbiological respiration mg CO2/100 '
+                  ? 'Microbiological respiration (CO2/100) '
                   : (currentIndicator || '')}
               </h3>
               {group && (
