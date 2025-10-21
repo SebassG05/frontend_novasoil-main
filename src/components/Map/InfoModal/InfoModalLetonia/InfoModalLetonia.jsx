@@ -18,7 +18,7 @@ const InfoModalLetonia = ({ visible, onClose, children, onCloseAll }) => {
       <div className={isClosing ? `${styles.modal} ${styles.modalClosing}` : styles.modal}>
         <button className={styles.closeBtn} onClick={handleClose} aria-label="Cerrar modal">×</button>
         <div className={styles.modalHeader}>
-          <h1 className={styles.modalTitle}>Crop ZSA production and animal farming</h1>
+          <h1 className={styles.modalTitle}>ZSA DIH system</h1>
         </div>
         <div className={styles.content}>
           <ImageCarouselLetonia onCloseAll={onCloseAll} />

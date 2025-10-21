@@ -18,7 +18,7 @@ const InfoModalYellowBulgaria = ({ visible, onClose, children, onCloseAll }) => 
       <div className={isClosing ? `${styles.modal} ${styles.modalClosing}` : styles.modal}>
         <button className={styles.closeBtn} onClick={handleClose} aria-label="Cerrar modal">×</button>
         <div className={styles.modalHeader}>
-          <h1 className={styles.modalTitle}>Data for soils in Plovdiv District_Bulgaria</h1>
+          <h1 className={styles.modalTitle}>Organic Vineyards in Plovdiv Region Bulgarian Soil Analysis</h1>
         </div>
         <div className={styles.content}>
           <ImageCarouselYellow onCloseAll={onCloseAll} />

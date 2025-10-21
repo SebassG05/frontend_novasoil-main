@@ -2,33 +2,33 @@
 export const CAROUSEL_IMAGES_MADRID = [
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622194/San_Jose_kokx7j.jpg`,
-    title: "Madrid Soil Analysis 1",
-    description: "Análisis de suelo y materia orgánica en Madrid."
+    title: "Organic Vineyards in Integrated Production",
+    description: "Study of texture and water capacity in organic vineyards."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622206/Panadero_bytxc6.jpg`,
-    title: "Madrid Soil Analysis 2",
-    description: "Muestreo y análisis de nutrientes en suelos de Madrid."
+    title: "Organic Vineyards in Integrated Production",
+    description: "Study of texture and water capacity in organic vineyards."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622215/Pastoriega_nyapkk.jpg`,
-    title: "Madrid Soil Analysis 3",
-    description: "Estudio de textura y capacidad hídrica en suelos de Madrid."
+    title: "Organic Vineyards in Integrated Production",
+    description: "Study of texture and water capacity in organic vineyards."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622223/Pirri_qoyagl.jpg`,
-    title: "Madrid Soil Analysis 4",
-    description: "Evaluación de biodiversidad microbiana en suelos agrícolas."
+    title: "Organic Vineyards in Integrated Production",
+    description: "Study of texture and water capacity in organic vineyards."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622233/Mirador_fvkymd.jpg`,
-    title: "Madrid Soil Analysis 5",
-    description: "Medición de carbono orgánico y suelos saludables."
+    title: "Organic Vineyards in Integrated Production",
+    description: "Study of texture and water capacity in organic vineyards."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758622241/Rodangosto_eccygr.jpg`,
-    title: "Madrid Soil Analysis 6",
-    description: "Análisis integral de suelos en viñedos orgánicos."
+    title: "Organic Vineyards in Integrated Production",
+    description: "Study of texture and water capacity in organic vineyards."
   }
 
 ];
@@ -83,18 +83,18 @@ export const getCloudinaryUrl = (publicId, transformations = {}) => {
 export const CAROUSEL_IMAGES_BULGARIA = [
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758264026/BG_CS_2_zsrrdz.jpg`,
-    title: "Bulgarian Soil Analysis",
-    description: "Soil sample and organic matter analysis in Bulgaria."
+    title: " Organic Vineyards in Plovdiv Region Bulgarian",
+    description: "Images from the ecological vineyard in Bulgaria."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758264017/BG_CS_1_n7gwee.jpg`,
-    title: "Bulgarian Soil Analysis",
-    description: "Soil sample and organic matter analysis in Bulgaria."
+    title: " Organic Vineyards in Plovdiv Region Bulgarian",
+    description: "Images from the ecological vineyard in Bulgaria."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1758265409/bulgaria-novasoil-long_umdbnp_1_ivthqm.png`,
-    title: "Bulgarian Soil Analysis",
-    description: "Soil sample and organic matter analysis in Bulgaria."
+    title: " Organic Vineyards in Plovdiv Region Bulgarian",
+    description: "Images from the ecological vineyard in Bulgaria."
   }
 
 ];
@@ -121,33 +121,33 @@ export const CAROUSEL_IMAGES_ITALY = [
 export const CAROUSEL_IMAGES_GERMANY = [
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099141/IMG_20250925_154445_f42vrk.jpg`,
-    title: "German Soil Analysis 1",
-    description: "Análisis de suelo y materia orgánica en Alemania."
+    title: "CO2 initiative in Germany",
+    description: " Real case study images in Germany."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099181/PXL_20250925_140345974_l4ld6y.jpg`,
-    title: "German Soil Analysis 2",
-    description: "Muestreo y análisis de nutrientes en suelos de Alemania."
+    title: "CO2 initiative in Germany",
+    description: " Real case study images in Germany."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099156/IMG_20250925_155447_dniykp.jpg`,
-    title: "German Soil Analysis 3",
-    description: "Estudio de textura y capacidad hídrica en suelos alemanes."
+    title: "CO2 initiative in Germany",
+    description: "Real case study images in Germany."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099146/IMG_20250925_154452_xdwfog.jpg`,
-    title: "German Soil Analysis 4",
-    description: "Evaluación de biodiversidad microbiana en suelos forestales."
+    title: "CO2 initiative in Germany",
+    description: "Real case study images in Germany."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099166/IMG_20250925_163526_y7z7iw.jpg`,
-    title: "German Soil Analysis 5",
-    description: "Medición de carbono orgánico y suelos saludables."
+    title: "CO2 initiative in Germany",
+    description: " Real case study images in Germany."
   },
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760099171/PXL_20250925_134458427_wxvu2k.jpg`,
-    title: "German Soil Analysis 6",
-    description: "Análisis integral de suelos en zonas agrícolas."
+    title: "CO2 initiative in Germany",
+    description: "Real case study images in Germany."
   }
 ];
 

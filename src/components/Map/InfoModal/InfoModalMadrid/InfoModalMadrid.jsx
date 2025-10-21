@@ -18,7 +18,7 @@ const InfoModalMadrid = ({ visible, onClose, children, onCloseAll }) => {
       <div className={isClosing ? `${styles.modal} ${styles.modalClosing}` : styles.modal}>
         <button className={styles.closeBtn} onClick={handleClose} aria-label="Cerrar modal">×</button>
         <div className={styles.modalHeader}>
-          <h1 className={styles.modalTitle}>Organic Vineyards</h1>
+          <h1 className={styles.modalTitle}>Organic Vineyards in Integrated Production</h1>
         </div>
         <div className={styles.content}>
           <ImageCarouselMadrid onCloseAll={onCloseAll} />
