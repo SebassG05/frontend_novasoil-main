@@ -21,42 +21,50 @@ const BulgariaHoverInfo = () => {
 
     if (!hoveredSample || !hoveredSample._bulgaria) return null;
 
+    // Helper para buscar el valor por varias claves posibles
+    const getValue = (...keys) => {
+        for (const k of keys) {
+            if (hoveredSample[k] !== undefined && hoveredSample[k] !== null && hoveredSample[k] !== '') return hoveredSample[k];
+        }
+        return <span style={{opacity:0.5}}>N/A</span>;
+    };
+
     return (
         <div className={styles.tooltip} style={{ left: `${position.x}px`, top: `${position.y}px` }}>
             <div className={styles.content}>
-                <h3 className={styles.title}>{hoveredSample.sampling_id || hoveredSample.code || 'Sample'}</h3>
+                <h3 className={styles.title}>{getValue('Sampling ID', 'sampling_id', 'code', 'Sample')}</h3>
                 <div className={styles.infoGrid}>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Date:</span>
-                        <span className={styles.value}>{hoveredSample.sampling_date || hoveredSample.date || <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Sampling date', 'sampling_date', 'date')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Coordinates:</span>
-                        <span className={styles.coordinates}>{hoveredSample.coords || `${hoveredSample.lat}, ${hoveredSample.lon}` || <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.coordinates}>{getValue('Coords', 'coords', 'lat', 'lon')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Soil name (BG):</span>
-                        <span className={styles.value}>{hoveredSample.soil_name_bg_classification || <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Soil name (BG classification)', 'soil_name_bg_classification')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Soil name (WRB):</span>
-                        <span className={styles.value}>{hoveredSample.soil_name_wrb_2014 || <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Soil name (WRB 2014)', 'soil_name_wrb_2014')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Nitrogen (%):</span>
-                        <span className={styles.value}>{hoveredSample.nitrogen_ ?? <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Nitrogen (%)', 'nitrogen_')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Carbonates (%):</span>
-                        <span className={styles.value}>{hoveredSample.carbonates_ ?? <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Carbonates (%)', 'carbonates_')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Organic Carbon (%):</span>
-                        <span className={styles.value}>{hoveredSample.organic_carbon_ ?? <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Organic Carbon (%)', 'organic_carbon_')}</span>
                     </div>
                     <div className={styles.infoItem}>
                         <span className={styles.label}>Zinc (mg/kg):</span>
-                        <span className={styles.value}>{hoveredSample.zinc_mgkg ?? <span style={{opacity:0.5}}>N/A</span>}</span>
+                        <span className={styles.value}>{getValue('Zinc (mg/kg)', 'zinc_mgkg')}</span>
                     </div>
                 </div>
                 {hoveredSample.observations && (

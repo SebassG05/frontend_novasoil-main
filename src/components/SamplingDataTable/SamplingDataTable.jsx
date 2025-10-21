@@ -298,7 +298,8 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
   const isItalyTable = allKeys.includes('Nitrogen (N) ‰') || allKeys.includes('Cation exchange capacity(mEq/100g)') || allKeys.includes('nitrogen_n_permille') || allKeys.includes('cation_exchange_capacity_meq100g');
   // Detectar tabla Asaja por columnas únicas (normalizadas)
-  const isAsajaTable = allKeys.includes('coord_x') && allKeys.includes('coord_y') && allKeys.includes('parcela');
+  const allKeysLower = allKeys.map(k => k.toLowerCase());
+  const isAsajaTable = (allKeysLower.includes('coord_x') && allKeysLower.includes('coord_y'));
   let visibleColumns;
   if (isMadridTable || isItalyTable) {
     // Mostrar todas las columnas presentes en el CSV de Madrid e Italia, excepto las vacías en todas las filas
@@ -346,9 +347,22 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
           <table className={styles.table} key={tableKey}>
             <thead>
               <tr>
-                {visibleColumns.map(col => (
-                  <th key={col.key}>{col.label}</th>
-                ))}
+                {visibleColumns.map(col => {
+                  const labelLower = col.label.toLowerCase();
+                  const isCoordHeader = [
+                    'coord_x', 'coord_y', 'coordx', 'coordy', 'coord_lat__long',
+                    'coord (lat)', 'coord (long)', 'coords', 'lat', 'lon', 'coordinates', 'coord (lat & long)',
+                    'x_wg84','y_wg84'
+                  ].includes(labelLower);
+                  return (
+                    <th key={col.key}>
+                      {col.label}
+                      {isCoordHeader && (
+                        <div style={{ fontSize: '0.8em', color: '#e74c3c', fontWeight: 'bold', marginTop: '2px' }}>(EPSG:4326 WGS84)</div>
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody className={styles.tableContent}>
