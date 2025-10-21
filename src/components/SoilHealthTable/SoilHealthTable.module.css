@@ -162,10 +162,11 @@
 }
 @media (max-width: 1700px) and (min-width: 800px) {
 	.container {
+		margin-top: 6vh !important;
+		margin-left: 16vh !important;
 		max-width: 100% !important;
 		width: 65vw !important;
 		min-width: 1020px !important;
-		margin: 0 auto !important;
 		margin-right: 25% !important;
 		padding-left: 0rem;
 		padding-right: 0rem;
@@ -226,6 +227,7 @@
 	padding: 0;
 	min-width: 340px;
 	min-height: 200px;
+	margin-top: 6vh;
 	max-width: 900px;
 	width: 90vw;
 	max-height: 80vh;

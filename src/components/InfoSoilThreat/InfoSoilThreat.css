@@ -24,10 +24,15 @@
   object-fit: cover;
   border-radius: 12px;
 }
+.tallModal.imageBox-pollution {
+  min-height: 1100px !important;
+  max-height: 99vh !important;
+  height: 99vh !important;
+}
 .tallModal {
   min-height: 800px !important;
-  max-height: 78vh !important;
-  height: 78vh !important;
+  max-height: 85vh !important;
+  height: 85vh !important;
 }
 @media (max-width: 1200px) and (min-width: 800px) {
   .recommendationsContainer {
@@ -60,7 +65,7 @@
   border-radius: 18px;
   box-shadow: 0 2px 12px rgba(44,80,22,0.10);
   padding: 1.2rem;
-  margin-top: 22%;
+  margin-top: 60px;
   width: 320px;
   display: flex;
   justify-content: center;
@@ -212,15 +217,15 @@ img{
   box-shadow: 0 8px 32px rgba(44, 80, 22, 0.18), 0 1.5px 4px 0 rgba(0,0,0,0.12);
   padding: 0;
   min-width: 340px;
-  min-height: 300px;
+  min-height: 700px !important;
   max-width: 900px;
-  width: 90vw;
+  width: 70vw;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  margin-top: 80px;
+  margin-top: 000px;
 }
 
 .header {
@@ -283,14 +288,28 @@ img{
 @media (max-width: 1700px) and (min-width: 800px) {
   .container {
     max-width: 100% !important;
+    margin-top: 7% !important; 
     width: 65vw !important;
     min-width: 1020px !important;
-    margin: 0 auto !important;
     margin-right: 25% !important;
     padding-left: 0rem;
     padding-right: 0rem;
-    max-height: 70vh !important;
-    min-height: 300px;
+    max-height: 97vh !important;
+    min-height: 700px !important;
+    height: 77vh !important;
+
+  }
+
+  .tallModal.imageBox-pollution {
+  min-height: 1100px !important;
+  max-height: 99vh !important;
+  height: 99vh !important;
+}
+
+  .tallModal {
+    min-height: 750px !important;
+    max-height: 59vh !important;
+    height: 59vh !important;
   }
   
   .header {
@@ -350,7 +369,6 @@ img{
     transform: translateX(0) scale(1);
   }
 }
-
 .recommendationsSlideOut {
   animation: recommendationsSlideOut 0.6s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
 }

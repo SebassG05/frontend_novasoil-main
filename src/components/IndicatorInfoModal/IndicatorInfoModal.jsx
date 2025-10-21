@@ -341,7 +341,11 @@ Depending on the <b>presence of certain fungal species, genera, or families</b> 
           </div>
           <div className={styles.rightCol}>
             <div className={styles.titleWrapper}>
-              <h3 className={styles.title}>{currentIndicator || ''}</h3>
+              <h3 className={styles.title}>
+                {currentIndicator === 'Microbiological respiration'
+                  ? 'Microbiological respiration mg CO2/100 '
+                  : (currentIndicator || '')}
+              </h3>
               {group && (
                 <span className={styles.groupLabel}>({group})</span>
               )}
@@ -360,7 +364,7 @@ Depending on the <b>presence of certain fungal species, genera, or families</b> 
               )}
                 {currentIndicator === 'Heavy metals (mg/kg)' && (
                 <p className={styles.description}>
-                  Heavy metals in soil, like lead, cadmium, and mercury, can harm plants and microbes even at low levels. Monitoring them is <b>key for soil health</b>, safe crops, and environmental protection.
+                  Heavy metals in soil, like llead (Pb), cadmium (Cd), and mercury (Hg), can harm plants and microbes even at low levels. Monitoring them is <b>key for soil health</b>, safe crops, and environmental protection.
                 </p>
               )}
               {currentIndicator === 'Macroelements (mg/kg)' && (
