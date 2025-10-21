@@ -445,19 +445,14 @@ const FloatingMenu = () => {
                             style={{ animation: 'bubbleUp 0.4s ease-out forwards' }}
                             aria-label="Soil health indicators"
                         >
-                            {/* Icono personalizado para Soil health indicators: hoja y tierra */}
-                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              {/* Tierra */}
-                              <ellipse cx="13" cy="19.5" rx="8" ry="4" fill="#A0522D" stroke="#6B3F19" strokeWidth="1.2"/>
-                              {/* Hoja */}
-                              <path d="M13 19C13 13 21 10 21 5C21 5 17 5 13 9C9 5 5 5 5 5C5 10 13 13 13 19Z" fill="#774cafff" stroke="#388E3C" strokeWidth="1.2"/>
-                              {/* Nervio central de la hoja */}
-                              <path d="M13 19V11" stroke="#2E7D32" strokeWidth="1" strokeLinecap="round"/>
-                              {/* Raíces */}
-                              <path d="M13 23V21.5" stroke="#6B3F19" strokeWidth="1" strokeLinecap="round"/>
-                              <path d="M11.5 22.5L13 21.5" stroke="#6B3F19" strokeWidth="0.8" strokeLinecap="round"/>
-                              <path d="M14.5 22.5L13 21.5" stroke="#6B3F19" strokeWidth="0.8" strokeLinecap="round"/>
-                            </svg>
+                                                                                    {/* Icono claro: triángulo de advertencia amarillo con suelo agrietado */}
+                                                                                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                        {/* Triángulo de advertencia */}
+                                                                                        <polygon points="13,4 23,22 3,22" fill="#ffe066" stroke="#e67e22" strokeWidth="1.5"/>
+                                                                                        <rect x="12.1" y="10" width="1.8" height="5.5" rx="0.9" fill="#e67e22"/>
+                                                                                        <circle cx="13" cy="18.2" r="1.1" fill="#e67e22"/>
+                                                                                        {/* Suelo agrietado simple */}
+                                                                                    </svg>
                             <div className="absolute top-0 left-full ml-2 translate-y-[-50%] opacity-0 
                                           group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                                 <div className="bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">

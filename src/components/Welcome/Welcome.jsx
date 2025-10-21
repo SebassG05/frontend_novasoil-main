@@ -64,7 +64,7 @@ const Welcome = ({ visible, onClose }) => (
                                 repeatType: 'loop'
                             }}
                         >
-                            Bienvenido al geovisor de NOVASOIL
+                            Welcome to the NOVASOIL Geovisor
                         </motion.h1>
                         <motion.p
                             style={{
@@ -86,8 +86,9 @@ const Welcome = ({ visible, onClose }) => (
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3, duration: 0.7 }}
                         >
-                            Aquí podrás ver algunos de los datos de suelo generados durante el proyecto, además de sus casos de estudio y un pequeño resumen de cada uno de ellos.<br/><br/>
-                            En NOVASOIL velamos por una ciencia del suelo <b style={{color:green[600]}}>open-access</b> y libre para todos. Podrás encontrar los principales indicadores de salud del suelo que adoptamos en el marco del proyecto, con una explicación detallada de cada uno de ellos.
+
+                            Here you can see some of the soil data generated during the project, as well as its case studies and a brief summary of each of them.<br/><br/>
+                            At  NOVASOIL we ensure soil science <b style={{color:green[600]}}>open-access</b> and free for all. You will find the main soil health indicators that we adopted within the project, along with a detailed explanation of each one.
                         </motion.p>
                         <div style={{
                             width: '100%',

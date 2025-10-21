@@ -12,7 +12,7 @@ const SplashScreen = ({ onFinish }) => {
   });
   const [progress, setProgress] = useState(0);
   const [showFadeOut, setShowFadeOut] = useState(false);
-  const [loadingText, setLoadingText] = useState('Inicializando análisis de suelos...');
+  const [loadingText, setLoadingText] = useState('Initializing soil analysis...');
   const timerRef = useRef(null);
   
   // Verificar el estado real de carga de los recursos
@@ -67,13 +67,13 @@ const SplashScreen = ({ onFinish }) => {
   // Actualizar textos de carga
   useEffect(() => {
     if (resourcesLoaded.map) {
-      setLoadingText('Cargando capas y estilos de visualización...');
+      setLoadingText('Loading layers and display styles...');
     }
     if (resourcesLoaded.styles) {
-      setLoadingText('Procesando datos de análisis de suelos...');
+      setLoadingText('Processing soil analysis data...');
     }
     if (resourcesLoaded.data) {
-      setLoadingText('Preparando interfaz de análisis...');
+      setLoadingText('Preparing analysis interface...');
     }
   }, [resourcesLoaded]);
   
@@ -118,7 +118,7 @@ const SplashScreen = ({ onFinish }) => {
             />
           </div>
           <p className="text-green-900 text-sm sm:text-base font-light">
-            Análisis avanzado de suelos y terrenos
+            Advanced soil and terrain analysis
           </p>
         </div>
         

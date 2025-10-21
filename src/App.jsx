@@ -36,7 +36,7 @@ function App() {
             position: 'fixed',
             top: 12,
             left: 22,
-            zIndex: 1000,
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
