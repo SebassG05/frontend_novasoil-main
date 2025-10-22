@@ -294,6 +294,21 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     return keys;
   }, []);
 
+  // Si el backend proporcionó un mapa de encabezados originales (p.ej. para Alemania), haremos uso de él
+  const originalHeaderMap = sampleData.length > 0 ? sampleData[0].__originalHeaderMap || {} : {};
+
+  // Función para formatear labels: preferir el label original si existe, si no convertir snake_case/camelCase a Title Case
+  const formatHeaderLabel = (key) => {
+    if (!key || typeof key !== 'string') return key;
+    if (originalHeaderMap && originalHeaderMap[key]) return originalHeaderMap[key];
+    // Reemplazar guiones/underscores y normalizar espacios
+    const s = key.replace(/[_\-]+/g, ' ').replace(/\s+/g, ' ').trim();
+    // Si parece estar todo en mayúsculas, devolverlo tal cual (posible acrónimo)
+    if (s === s.toUpperCase()) return s;
+    // Convertir a Title Case (Primera letra mayúscula, resto minúscula) para cada palabra
+    return s.split(' ').map(w => w.length > 0 ? w[0].toUpperCase() + w.slice(1).toLowerCase() : '').join(' ');
+  };
+
   // Generar columnas dinámicas
   // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id' (case-insensitive)
   const isGermanyTable = allKeys.some(k => String(k).trim().toLowerCase() === 'co2_land_novasoil_id');
@@ -318,7 +333,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     // Mostrar todas las columnas presentes en el CSV de Asaja, excepto las vacías en todas las filas
     visibleColumns = allKeys
       .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
-      .map(key => ({ key, label: key }));
+      .map(key => ({ key, label: formatHeaderLabel(key) }));
   } else {
     // Para Estonia ocultamos explícitamente las columnas de latitud/longitud (lat, lon, latitude, longitude, coord (lat), coord (long), coords)
     const coordKeys = ['lat', 'lon', 'latitude', 'longitude', 'coord (lat)', 'coord (long)', 'coords', 'coord_x', 'coord_y', 'coordx', 'coordy'];
@@ -328,9 +343,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   const bulgariaCoordKeyRegex = /coord/i;
   // Para Alemania ocultar únicamente la columna de coordenadas en DMS: 'coord_lat__long' o variantes similares
   const germanyCoordExactRegex = /^coord[_\s-]*lat[_\s-]*_{0,2}long$/i;
-    // If backend provided original header map (Germany), use it to display labels with parentheses/slashes
-    const originalHeaderMap = sampleData.length > 0 ? sampleData[0].__originalHeaderMap || {} : {};
-    visibleColumns = allKeys
+  visibleColumns = allKeys
       .filter(key =>
         sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
         // Para Alemania usar comparación normalizada (case-insensitive) contra el set oculto
@@ -345,7 +358,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   // Si es Alemania, filtrar únicamente la columna coord_lat__long (no coordx/coordy)
   !(isGermanyTable && germanyCoordExactRegex.test(key.trim()))
       )
-    .map(key => ({ key, label: originalHeaderMap[key] || key }));
+    .map(key => ({ key, label: isTamarguillo ? formatHeaderLabel(key) : (originalHeaderMap[key] || key) }));
   }
 
   // Preprocesar sampleData para coordX/coordY si existen
@@ -591,8 +604,8 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
                     'coord (lat)', 'coord (long)', 'coords', 'lat', 'lon', 'coordinates', 'coord (lat & long)',
                     'x_wg84','y_wg84'
                   ].includes(labelLower);
-                  // For Germany table, preserve the CSV's original casing for headers
-                  const thClass = isGermanyTable ? styles.noTransform : '';
+                  // For Germany, Asaja and Tamarguillo tables, preserve the CSV's original casing for headers
+                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo) ? styles.noTransform : '';
                   return (
                     <th key={col.key} className={thClass}>
                       {col.label}
