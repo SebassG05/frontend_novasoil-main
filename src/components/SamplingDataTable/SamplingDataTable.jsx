@@ -303,8 +303,13 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   let visibleColumns;
   if (isMadridTable || isItalyTable) {
     // Mostrar todas las columnas presentes en el CSV de Madrid e Italia, excepto las vacías en todas las filas
+    // Para Madrid ocultar columnas redundantes de coordenadas y columnas con nombres tipo _###
+    const madridHiddenRegex = /^_\d{1,4}$/; // p.ej. _124 _125 _126
     visibleColumns = allKeys
-      .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
+      .filter(key =>
+        sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
+        !(isMadridTable && (key.toLowerCase() === 'latitude' || key.toLowerCase() === 'longitude' || madridHiddenRegex.test(key.trim())))
+      )
       .map(key => ({ key, label: key }));
   } else if (isAsajaTable) {
     // Mostrar todas las columnas presentes en el CSV de Asaja, excepto las vacías en todas las filas
