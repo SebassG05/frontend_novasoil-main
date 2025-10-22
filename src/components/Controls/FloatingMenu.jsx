@@ -9,6 +9,7 @@ import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
 import Loader from '../Loader/Loader';
 import { FactsheetDocuments, GeneralDocuments, SpecialDocuments } from '../DownloadSections/GeneralDocuments';
+import FactsheetModal from '../DownloadSections/FactsheetModal/FactsheetModal';
 import ModalHeader from '../DownloadSections/ModalHeader';
 import SoilHealthTable from '../SoilHealthTable/SoilHealthTable';
 import IconsNewBot from '../iconsnewbot/iconsNewBot.jsx';
@@ -89,6 +90,7 @@ const sublayerNames = {
 const FloatingMenu = () => {
     // Estado para mostrar el modal de archivos descargables
     const [showDownloadsModal, setShowDownloadsModal] = useState(false);
+    const [showFactsheetModal, setShowFactsheetModal] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [activePanel, setActivePanel] = useState(null);
     const [selectedWMSLayer, setSelectedWMSLayerState] = useState(null);
@@ -503,7 +505,11 @@ const FloatingMenu = () => {
                                                     <div className="flex flex-row items-center justify-center gap-8">
                                                         <GeneralDocuments />
                                                         <SpecialDocuments />
-                                                        <FactsheetDocuments />
+                                                        <FactsheetDocuments onClick={() => {
+                                                            // Close the downloads modal and open the factsheet modal with a short delay
+                                                            setShowDownloadsModal(false);
+                                                            setTimeout(() => setShowFactsheetModal(true), 160);
+                                                        }} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -511,6 +517,9 @@ const FloatingMenu = () => {
                                 )}
             {showIconsNewBot && (
                 <IconsNewBot visible={showIconsNewBot} onClose={() => setShowIconsNewBot(false)} empty={true} />
+            )}
+            {showFactsheetModal && (
+                <FactsheetModal visible={showFactsheetModal} onClose={() => setShowFactsheetModal(false)} />
             )}
             {/* Modal SoilHealthTable normal */}
             {showSoilHealthTable && (
