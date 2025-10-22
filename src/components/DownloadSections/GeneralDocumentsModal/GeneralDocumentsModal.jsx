@@ -82,7 +82,7 @@ const GeneralDocumentsModal = ({ visible, onClose }) => {
                 </a>
                 </div>
                 <div className={styles.previewFrame}>
-                  <iframe title={`Preview ${selected.title}`} src={`/downloads/${selected.filename}`} frameBorder="0" />
+                  <iframe title={`Preview ${selected.title}`} src={`/downloads/${selected.filename}#zoom=67`} frameBorder="0" />
                 </div>
               </div>
             )}

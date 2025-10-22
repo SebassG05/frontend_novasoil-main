@@ -43,8 +43,8 @@ export const SpecialDocuments = ({ onClick }) => {
           <polygon points="22,22 24,28 30,28 25,32 27,38 22,34 17,38 19,32 14,28 20,28" fill="#f7b731" stroke="#e2a500" strokeWidth="1"/>
         </svg>
       </span>
-      <span className={soilStyles.cardLabel}>Special Documents</span>
-      <span className={soilStyles.cardGroup}>SPECIAL</span>
+      <span className={soilStyles.cardLabel}>Approved Deliverables</span>
+      <span className={soilStyles.cardGroup}>Deliverables</span>
     </button>
   );
 };
