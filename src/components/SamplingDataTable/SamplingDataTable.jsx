@@ -328,7 +328,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
         !(isMadridTable && (key.toLowerCase() === 'latitude' || key.toLowerCase() === 'longitude' || madridHiddenRegex.test(key.trim())))
       )
-      .map(key => ({ key, label: key }));
+  .map(key => ({ key, label: formatHeaderLabel(key) }));
   } else if (isAsajaTable) {
     // Mostrar todas las columnas presentes en el CSV de Asaja, excepto las vacías en todas las filas
     visibleColumns = allKeys
@@ -604,8 +604,8 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
                     'coord (lat)', 'coord (long)', 'coords', 'lat', 'lon', 'coordinates', 'coord (lat & long)',
                     'x_wg84','y_wg84'
                   ].includes(labelLower);
-                  // For Germany, Asaja and Tamarguillo tables, preserve the CSV's original casing for headers
-                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo) ? styles.noTransform : '';
+                  // For Germany, Asaja, Tamarguillo and Madrid tables, preserve the CSV's original casing for headers
+                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo || isMadridTable) ? styles.noTransform : '';
                   return (
                     <th key={col.key} className={thClass}>
                       {col.label}
