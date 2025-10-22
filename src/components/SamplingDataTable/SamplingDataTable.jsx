@@ -323,6 +323,8 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   const bulgariaNumericHeaderRegex = /^[_\.]?\d{1,3}$/; // ejemplo: .20  _21  22
   // Además ocultar columnas relacionadas con coordenadas en formato DMS (por ejemplo 'COORDS') para Bulgaria
   const bulgariaCoordKeyRegex = /coord/i;
+  // Para Alemania ocultar únicamente la columna de coordenadas en DMS: 'coord_lat__long' o variantes similares
+  const germanyCoordExactRegex = /^coord[_\s-]*lat[_\s-]*_{0,2}long$/i;
     visibleColumns = allKeys
       .filter(key =>
         sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
@@ -333,6 +335,9 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   !(isBulgariaTable && bulgariaNumericHeaderRegex.test(key.trim())) &&
   // Si es Bulgaria, filtrar columnas que contienen 'coord' (p.ej. la columna COORDS en DMS)
   !(isBulgariaTable && bulgariaCoordKeyRegex.test(key))
+  &&
+  // Si es Alemania, filtrar únicamente la columna coord_lat__long (no coordx/coordy)
+  !(isGermanyTable && germanyCoordExactRegex.test(key.trim()))
       )
       .map(key => ({ key, label: key }));
   }
