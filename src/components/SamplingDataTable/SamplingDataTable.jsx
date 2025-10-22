@@ -361,6 +361,11 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     .map(key => ({ key, label: isTamarguillo ? formatHeaderLabel(key) : (originalHeaderMap[key] || key) }));
   }
 
+  // Para Italia (CIRAA / Flora) forzar labels formateados si corresponde
+  if ((isItalyTable || isItalyCiraa) && Array.isArray(visibleColumns)) {
+    visibleColumns = visibleColumns.map(c => ({ ...c, label: formatHeaderLabel(c.key) }));
+  }
+
   // Preprocesar sampleData para coordX/coordY si existen
   const processedData = sampleData.map(sample => {
     let coordX = sample.coordX || '';
@@ -605,7 +610,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
                     'x_wg84','y_wg84'
                   ].includes(labelLower);
                   // For Germany, Asaja, Tamarguillo and Madrid tables, preserve the CSV's original casing for headers
-                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo || isMadridTable) ? styles.noTransform : '';
+                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo || isMadridTable || isItalyTable || isItalyCiraa) ? styles.noTransform : '';
                   return (
                     <th key={col.key} className={thClass}>
                       {col.label}
