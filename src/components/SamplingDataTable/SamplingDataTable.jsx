@@ -314,12 +314,20 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   } else {
     // Para Estonia ocultamos explícitamente las columnas de latitud/longitud (lat, lon, latitude, longitude, coord (lat), coord (long), coords)
     const coordKeys = ['lat', 'lon', 'latitude', 'longitude', 'coord (lat)', 'coord (long)', 'coords', 'coord_x', 'coord_y', 'coordx', 'coordy'];
+  // Para Bulgaria ocultar columnas pequeñas/numéricas que aparecen como ".20", ".21", ".22" u otras variantes
+  const bulgariaNumericHeaderRegex = /^[_\.]?\d{1,3}$/; // ejemplo: .20  _21  22
+  // Además ocultar columnas relacionadas con coordenadas en formato DMS (por ejemplo 'COORDS') para Bulgaria
+  const bulgariaCoordKeyRegex = /coord/i;
     visibleColumns = allKeys
       .filter(key =>
         sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
         (!isGermanyTable || !hiddenGermanyColumns.includes(key)) &&
         // Si es Estonia, filtrar claves de coordenadas
-        !(isEstonia && coordKeys.includes(key.toLowerCase()))
+        !(isEstonia && coordKeys.includes(key.toLowerCase())) &&
+  // Si es Bulgaria, filtrar columnas que son solo números o comienzan por . o _ seguidas de números
+  !(isBulgariaTable && bulgariaNumericHeaderRegex.test(key.trim())) &&
+  // Si es Bulgaria, filtrar columnas que contienen 'coord' (p.ej. la columna COORDS en DMS)
+  !(isBulgariaTable && bulgariaCoordKeyRegex.test(key))
       )
       .map(key => ({ key, label: key }));
   }
