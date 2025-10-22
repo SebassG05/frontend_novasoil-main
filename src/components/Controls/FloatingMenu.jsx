@@ -8,7 +8,7 @@ import bbox from '@turf/bbox';
 import StyleSelector from './StyleSelector';
 import { Paper } from '@mui/material';
 import Loader from '../Loader/Loader';
-import { GeneralDocuments, SpecialDocuments } from '../DownloadSections/GeneralDocuments';
+import { FactsheetDocuments, GeneralDocuments, SpecialDocuments } from '../DownloadSections/GeneralDocuments';
 import ModalHeader from '../DownloadSections/ModalHeader';
 import SoilHealthTable from '../SoilHealthTable/SoilHealthTable';
 import IconsNewBot from '../iconsnewbot/iconsNewBot.jsx';
@@ -493,20 +493,22 @@ const FloatingMenu = () => {
                         </button>
             {/* Modal iconsNewBot */}
             {/* Modal de archivos descargables */}
-            {showDownloadsModal && (
-                                <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-                                  <div className="bg-white rounded-2xl shadow-2xl p-0 min-w-[560px] max-w-[98vw] relative animate-[panelIn_0.4s] border border-blue-100" style={{boxShadow: '0 12px 48px rgba(99,102,241,0.18)', minHeight: '480px'}}>
-                                    <ModalHeader title="Document Center" onClose={() => setShowDownloadsModal(false)} />
-                                        {/* Contenido principal */}
-                                                            <div className="flex items-center justify-center w-full h-full py-10">
-                                                                                                                                <div className="flex flex-row items-center justify-center gap-8">
-                                                                                                                                    <GeneralDocuments />
-                                                                                                                                    <SpecialDocuments />
-                                                                                                                                </div>
-                                                            </div>
-                                    </div>
-                                </div>
-            )}
+                                {showDownloadsModal && (
+                                    <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ marginRight: "17%" }}>
+                                            <div className="bg-white rounded-2xl shadow-2xl p-0 min-w-[560px] max-w-[98vw] relative animate-[panelIn_0.4s] border border-blue-100" style={{boxShadow: '0 12px 48px rgba(99,102,241,0.18)', minHeight: '480px', display: 'flex', flexDirection: 'column'}}>
+                                                    {/* Header flush to modal edges */}
+                                                    <ModalHeader title="Document Center" onClose={() => setShowDownloadsModal(false)} />
+                                                    {/* Contenido principal: ocupar el resto del modal y centrar verticalmente */}
+                                                    <div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '3.5rem', paddingRight: '3.5rem', paddingTop: '1.5rem', paddingBottom: '1.5rem'}}>
+                                                    <div className="flex flex-row items-center justify-center gap-8">
+                                                        <GeneralDocuments />
+                                                        <SpecialDocuments />
+                                                        <FactsheetDocuments />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                )}
             {showIconsNewBot && (
                 <IconsNewBot visible={showIconsNewBot} onClose={() => setShowIconsNewBot(false)} empty={true} />
             )}

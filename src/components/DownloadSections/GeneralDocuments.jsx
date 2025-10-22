@@ -2,8 +2,8 @@ import React from 'react';
 import soilStyles from '../SoilHealthTable/SoilHealthTable.module.css';
 
 const bigCardStyle = {
-  minWidth: '200px',
-  maxWidth: '200px',
+  minWidth: '230px',
+  maxWidth: '230px',
   minHeight: '200px',
   maxHeight: '200px',
   padding: '2.2rem 1.2rem 1.2rem 1.2rem',
@@ -45,6 +45,23 @@ export const SpecialDocuments = ({ onClick }) => {
       </span>
       <span className={soilStyles.cardLabel}>Special Documents</span>
       <span className={soilStyles.cardGroup}>SPECIAL</span>
+    </button>
+  );
+};
+
+export const FactsheetDocuments = ({ onClick }) => {
+  return (
+    <button className={soilStyles.card} style={bigCardStyle} onClick={onClick} aria-label="See factsheet documents">
+      <span style={{marginBottom: '0.7rem'}}>
+        {/* Icono de estrella/documento especial */}
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="12" width="32" height="29" rx="6" fill="#f3f4f6" stroke="#f7b731" strokeWidth="2"/>
+          <rect x="6" y="6" width="14" height="10" rx="3" fill="#f7b731" stroke="#f7b731" strokeWidth="2"/>
+          <rect x="22" y="6" width="16" height="10" rx="3" fill="#ffe9b3" stroke="#f7b731" strokeWidth="2"/>
+        </svg>
+      </span>
+      <span className={soilStyles.cardLabel}>Factsheet Documents</span>
+      <span className={soilStyles.cardGroup}>FACTSHEET</span>
     </button>
   );
 };
