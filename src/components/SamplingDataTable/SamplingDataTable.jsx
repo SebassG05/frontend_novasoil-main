@@ -358,11 +358,16 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   // Si es Alemania, filtrar únicamente la columna coord_lat__long (no coordx/coordy)
   !(isGermanyTable && germanyCoordExactRegex.test(key.trim()))
       )
-    .map(key => ({ key, label: isTamarguillo ? formatHeaderLabel(key) : (originalHeaderMap[key] || key) }));
+    .map(key => ({ key, label: isBulgariaTable ? formatHeaderLabel(key) : (isTamarguillo ? formatHeaderLabel(key) : (originalHeaderMap[key] || key)) }));
   }
 
   // Para Italia (CIRAA / Flora) forzar labels formateados si corresponde
   if ((isItalyTable || isItalyCiraa) && Array.isArray(visibleColumns)) {
+    visibleColumns = visibleColumns.map(c => ({ ...c, label: formatHeaderLabel(c.key) }));
+  }
+
+  // Para Letonia y Estonia forzar labels formateados
+  if ((isLetonia || isEstonia) && Array.isArray(visibleColumns)) {
     visibleColumns = visibleColumns.map(c => ({ ...c, label: formatHeaderLabel(c.key) }));
   }
 
@@ -610,7 +615,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
                     'x_wg84','y_wg84'
                   ].includes(labelLower);
                   // For Germany, Asaja, Tamarguillo and Madrid tables, preserve the CSV's original casing for headers
-                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo || isMadridTable || isItalyTable || isItalyCiraa) ? styles.noTransform : '';
+                  const thClass = (isGermanyTable || isAsajaTable || isTamarguillo || isMadridTable || isItalyTable || isItalyCiraa || isBulgariaTable || isLetonia || isEstonia) ? styles.noTransform : '';
                   return (
                     <th key={col.key} className={thClass}>
                       {col.label}
