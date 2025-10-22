@@ -91,6 +91,7 @@ const sublayerNames = {
 const FloatingMenu = () => {
     // Estado para mostrar el modal de archivos descargables
     const [showDownloadsModal, setShowDownloadsModal] = useState(false);
+    const [downloadsClosing, setDownloadsClosing] = useState(false);
     const [showFactsheetModal, setShowFactsheetModal] = useState(false);
     const [showGeneralDocumentsModal, setShowGeneralDocumentsModal] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -279,6 +280,14 @@ const FloatingMenu = () => {
             @keyframes panelIn {
                 from { opacity: 0; transform: scale(0.95); }
                 to { opacity: 1; transform: scale(1); }
+            }
+            @keyframes panelOut {
+                from { opacity: 1; transform: scale(1); }
+                to { opacity: 0; transform: scale(0.98) translateY(8px); }
+            }
+            @keyframes backdropFadeOut {
+                from { background: rgba(0,0,0,0.0); }
+                to { background: rgba(0,0,0,0.0); }
             }
         `;
         document.head.appendChild(style);
@@ -497,11 +506,18 @@ const FloatingMenu = () => {
                         </button>
             {/* Modal iconsNewBot */}
             {/* Modal de archivos descargables */}
-                                {showDownloadsModal && (
+                                {(showDownloadsModal || downloadsClosing) && (
                                     <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ marginRight: "17%" }}>
-                                            <div className="bg-white rounded-2xl shadow-2xl p-0 min-w-[560px] max-w-[98vw] relative animate-[panelIn_0.4s] border border-blue-100" style={{boxShadow: '0 12px 48px rgba(99,102,241,0.18)', minHeight: '480px', display: 'flex', flexDirection: 'column'}}>
+                                            <div className={`bg-white rounded-2xl shadow-2xl p-0 min-w-[560px] max-w-[98vw] relative border border-blue-100`} style={{boxShadow: '0 12px 48px rgba(99,102,241,0.18)', minHeight: '480px', display: 'flex', flexDirection: 'column', animation: downloadsClosing ? 'panelOut 0.32s ease-in forwards' : 'panelIn 0.36s ease-out forwards'}}>
                                                     {/* Header flush to modal edges */}
-                                                    <ModalHeader title="Document Center" onClose={() => setShowDownloadsModal(false)} />
+                                                    <ModalHeader title="Document Center" onClose={() => {
+                                                        // play closing animation then hide
+                                                        setDownloadsClosing(true);
+                                                        setTimeout(() => {
+                                                            setDownloadsClosing(false);
+                                                            setShowDownloadsModal(false);
+                                                        }, 340);
+                                                    }} />
                                                     {/* Contenido principal: ocupar el resto del modal y centrar verticalmente */}
                                                     <div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '3.5rem', paddingRight: '3.5rem', paddingTop: '1.5rem', paddingBottom: '1.5rem'}}>
                                                     <div className="flex flex-row items-center justify-center gap-8">
