@@ -1,0 +1,4 @@
+// Copia local del PDF para descarga desde el frontend
+// El archivo debe estar en la carpeta public para que Vite/React lo sirva correctamente
+// Nombre: documentoLeyendaTiposdeSuelo.pdf
+// Ruta: public/holanda/documentoLeyendaTiposdeSuelo.pdf

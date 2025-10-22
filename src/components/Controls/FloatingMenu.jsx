@@ -10,6 +10,7 @@ import { Paper } from '@mui/material';
 import Loader from '../Loader/Loader';
 import { FactsheetDocuments, GeneralDocuments, SpecialDocuments } from '../DownloadSections/GeneralDocuments';
 import FactsheetModal from '../DownloadSections/FactsheetModal/FactsheetModal';
+import GeneralDocumentsModal from '../DownloadSections/GeneralDocumentsModal/GeneralDocumentsModal';
 import ModalHeader from '../DownloadSections/ModalHeader';
 import SoilHealthTable from '../SoilHealthTable/SoilHealthTable';
 import IconsNewBot from '../iconsnewbot/iconsNewBot.jsx';
@@ -91,6 +92,7 @@ const FloatingMenu = () => {
     // Estado para mostrar el modal de archivos descargables
     const [showDownloadsModal, setShowDownloadsModal] = useState(false);
     const [showFactsheetModal, setShowFactsheetModal] = useState(false);
+    const [showGeneralDocumentsModal, setShowGeneralDocumentsModal] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [activePanel, setActivePanel] = useState(null);
     const [selectedWMSLayer, setSelectedWMSLayerState] = useState(null);
@@ -503,7 +505,11 @@ const FloatingMenu = () => {
                                                     {/* Contenido principal: ocupar el resto del modal y centrar verticalmente */}
                                                     <div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '3.5rem', paddingRight: '3.5rem', paddingTop: '1.5rem', paddingBottom: '1.5rem'}}>
                                                     <div className="flex flex-row items-center justify-center gap-8">
-                                                        <GeneralDocuments />
+                                                        <GeneralDocuments onClick={() => {
+                                                            // Close the downloads modal and open the general documents modal with a short delay
+                                                            setShowDownloadsModal(false);
+                                                            setTimeout(() => setShowGeneralDocumentsModal(true), 160);
+                                                        }} />
                                                         <SpecialDocuments />
                                                         <FactsheetDocuments onClick={() => {
                                                             // Close the downloads modal and open the factsheet modal with a short delay
@@ -520,6 +526,9 @@ const FloatingMenu = () => {
             )}
             {showFactsheetModal && (
                 <FactsheetModal visible={showFactsheetModal} onClose={() => setShowFactsheetModal(false)} />
+            )}
+            {showGeneralDocumentsModal && (
+                <GeneralDocumentsModal visible={showGeneralDocumentsModal} onClose={() => setShowGeneralDocumentsModal(false)} />
             )}
             {/* Modal SoilHealthTable normal */}
             {showSoilHealthTable && (
