@@ -242,6 +242,12 @@
   transition: color 0.3s ease;
 }
 
+/* Allow disabling uppercase on a per-header basis (used for datasets like Germany
+   where we want to preserve original CSV header casing) */
+.table th.noTransform {
+  text-transform: none;
+}
+
 .table th:hover {
   color: var(--novasoil-light);
   text-shadow: 0 0 10px rgba(107, 168, 47, 0.4);

@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styles from './SamplingDataTable.module.css';
 
 const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTamarguillo = false, onDatasetChange, activeDataset: externalActiveDataset }) => {
-  // Lista de columnas a ocultar solo para Alemania
+  // Lista de columnas a ocultar solo para Alemania (nombres tal como salen tras limpiar espacios/caracteres)
+  // Usaremos comparación normalizada (sin caracteres especiales y en lower case) para ser robustos
   const hiddenGermanyColumns = [
-    'nitrates_mgkg',
-    'total_cadmium_mgkg',
-    'total_aluminum_al_mgkg',
-    'total_lead_pb_mgkg',
-    'total_zinc_zn_mgkg',
-    'sulfur_s_mgkg'
+    'Nitrates_mgKg',
+    'Total_Cadmium_mgKg',
+    'Total_Aluminum_Al_mgkg',
+    'Total_Lead_Pb_mgkg',
+    'Total_Zinc_Zn_mgkg',
+    'Sulfur_S_mgkg'
   ];
+  const hiddenGermanySet = new Set(hiddenGermanyColumns.map(h => String(h).trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase()));
   if (!visible) return null;
 
 
@@ -283,17 +285,18 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     }
   };
 
-  // Detectar todas las claves presentes en los datos
+  // Detectar todas las claves presentes en los datos, excluyendo claves internas (p.ej. __originalHeaderMap)
   const allKeys = sampleData.reduce((keys, row) => {
     Object.keys(row).forEach(k => {
+      if (typeof k === 'string' && k.startsWith('__')) return; // ignore internal fields
       if (!keys.includes(k)) keys.push(k);
     });
     return keys;
   }, []);
 
   // Generar columnas dinámicas
-  // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id'
-  const isGermanyTable = allKeys.includes('co2_land_novasoil_id');
+  // Detectar si es Alemania por la presencia de la columna 'co2_land_novasoil_id' (case-insensitive)
+  const isGermanyTable = allKeys.some(k => String(k).trim().toLowerCase() === 'co2_land_novasoil_id');
   const isBulgariaTable = allKeys.includes('Soil name (BG classification)') || allKeys.includes('Soil name (WRB 2014)');
   const isMadridTable = allKeys.includes('Latitude') && allKeys.includes('Longitude') && allKeys.includes('Case Study ID');
   const isItalyTable = allKeys.includes('Nitrogen (N) ‰') || allKeys.includes('Cation exchange capacity(mEq/100g)') || allKeys.includes('nitrogen_n_permille') || allKeys.includes('cation_exchange_capacity_meq100g');
@@ -325,10 +328,13 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   const bulgariaCoordKeyRegex = /coord/i;
   // Para Alemania ocultar únicamente la columna de coordenadas en DMS: 'coord_lat__long' o variantes similares
   const germanyCoordExactRegex = /^coord[_\s-]*lat[_\s-]*_{0,2}long$/i;
+    // If backend provided original header map (Germany), use it to display labels with parentheses/slashes
+    const originalHeaderMap = sampleData.length > 0 ? sampleData[0].__originalHeaderMap || {} : {};
     visibleColumns = allKeys
       .filter(key =>
         sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
-        (!isGermanyTable || !hiddenGermanyColumns.includes(key)) &&
+        // Para Alemania usar comparación normalizada (case-insensitive) contra el set oculto
+        (!isGermanyTable || !hiddenGermanySet.has(String(key).trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())) &&
         // Si es Estonia, filtrar claves de coordenadas
         !(isEstonia && coordKeys.includes(key.toLowerCase())) &&
   // Si es Bulgaria, filtrar columnas que son solo números o comienzan por . o _ seguidas de números
@@ -339,7 +345,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   // Si es Alemania, filtrar únicamente la columna coord_lat__long (no coordx/coordy)
   !(isGermanyTable && germanyCoordExactRegex.test(key.trim()))
       )
-      .map(key => ({ key, label: key }));
+    .map(key => ({ key, label: originalHeaderMap[key] || key }));
   }
 
   // Preprocesar sampleData para coordX/coordY si existen
@@ -585,8 +591,10 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
                     'coord (lat)', 'coord (long)', 'coords', 'lat', 'lon', 'coordinates', 'coord (lat & long)',
                     'x_wg84','y_wg84'
                   ].includes(labelLower);
+                  // For Germany table, preserve the CSV's original casing for headers
+                  const thClass = isGermanyTable ? styles.noTransform : '';
                   return (
-                    <th key={col.key}>
+                    <th key={col.key} className={thClass}>
                       {col.label}
                       {isCoordHeader && (
                         <div style={{ fontSize: '0.8em', color: '#e74c3c', fontWeight: 'bold', marginTop: '2px' }}>(EPSG:4326 WGS84)</div>
