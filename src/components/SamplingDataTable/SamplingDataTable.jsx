@@ -312,10 +312,14 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
       .filter(key => sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== ''))
       .map(key => ({ key, label: key }));
   } else {
+    // Para Estonia ocultamos explícitamente las columnas de latitud/longitud (lat, lon, latitude, longitude, coord (lat), coord (long), coords)
+    const coordKeys = ['lat', 'lon', 'latitude', 'longitude', 'coord (lat)', 'coord (long)', 'coords', 'coord_x', 'coord_y', 'coordx', 'coordy'];
     visibleColumns = allKeys
       .filter(key =>
         sampleData.some(row => row[key] && row[key] !== 'no info' && row[key] !== '') &&
-        (!isGermanyTable || !hiddenGermanyColumns.includes(key))
+        (!isGermanyTable || !hiddenGermanyColumns.includes(key)) &&
+        // Si es Estonia, filtrar claves de coordenadas
+        !(isEstonia && coordKeys.includes(key.toLowerCase()))
       )
       .map(key => ({ key, label: key }));
   }
