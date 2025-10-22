@@ -156,3 +156,35 @@
 .gridPane::-webkit-scrollbar-track { background: transparent; }
 .previewFrame::-webkit-scrollbar { width: 10px; }
 .previewFrame::-webkit-scrollbar-thumb { background: #cfded0; border-radius: 8px; }
+
+/* Responsive adjustments: avoid covering minimap on narrow viewports */
+@media (max-width: 1100px) {
+  .modal { max-width: 900px; margin-right: 4%; }
+  .previewPane { min-width: 420px; }
+}
+
+@media (max-width: 900px) {
+  .modal { max-width: 720px; margin-right: 3%; margin-top: 3%; }
+  .previewPane { min-width: 320px; }
+}
+
+@media (max-width: 640px) {
+  /* On small phones hide the left pane and make preview full width */
+  .modal { max-width: calc(100% - 24px); margin: 6vh 12px 12px 12px; height: 86vh; }
+  .gridPane { display: none; }
+  .previewPane { min-width: auto; padding: 0.8rem; flex: 1; }
+  .previewFrame { border-radius: 6px; }
+  .titleHeader { font-size: 1.05rem; }
+}
+
+/* Specific tweak only for the user's requested viewport 1643x924: keep original defaults elsewhere */
+/* Apply for a small range around the target resolution so browser quirks don't miss it */
+@media (min-width: 1600px) and (max-width: 1680px) {
+  .modal {
+    max-height: 800px;
+    max-width: 1080px;
+    margin-right: 280px; /* leave room for minimap in wide laptop viewports */
+    margin-top: 9.5%;
+  }
+  .previewPane { min-width: 520px; }
+}

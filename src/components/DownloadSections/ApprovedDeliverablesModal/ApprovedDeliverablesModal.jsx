@@ -28,7 +28,7 @@ const ApprovedDeliverablesModal = ({ visible, onClose }) => {
     <div className={`${styles.backdrop} ${closing ? styles.closingBackdrop : ''}`} role="dialog" aria-modal="true">
       <div className={`${styles.modal} ${closing ? styles.closingModal : ''}`}>
         <header className={styles.header}>
-          <h3 className={styles.titleHeader}>General Documents</h3>
+          <h3 className={styles.titleHeader}>Approved Deliverables Documents</h3>
           <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
             <button aria-label="Cerrar" className={styles.closeBtn} onClick={() => {
               setClosing(true);
