@@ -99,6 +99,18 @@ export const CAROUSEL_IMAGES_BULGARIA = [
 
 ];
 
+export const CAROUSEL_IMAGES_LETONIA = [
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1761052240/Reduced.Tillge-CS_Novasoil_f8ovo2.jpg`,
+    title: "ZSA DIH system"
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1761052247/ZSA_DIH_map_preview_onw1ot.png`,
+    title: "ZSA DIH system"
+  }
+
+];
+
 export const CAROUSEL_IMAGES_ITALY = [
   {
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1759319392/flora_4_bis_td7hr0.jpg`,
