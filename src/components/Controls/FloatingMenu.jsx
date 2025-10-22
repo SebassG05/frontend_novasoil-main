@@ -400,7 +400,7 @@ const FloatingMenu = () => {
                 <button
                     ref={buttonRef}
                     onClick={handleMainButtonClick}
-                    className={`relative bg-blue-600 hover:bg-blue-700 text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 
+                    className={`relative cursor-pointer bg-blue-600 hover:bg-blue-700 text-white rounded-full w-12 h-12 sm:w-14 sm:h-14 
                                shadow-lg border-none flex items-center justify-center transition-all duration-300 ease-in-out
                                ${isOpen ? 'ring-2 ring-blue-100' : ''}
                                ${activePanel ? 'ring-2 ring-blue-300 bg-blue-700' : ''}`}
@@ -416,11 +416,11 @@ const FloatingMenu = () => {
 
                 {/* Mostrar siempre el menú de burbujas, no solo cuando isOpen */}
                 {(!activePanel && (isOpen || showSoilHealthTable || showIconsNewBot)) && (
-                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-350px'}}>
+                    <div ref={bubblesRef} className="flex flex-col items-start space-y-6 absolute left-1 " style={{top: '-350px', cursor: 'pointer'}}>
                         {/* Burbuja de archivos descargables */}
                         <button
                             onClick={() => setShowDownloadsModal(true)}
-                            className="bg-white text-blue-600 w-10 h-10 sm:w-12 sm:h-12 
+                            className="bg-white text-blue-600 w-10 h-10 sm:w-12 sm:h-12 cursor-pointer 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-blue-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
@@ -442,7 +442,7 @@ const FloatingMenu = () => {
                        
                         <button
                             onClick={handleSoilHealthBubbleClick}
-                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
+                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 cursor-pointer 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-green-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
@@ -468,7 +468,7 @@ const FloatingMenu = () => {
                         {/* ...existing code... (las demás burbujas) */}
                         <button
                             onClick={handleRealSoilHealthBubbleClick}
-                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
+                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 cursor-pointer 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-green-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
@@ -536,7 +536,7 @@ const FloatingMenu = () => {
             )}
                         <button
                             onClick={handleWMSBubbleClick}
-                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 
+                            className="bg-white text-green-600 w-10 h-10 sm:w-12 sm:h-12 cursor-pointer 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-green-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
@@ -555,7 +555,7 @@ const FloatingMenu = () => {
                         {/* Burbuja de opción "Estilos" */}
                         <button
                             onClick={handleStyleBubbleClick}
-                            className="bg-white text-blue-600 w-10 h-10 sm:w-12 sm:h-12 
+                            className="bg-white text-blue-600 w-10 h-10 sm:w-12 sm:h-12 cursor-pointer 
                                      rounded-full shadow-md border-none flex items-center justify-center
                                      hover:bg-blue-50 hover:shadow-lg active:scale-95 
                                      transform transition-all duration-300"
