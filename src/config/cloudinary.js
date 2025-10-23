@@ -163,6 +163,17 @@ export const CAROUSEL_IMAGES_GERMANY = [
   }
 ];
 
+export const CAROUSEL_IMAGES_ESTONIA = [{
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1761224732/1fff91d2-a161-4389-a0eb-4c60d167cda3_llcooz.jpg`,
+    title: "METK"
+  },
+  {
+    url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1761224898/1_wveedg.webp`,
+    title: "METK"
+  }
+
+];
+
 export const CAROUSEL_IMAGES_ASAJA = [{
     url: `https://res.cloudinary.com/drwlnxvqr/image/upload/v1760609217/55df23b7-9c3b-4c9a-bb4e-90b1a2ed027a_hwers8.jpg`,
     title: "ASAJA: Integrated Olive Production",

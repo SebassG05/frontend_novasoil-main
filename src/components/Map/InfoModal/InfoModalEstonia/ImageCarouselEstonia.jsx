@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './ImageCarouselEstonia.module.css';
 // IMPORTANTE: Cambia estas imágenes por las de Bulgaria
-import { CAROUSEL_IMAGES, FALLBACK_IMAGES } from '../../../../config/cloudinary';
+import { CAROUSEL_IMAGES_ESTONIA, FALLBACK_IMAGES } from '../../../../config/cloudinary';
 
 const ImageCarousel = ({ onCloseAll }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -12,7 +12,7 @@ const ImageCarousel = ({ onCloseAll }) => {
   const trackRef = useRef(null);
 
   // Usar imágenes de Cloudinary o fallback según disponibilidad
-  const images = usesFallback ? FALLBACK_IMAGES : CAROUSEL_IMAGES;
+  const images = usesFallback ? FALLBACK_IMAGES : CAROUSEL_IMAGES_ESTONIA;
 
   // Auto-play functionality con bucle simple
   useEffect(() => {
