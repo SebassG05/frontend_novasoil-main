@@ -1,28 +1,3 @@
-/* ===================== RESPONSIVE DESIGN (ALL DEVICES) ===================== */
-@media (max-width: 900px) {
-  .legendImage, .legend {
-    max-width: 90vw !important;
-    width: 90vw !important;
-    min-width: 0 !important;
-    left: 5vw !important;
-    right: 5vw !important;
-    top: 10vw !important;
-    padding: 1rem !important;
-    border-radius: 16px !important;
-  }
-}
-@media (max-width: 600px) {
-  .legendImage, .legend {
-    max-width: 98vw !important;
-    width: 98vw !important;
-    min-width: 0 !important;
-    left: 1vw !important;
-    right: 1vw !important;
-    top: 2vw !important;
-    padding: 0.5rem !important;
-    border-radius: 8px !important;
-  }
-}
 .legendContainer {
   position: fixed;
   top: 180px;
