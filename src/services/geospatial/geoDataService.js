@@ -1,7 +1,7 @@
 // Use Vite env variable VITE_API_URL if provided (should include /api),
 // otherwise fallback to localhost for development.
 const API_BASE_URL = import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/geo`
+    ? import.meta.env.VITE_API_URL
     : 'http://localhost:3000/api/geo';
 
 class GeoDataService {
