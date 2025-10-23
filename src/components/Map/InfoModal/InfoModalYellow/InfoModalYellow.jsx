@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import styles from './InfoModal.module.css';
+import './InfoModalYellow.responsive.css';
 import ImageCarouselYellow from './ImageCarouselYellow';
 
 const InfoModalYellow = ({ visible, onClose, children, onCloseAll }) => {
