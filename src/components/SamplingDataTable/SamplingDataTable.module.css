@@ -24,7 +24,7 @@
 @media (max-width: 1559px) {
   :global(.sampling-table-modal),
   .samplingTableModal {
-    top: 15% !important;
+    top: 8% !important;
   }
 }
 
