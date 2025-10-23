@@ -227,7 +227,6 @@ const ImageCarousel = ({ onCloseAll }) => {
           if (onCloseAll) {
             onCloseAll();
           }
-          console.log('Modal y leyenda cerrados');
         }}>
           Click here
         </button>
