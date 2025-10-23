@@ -64,7 +64,7 @@ const Welcome = ({ visible, onClose }) => (
                                 repeatType: 'loop'
                             }}
                         >
-                            Welcome to the NOVASOIL Geovisor
+                            Welcome to the NOVASOIL Geoviewer
                         </motion.h1>
                         <motion.p
                             style={{
