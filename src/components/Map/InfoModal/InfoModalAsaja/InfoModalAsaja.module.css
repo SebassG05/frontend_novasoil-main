@@ -1,3 +1,141 @@
+/* ===================== */
+/* RESPONSIVE STYLES     */
+/* ===================== */
+
+@media (max-width: 1559px) {
+  .modal {
+    min-width: 0;
+    width: 90vw;
+    max-width: 98vw;
+    padding: 2.2rem 1.5rem 2.5rem 1.5rem;
+    margin-top: 80px;
+    min-height: 420px;
+    max-height: 92vh;
+    left: 0;
+    right: 0;
+    /* Centrado horizontal */
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+  }
+  .overlay {
+    padding-left: 0;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .companyLogo {
+    left: 18px;
+    bottom: 18px;
+  }
+  .companyLogoImage {
+    height: 55px;
+  }
+  .modalHeader {
+    margin-bottom: 0.5rem;
+  }
+  .modalTitle {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .modal {
+    width: 98vw;
+    max-width: 100vw;
+    min-width: 0;
+    padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+    margin-top: 40px;
+    min-height: 320px;
+    max-height: 95vh;
+  }
+  .companyLogo {
+    left: 10px;
+    bottom: 10px;
+  }
+  .companyLogoImage {
+    height: 40px;
+  }
+  .modalTitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .modal {
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 0;
+    padding: 0.5rem 0.1rem 1rem 0.1rem;
+    margin-top: 10px;
+    min-height: 220px;
+    max-height: 98vh;
+    border-radius: 12px;
+  }
+  .modalHeader {
+    margin-bottom: 0.2rem;
+  }
+  .modalTitle {
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+  }
+  .companyLogo {
+    left: 5px;
+    bottom: 5px;
+  }
+  .companyLogoImage {
+    height: 28px;
+  }
+  .closeBtn {
+    top: 8px;
+    right: 10px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .modal {
+    min-width: 0;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 120px;
+    max-height: 99vh;
+    padding: 0.2rem 0.1rem 0.5rem 0.1rem;
+    margin-top: 0;
+    border-radius: 8px;
+  }
+  .modalHeader {
+    margin-bottom: 0.1rem;
+  }
+  .modalTitle {
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+  .companyLogo {
+    left: 2px;
+    bottom: 2px;
+  }
+  .companyLogoImage {
+    height: 18px;
+  }
+  .closeBtn {
+    top: 2px;
+    right: 4px;
+    font-size: 1rem;
+  }
+}
+
+/* Ajuste para que el modal nunca tape el minimapa (abajo derecha) */
+@media (max-width: 1559px) {
+  .modal {
+    margin-bottom: 120px; /* deja espacio para el minimapa */
+  }
+}
+
+@media (max-width: 700px) {
+  .modal {
+    margin-bottom: 90px;
+  }
+}
 
 
 .overlay {
