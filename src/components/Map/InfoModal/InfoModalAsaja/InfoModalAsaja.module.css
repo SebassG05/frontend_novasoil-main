@@ -11,9 +11,7 @@
     margin-top: 60px;
     min-height: 350px;
     max-height: 90vh;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    right: 30%;
     margin-left: 0;
     margin-right: 0;
     align-items: center;
