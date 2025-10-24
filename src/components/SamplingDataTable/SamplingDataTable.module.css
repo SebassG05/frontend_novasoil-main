@@ -2,7 +2,7 @@
   .container {
     width: 60vw !important;
     min-width: 0 !important;
-    max-width: 60vw !important;
+    /* max-width removed to allow full expansion */
     margin-left: 6vw !important;
     left: 6vw !important;
     border-radius: 16px !important;
