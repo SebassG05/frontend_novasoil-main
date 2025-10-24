@@ -3,11 +3,14 @@
     min-width: 220px !important;
     width: 38vw !important;
     max-width: 260px !important;
-    min-height: 220px !important;
-    height: 48vh !important;
-    max-height: 52vh !important;
-    padding: 0.7rem 0.7rem 1rem 0.7rem !important;
+    min-height: 180px !important;
+    height: 38vh !important;
+    max-height: 40vh !important;
+    padding: 0.7rem 0.7rem 0.5rem 0.7rem !important;
     border-radius: 14px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
   .title {
     font-size: 1.3rem !important;
@@ -20,6 +23,20 @@
   }
   .businessImage {
     height: 32px !important;
+  }
+  .pageContent {
+    flex: 1 1 auto;
+    overflow-y: auto !important;
+    margin-bottom: 0.5rem !important;
+    min-height: 100px !important;
+    max-height: 22vh !important;
+  }
+  .pagination {
+    margin-bottom: 0.2rem !important;
+    margin-top: 0.2rem !important;
+    position: static !important;
+    background: white !important;
+    z-index: 2;
   }
   .pageIndicator {
     width: 24px !important;
