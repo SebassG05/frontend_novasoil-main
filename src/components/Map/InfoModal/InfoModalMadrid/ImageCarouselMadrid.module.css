@@ -1,4 +1,21 @@
 /* Contenedor principal del carrusel */
+
+@media (max-width: 1180px) {
+  .logoItem{
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  box-sizing: border-box;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
 .carouselContainer {
   width: 85%;
   margin: 0.5rem auto 0;
