@@ -1,8 +1,8 @@
 @media (max-width: 1180px) {
   .modal {
     min-width: 0 !important;
-    width: 65vw !important;
-    max-width: 70vw !important;
+    width: 54vw !important;
+    max-width: 60vw !important;
     min-height: 300px !important;
     height: 80vh !important;
     max-height: 87vh !important;
