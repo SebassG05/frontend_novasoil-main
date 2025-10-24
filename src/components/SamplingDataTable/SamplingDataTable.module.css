@@ -3,14 +3,15 @@
     width: 54vw !important;
     min-width: 0 !important;
     max-width: 60vw !important;
-    margin-right: 0vw !important;
-    margin-left: 10% !important;
+    margin-right: 2vw !important;
+    margin-left: auto !important;
     left: auto !important;
-    right: 0 !important;
+    right: 2vw !important;
     border-radius: 16px !important;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     padding: 0.8rem 0.5rem 1.2rem 0.5rem !important;
     max-height: 75vh !important;
+    position: absolute !important;
   }
   .header, .footer {
     padding-left: 0.7rem !important;
