@@ -1,3 +1,27 @@
+@media (max-width: 1180px) {
+  .container {
+    width: 54vw !important;
+    min-width: 0 !important;
+    max-width: 60vw !important;
+    margin-right: 10vw !important;
+    margin-left: auto !important;
+    left: auto !important;
+    right: 0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 0.8rem 0.5rem 1.2rem 0.5rem !important;
+    max-height: 75vh !important;
+  }
+  .header, .footer {
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
+  }
+  .table th, .table td {
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
+    font-size: 0.78rem !important;
+  }
+}
 @media (max-width: 1700px) and (min-width: 800px) {
   .container {
     max-width: 100% !important;
