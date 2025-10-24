@@ -20,8 +20,8 @@ import { useGeoData } from '../../hooks/useGeoData';
 import { create } from 'zustand';
 
 const Model3DLayer = () => {
-  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3, samplingDataTamarguillo1, samplingDataTamarguillo2, samplingDataTamarguillo3, samplingDataAsaja } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea, loadAsajaData, loadTamarguilloDepth0_25Data, loadTamarguilloDepth25_50Data } = useGeoData();
+  const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3, samplingDataTamarguilloGeneral, samplingDataTamarguillo1, samplingDataTamarguillo2, samplingDataTamarguillo3, samplingDataAsaja } = useMapStore();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea, loadAsajaData, loadTamarguilloGeneralData, loadTamarguilloDepth0_25Data, loadTamarguilloDepth25_50Data } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
