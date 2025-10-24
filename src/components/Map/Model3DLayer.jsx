@@ -246,14 +246,14 @@ const Model3DLayer = () => {
           setCurrentDatasetType('asaja');
           setTableVisible(true);
         } else if (showTableType === 'tamarguillo') {
-          // Tamarguillo: cargar por defecto la tabla 0-25 y mostrar el selector
-          let tamarguillo1Data = samplingDataTamarguillo1;
-          if (!tamarguillo1Data || tamarguillo1Data.length === 0) {
-            await loadTamarguilloDepth0_25Data();
+          // Tamarguillo: mostrar por defecto la tabla GENERAL INFORMATION y el selector
+          let tamarguilloGeneralData = samplingDataTamarguilloGeneral;
+          if (!tamarguilloGeneralData || tamarguilloGeneralData.length === 0) {
+            await loadTamarguilloGeneralData();
             await new Promise(resolve => setTimeout(resolve, 200));
-            tamarguillo1Data = useMapStore.getState().samplingDataTamarguillo1;
+            tamarguilloGeneralData = useMapStore.getState().samplingDataTamarguilloGeneral;
           }
-          setTableData(Array.isArray(tamarguillo1Data) ? tamarguillo1Data : []);
+          setTableData(Array.isArray(tamarguilloGeneralData) ? tamarguilloGeneralData : []);
           setCurrentDatasetType('tamarguillo');
           setActiveTamarguilloTab('tamarguillo1');
           setTableVisible(true);
