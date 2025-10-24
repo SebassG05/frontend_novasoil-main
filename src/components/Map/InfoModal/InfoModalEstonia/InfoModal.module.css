@@ -1,14 +1,14 @@
 @media (max-width: 1180px) {
   .modal {
     min-width: 0 !important;
-    width: 54vw !important;
-    max-width: 60vw !important;
+    width: 59vw !important;
+    max-width: 64vw !important;
     min-height: 300px !important;
     height: 80vh !important;
     max-height: 87vh !important;
     padding: 1.2rem 0.7rem 1.5rem 0.7rem !important;
     top: 2vh !important;
-    right: 10vw !important;
+    right: 13vw !important;
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
