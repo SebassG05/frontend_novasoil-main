@@ -7,19 +7,6 @@ import mapLayerService from '../services/geospatial/mapLayerService';
  * Hook personalizado para manejar la carga y gestión de datos geoespaciales
  */
 export const useGeoData = () => {
-    // Cargar tabla GENERAL INFORMATION (Sampling Tamarguillo Park.csv)
-    const loadTamarguilloGeneralData = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const data = await geoDataService.makeRequest('/sampling/tamarguillo-general');
-            setSamplingDataTamarguilloGeneral(data.data);
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
     // --- TAMARGUILLO NUEVO ---
     const loadTamarguilloDepth0_25Data = async () => {
         try {
@@ -566,11 +553,9 @@ export const useGeoData = () => {
         samplingDataItalyCiraa2,
         samplingDataItalyCiraa3,
     isLoadingGeoData,
-    samplingDataTamarguilloGeneral,
     samplingDataTamarguillo1,
     samplingDataTamarguillo2,
     // samplingDataTamarguillo3, // No longer used
-    loadTamarguilloGeneralData,
     loadTamarguilloDepth0_25Data,
     loadTamarguilloDepth25_50Data,
         geoDataError,
