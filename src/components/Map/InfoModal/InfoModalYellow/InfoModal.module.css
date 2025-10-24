@@ -1,3 +1,44 @@
+@media (max-width: 1180px) {
+  .modal {
+    min-width: 0 !important;
+    width: 59vw !important;
+    max-width: 64vw !important;
+    min-height: 300px !important;
+    height: 80vh !important;
+    max-height: 87vh !important;
+    padding: 1.2rem 0.7rem 1.5rem 0.7rem !important;
+    top: 2vh !important;
+    right: 11vw !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    border-radius: 18px !important;
+  }
+  .overlay {
+    padding-left: 0 !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  .companyLogo {
+    left: 8px !important;
+    bottom: 8px !important;
+  }
+  .companyLogoImage {
+    height: 28px !important;
+  }
+  .modalHeader {
+    margin-bottom: 0.2rem !important;
+  }
+  .modalTitle {
+    font-size: 1.1rem !important;
+  }
+  .content {
+    font-size: 1rem !important;
+  }
+}
+
 @media (max-width: 1559px) {
   .modal {
     min-width: 0;
