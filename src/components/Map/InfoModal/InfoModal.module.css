@@ -51,17 +51,24 @@
     font-size: 1rem !important;
     padding-top: 0.5rem !important;
   }
-  .iconRow, .icon-row, .iconos, .iconosRow {
-    gap: 0.2rem !important;
-    padding: 0.1rem 0.05rem !important;
+  .iconRow, .icon-row, .iconos, .iconosRow, .logoItem {
+    gap: 0.15rem !important;
+    padding: 0.08rem 0.03rem !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    max-width: 28px !important;
+    max-height: 28px !important;
+    box-sizing: border-box !important;
   }
-  .iconRow img, .icon-row img, .iconos img, .iconosRow img {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    max-width: 24px !important;
-    max-height: 24px !important;
+  .iconRow img, .icon-row img, .iconos img, .iconosRow img, .logoItem img {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
   }
 }
 
