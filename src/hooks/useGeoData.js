@@ -555,10 +555,9 @@ export const useGeoData = () => {
     isLoadingGeoData,
     samplingDataTamarguillo1,
     samplingDataTamarguillo2,
-    samplingDataTamarguillo3,
-    loadTamarguillo1Data,
-    loadTamarguillo2Data,
-    loadTamarguillo3Data,
+    // samplingDataTamarguillo3, // No longer used
+    loadTamarguilloDepth0_25Data,
+    loadTamarguilloDepth25_50Data,
         geoDataError,
         layersVisibility,
 
