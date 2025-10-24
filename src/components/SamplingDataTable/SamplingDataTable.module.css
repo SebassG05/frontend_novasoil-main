@@ -18,6 +18,12 @@
     padding-left: 0.3rem !important;
     padding-right: 0.3rem !important;
     font-size: 0.78rem !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+  .table tbody tr {
+    border-bottom: none !important;
+    box-shadow: none !important;
   }
 }
 @media (max-width: 1700px) and (min-width: 800px) {
