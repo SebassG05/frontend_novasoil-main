@@ -8,38 +8,24 @@ class GeoDataService {
     /**
      * Obtiene la tabla Tamarguillo 1
      */
-    async getTamarguillo1() {
+    // Tamarguillo Depth 0-25cm
+    async getTamarguilloDepth0_25() {
         try {
-            const response = await this.makeRequest('/sampling/tamarguillo1');
+            const response = await this.makeRequest('/sampling/tamarguillo-depth-0-25');
             return response.data;
         } catch (error) {
-            console.error('Error obteniendo Tamarguillo 1:', error);
+            console.error('Error obteniendo Tamarguillo 0-25cm:', error);
             throw error;
         }
     }
 
-    /**
-     * Obtiene la tabla Tamarguillo 2
-     */
-    async getTamarguillo2() {
+    // Tamarguillo Depth 25-50cm
+    async getTamarguilloDepth25_50() {
         try {
-            const response = await this.makeRequest('/sampling/tamarguillo2');
+            const response = await this.makeRequest('/sampling/tamarguillo-depth-25-50');
             return response.data;
         } catch (error) {
-            console.error('Error obteniendo Tamarguillo 2:', error);
-            throw error;
-        }
-    }
-
-    /**
-     * Obtiene la tabla Tamarguillo 3
-     */
-    async getTamarguillo3() {
-        try {
-            const response = await this.makeRequest('/sampling/tamarguillo3');
-            return response.data;
-        } catch (error) {
-            console.error('Error obteniendo Tamarguillo 3:', error);
+            console.error('Error obteniendo Tamarguillo 25-50cm:', error);
             throw error;
         }
     }

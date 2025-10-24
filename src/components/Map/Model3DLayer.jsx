@@ -72,31 +72,24 @@ const Model3DLayer = () => {
         setTableData(newData);
       }
     }
-    // TAMARGUILLO
-    if (['tamarguillo1', 'tamarguillo2', 'tamarguillo3'].includes(datasetId)) {
+    // TAMARGUILLO NUEVO
+    if (['tamarguillo1', 'tamarguillo2'].includes(datasetId)) {
       setActiveTamarguilloTab(datasetId);
       setCurrentDatasetType('tamarguillo');
       let newData = null;
       if (datasetId === 'tamarguillo1') {
         if (!samplingDataTamarguillo1 || samplingDataTamarguillo1.length === 0) {
-          await loadTamarguillo1Data();
+          await loadTamarguilloDepth0_25Data();
           newData = useMapStore.getState().samplingDataTamarguillo1;
         } else {
           newData = samplingDataTamarguillo1;
         }
       } else if (datasetId === 'tamarguillo2') {
         if (!samplingDataTamarguillo2 || samplingDataTamarguillo2.length === 0) {
-          await loadTamarguillo2Data();
+          await loadTamarguilloDepth25_50Data();
           newData = useMapStore.getState().samplingDataTamarguillo2;
         } else {
           newData = samplingDataTamarguillo2;
-        }
-      } else if (datasetId === 'tamarguillo3') {
-        if (!samplingDataTamarguillo3 || samplingDataTamarguillo3.length === 0) {
-          await loadTamarguillo3Data();
-          newData = useMapStore.getState().samplingDataTamarguillo3;
-        } else {
-          newData = samplingDataTamarguillo3;
         }
       }
       if (newData && Array.isArray(newData)) {
@@ -253,10 +246,10 @@ const Model3DLayer = () => {
           setCurrentDatasetType('asaja');
           setTableVisible(true);
         } else if (showTableType === 'tamarguillo') {
-          // Tamarguillo: cargar por defecto la tabla 1 y mostrar el selector
+          // Tamarguillo: cargar por defecto la tabla 0-25 y mostrar el selector
           let tamarguillo1Data = samplingDataTamarguillo1;
           if (!tamarguillo1Data || tamarguillo1Data.length === 0) {
-            await loadTamarguillo1Data();
+            await loadTamarguilloDepth0_25Data();
             await new Promise(resolve => setTimeout(resolve, 200));
             tamarguillo1Data = useMapStore.getState().samplingDataTamarguillo1;
           }

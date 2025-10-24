@@ -19,7 +19,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
 
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString('es-ES'));
-  // CIRAA: 'ciraa1', 'ciraa2', 'ciraa3' | Tamarguillo: 'tamarguillo1', 'tamarguillo2', 'tamarguillo3'
+  // CIRAA: 'ciraa1', 'ciraa2', 'ciraa3' | Tamarguillo: 'tamarguillo1' (0-25), 'tamarguillo2' (25-50)
   const [activeDataset, setActiveDataset] = useState(externalActiveDataset || (isTamarguillo ? 'tamarguillo1' : 'ciraa1'));
 
   // Sincronizar con el dataset activo externo (Model3DLayer)

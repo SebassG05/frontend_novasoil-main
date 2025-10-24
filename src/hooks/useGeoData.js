@@ -7,13 +7,13 @@ import mapLayerService from '../services/geospatial/mapLayerService';
  * Hook personalizado para manejar la carga y gestión de datos geoespaciales
  */
 export const useGeoData = () => {
-    // --- TAMARGUILLO ---
-    const loadTamarguillo1Data = async () => {
+    // --- TAMARGUILLO NUEVO ---
+    const loadTamarguilloDepth0_25Data = async () => {
         try {
             setIsLoadingGeoData(true);
             setGeoDataError(null);
-            const data = await geoDataService.getTamarguillo1();
-            setSamplingDataTamarguillo1(data);
+            const data = await geoDataService.getTamarguilloDepth0_25();
+            setSamplingDataTamarguillo1(data); // Reutiliza samplingDataTamarguillo1 para 0-25
         } catch (error) {
             setGeoDataError(error.message);
         } finally {
@@ -21,25 +21,12 @@ export const useGeoData = () => {
         }
     };
 
-    const loadTamarguillo2Data = async () => {
+    const loadTamarguilloDepth25_50Data = async () => {
         try {
             setIsLoadingGeoData(true);
             setGeoDataError(null);
-            const data = await geoDataService.getTamarguillo2();
-            setSamplingDataTamarguillo2(data);
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
-
-    const loadTamarguillo3Data = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const data = await geoDataService.getTamarguillo3();
-            setSamplingDataTamarguillo3(data);
+            const data = await geoDataService.getTamarguilloDepth25_50();
+            setSamplingDataTamarguillo2(data); // Reutiliza samplingDataTamarguillo2 para 25-50
         } catch (error) {
             setGeoDataError(error.message);
         } finally {
