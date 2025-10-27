@@ -545,22 +545,98 @@ class MapLayerService {
             let geojsonData;
             // removed noisy log
             if (bulgariaData && Array.isArray(bulgariaData)) {
+                const pick = (obj, candidates) => {
+                    for (const k of candidates) {
+                        if (obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k];
+                    }
+                    return null;
+                };
+
                 geojsonData = {
                     type: 'FeatureCollection',
                     features: bulgariaData.map(row => {
-                        const lat = parseFloat(row.lat);
-                        const lon = parseFloat(row.lon);
-                        if (!isNaN(lat) && !isNaN(lon)) {
-                            return {
-                                type: 'Feature',
-                                geometry: {
-                                    type: 'Point',
-                                    coordinates: [lon, lat]
-                                },
-                                properties: row
-                            };
+                        // Try several variants of lat/lon header names
+                        const rawLat = pick(row, ['lat', 'Lat', 'LAT', 'Latitude', 'latitude']);
+                        const rawLon = pick(row, ['lon', 'Lon', 'LON', 'Longitude', 'longitude']);
+                        const lat = rawLat !== null ? parseFloat(rawLat) : NaN;
+                        const lon = rawLon !== null ? parseFloat(rawLon) : NaN;
+
+                        // If lat/lon not found, try to detect DMS coordinates embedded in any field
+                        if (isNaN(lat) || isNaN(lon)) {
+                            // Look for a string containing two DMS coordinates (one with N/S and one with E/W)
+                            const dmsCandidate = Object.values(row).find(v => typeof v === 'string' && /[0-9]+°.*[NS].*[,;\s]+[0-9]+°.*[EW]/i.test(v));
+                            if (dmsCandidate) {
+                                // Try to split into two DMS parts
+                                const parts = dmsCandidate.split(/[,;\s]{1,}/).filter(p => p && /[0-9]+°/.test(p));
+                                if (parts.length >= 2) {
+                                    const latParsed = this.parseDMS(parts[0]);
+                                    const lonParsed = this.parseDMS(parts[1]);
+                                    if (latParsed !== null && lonParsed !== null) {
+                                        // override lat/lon
+                                        // For Bulgaria longitudes should be positive east
+                                        lat = latParsed;
+                                        lon = lonParsed;
+                                    }
+                                } else {
+                                    // As a last resort, try to extract two DMS matches from the string
+                                    const matches = dmsCandidate.match(/([0-9]+°[^\s,;]+[NS])|([0-9]+°[^\s,;]+[EW])/gi);
+                                    if (matches && matches.length >= 2) {
+                                        const latParsed = this.parseDMS(matches[0]);
+                                        const lonParsed = this.parseDMS(matches[1]);
+                                        if (latParsed !== null && lonParsed !== null) {
+                                            lat = latParsed;
+                                            lon = lonParsed;
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        return null;
+
+                        if (isNaN(lat) || isNaN(lon)) {
+                            console.warn('[Bulgaria][DESCARTADO] Coordenadas inválidas o ausentes en fila:', row);
+                            return null;
+                        }
+
+                        // Build normalized properties expected by BulgariaHoverInfo
+                        const samplingId = pick(row, ['Sampling Id', 'Sampling ID', 'SamplingId', 'Sampling_Id', 'Sampling id', 'sampling_id']);
+                        const samplingDate = pick(row, ['Sampling Date', 'Sampling date', 'sampling_date', 'Date', 'date']);
+                        const soilNameWrb = pick(row, ['Soil Name (wrb 2014)', 'Soil name (WRB 2014)', 'soil_name_wrb_2014', 'soil_name']);
+                        const soilNameBg = pick(row, ['Soil name (BG classification)', 'soil_name_bg_classification', 'Soil Name (BG)', 'Soil Name (BG classification)']);
+                        const nitrogen = pick(row, ['Nitrogen (%)', 'Nitrogen', 'nitrogen_', 'Nitrogen']);
+                        const carbonates = pick(row, ['Carbonates (%)', 'Carbonates', 'carbonates_']);
+                        const organicCarbon = pick(row, ['Organic Carbon (%)', 'Organic Carbon', 'organic_carbon_', 'Organic Carbon (%)']);
+                        const zinc = pick(row, ['Zinc (mg/kg)', 'Zinc', 'zinc_mgkg']);
+
+                        const properties = {
+                            ...row,
+                            'Sampling ID': samplingId || row['Sampling Id'] || row['Sampling ID'] || null,
+                            sampling_id: samplingId || row['Sampling Id'] || null,
+                            sampling_date: samplingDate || null,
+                            'Soil name (WRB 2014)': soilNameWrb || null,
+                            soil_name_wrb_2014: soilNameWrb || null,
+                            'Soil name (BG classification)': soilNameBg || null,
+                            soil_name_bg_classification: soilNameBg || null,
+                            'Nitrogen (%)': nitrogen || null,
+                            nitrogen_: nitrogen || null,
+                            'Carbonates (%)': carbonates || null,
+                            carbonates_: carbonates || null,
+                            'Organic Carbon (%)': organicCarbon || null,
+                            organic_carbon_: organicCarbon || null,
+                            'Zinc (mg/kg)': zinc || null,
+                            zinc_mgkg: zinc || null,
+                            lat: lat,
+                            lon: lon,
+                            coords: `${lat}, ${lon}`
+                        };
+
+                        return {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [lon, lat]
+                            },
+                            properties
+                        };
                     }).filter(f => f !== null)
                 };
             } else {
