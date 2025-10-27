@@ -1,97 +1,15 @@
-    // Cargar datos generales de Tamarguillo (Sampling Tamarguillo Park)
-    const loadTamarguilloGeneralData = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            // Llama al endpoint correspondiente del backend
-            const response = await geoDataService.makeRequest('/sampling/tamarguillo3');
-            setSamplingDataTamarguillo3(response.data);
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
-import { useEffect } from 'react';
-import { useMapStore } from '../store/mapStore';
-import geoDataService from '../services/geospatial/geoDataService';
-import mapLayerService from '../services/geospatial/mapLayerService';
+
+    import { useEffect } from 'react';
+    import { useMapStore } from '../store/mapStore';
+    import geoDataService from '../services/geospatial/geoDataService';
+    import mapLayerService from '../services/geospatial/mapLayerService';
 
 /**
  * Hook personalizado para manejar la carga y gestión de datos geoespaciales
  */
+
 export const useGeoData = () => {
-    // --- TAMARGUILLO NUEVO ---
-    const loadTamarguilloDepth0_25Data = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const data = await geoDataService.getTamarguilloDepth0_25();
-            setSamplingDataTamarguillo1(data); // Reutiliza samplingDataTamarguillo1 para 0-25
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
-
-    const loadTamarguilloDepth25_50Data = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const data = await geoDataService.getTamarguilloDepth25_50();
-            setSamplingDataTamarguillo2(data); // Reutiliza samplingDataTamarguillo2 para 25-50
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
-    // Cargar tabla TOPSOIL
-    const loadEstadisticosTopsoil = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const data = await geoDataService.getEstadisticosTopsoil();
-            setSamplingDataEstadisticosTopsoil(data);
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
-
-    // Cargar tabla SUBSOIL
-    const loadEstadisticosSubsoil = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const data = await geoDataService.getEstadisticosSubsoil();
-            setSamplingDataEstadisticosSubsoil(data);
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
-    /**
-     * Carga el recinto (polígono) de Madrid y lo añade al mapa
-     */
-    const loadMadridArea = async () => {
-        try {
-            setIsLoadingGeoData(true);
-            setGeoDataError(null);
-            const madridGeojson = await geoDataService.getMadridShapefile();
-            setShapefileData(madridGeojson);
-            if (map && madridGeojson) {
-                mapLayerService.addMadridShapefileLayer(map, madridGeojson);
-            }
-        } catch (error) {
-            setGeoDataError(error.message);
-        } finally {
-            setIsLoadingGeoData(false);
-        }
-    };
+    // Obtener acciones y estados del store al inicio del hook
     const {
         map,
         isLoaded,
@@ -135,6 +53,92 @@ export const useGeoData = () => {
         setIsChangingStyle,
         clearGeoData
     } = useMapStore();
+
+    // Cargar datos generales de Tamarguillo (Sampling Tamarguillo Park)
+    const loadTamarguilloGeneralData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const response = await geoDataService.makeRequest('/sampling/tamarguillo3');
+            setSamplingDataTamarguillo3(response.data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    // --- TAMARGUILLO NUEVO ---
+    const loadTamarguilloDepth0_25Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getTamarguilloDepth0_25();
+            setSamplingDataTamarguillo1(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    const loadTamarguilloDepth25_50Data = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getTamarguilloDepth25_50();
+            setSamplingDataTamarguillo2(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    // Cargar tabla TOPSOIL
+    const loadEstadisticosTopsoil = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getEstadisticosTopsoil();
+            setSamplingDataEstadisticosTopsoil(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    // Cargar tabla SUBSOIL
+    const loadEstadisticosSubsoil = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const data = await geoDataService.getEstadisticosSubsoil();
+            setSamplingDataEstadisticosSubsoil(data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
+
+    // Cargar el recinto (polígono) de Madrid y añadirlo al mapa
+    const loadMadridArea = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            const madridGeojson = await geoDataService.getMadridShapefile();
+            setShapefileData(madridGeojson);
+            if (map && madridGeojson) {
+                mapLayerService.addMadridShapefileLayer(map, madridGeojson);
+            }
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
 
     /**
             loadMadridArea,
