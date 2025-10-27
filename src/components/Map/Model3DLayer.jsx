@@ -34,9 +34,40 @@ const Model3DLayer = () => {
   // Usar 'general' para la pestaña de información general
   const [activeTamarguilloTab, setActiveTamarguilloTab] = useState('general');
 
-  // Función simple para cambiar dataset desde la tabla
+  // Función robusta para abrir/cambiar tab de Tamarguillo y sincronizar datos
+  const openTamarguilloTab = async (tab) => {
+    setActiveTamarguilloTab(tab);
+    setCurrentDatasetType('tamarguillo');
+    let newData = null;
+    if (tab === 'general') {
+      if (!samplingDataTamarguillo3 || samplingDataTamarguillo3.length === 0) {
+        await loadTamarguilloGeneralData();
+        newData = useMapStore.getState().samplingDataTamarguillo3;
+      } else {
+        newData = samplingDataTamarguillo3;
+      }
+    } else if (tab === 'tamarguillo1') {
+      if (!samplingDataTamarguillo1 || samplingDataTamarguillo1.length === 0) {
+        await loadTamarguilloDepth0_25Data();
+        newData = useMapStore.getState().samplingDataTamarguillo1;
+      } else {
+        newData = samplingDataTamarguillo1;
+      }
+    } else if (tab === 'tamarguillo2') {
+      if (!samplingDataTamarguillo2 || samplingDataTamarguillo2.length === 0) {
+        await loadTamarguilloDepth25_50Data();
+        newData = useMapStore.getState().samplingDataTamarguillo2;
+      } else {
+        newData = samplingDataTamarguillo2;
+      }
+    }
+    if (newData && Array.isArray(newData)) {
+      setTableData(newData);
+    }
+  };
+
+  // Italia CIRAA: igual que antes
   const handleDatasetChangeFromTable = async (datasetId) => {
-    // Italia CIRAA
     if (['ciraa1', 'ciraa2', 'ciraa3'].includes(datasetId)) {
       setActiveItalyTab(datasetId);
       const datasetMap = {
@@ -72,47 +103,8 @@ const Model3DLayer = () => {
       if (newData && Array.isArray(newData)) {
         setTableData(newData);
       }
-    }
-    // TAMARGUILLO
-    if (datasetId === 'general') {
-      setActiveTamarguilloTab('general');
-      setCurrentDatasetType('tamarguillo');
-      let newData = null;
-      if (!samplingDataTamarguillo3 || samplingDataTamarguillo3.length === 0) {
-        await loadTamarguilloGeneralData();
-        newData = useMapStore.getState().samplingDataTamarguillo3;
-      } else {
-        newData = samplingDataTamarguillo3;
-      }
-      if (newData && Array.isArray(newData)) {
-        setTableData(newData);
-      }
-    } else if (datasetId === 'tamarguillo1') {
-      setActiveTamarguilloTab('tamarguillo1');
-      setCurrentDatasetType('tamarguillo');
-      let newData = null;
-      if (!samplingDataTamarguillo1 || samplingDataTamarguillo1.length === 0) {
-        await loadTamarguilloDepth0_25Data();
-        newData = useMapStore.getState().samplingDataTamarguillo1;
-      } else {
-        newData = samplingDataTamarguillo1;
-      }
-      if (newData && Array.isArray(newData)) {
-        setTableData(newData);
-      }
-    } else if (datasetId === 'tamarguillo2') {
-      setActiveTamarguilloTab('tamarguillo2');
-      setCurrentDatasetType('tamarguillo');
-      let newData = null;
-      if (!samplingDataTamarguillo2 || samplingDataTamarguillo2.length === 0) {
-        await loadTamarguilloDepth25_50Data();
-        newData = useMapStore.getState().samplingDataTamarguillo2;
-      } else {
-        newData = samplingDataTamarguillo2;
-      }
-      if (newData && Array.isArray(newData)) {
-        setTableData(newData);
-      }
+    } else if (['general', 'tamarguillo1', 'tamarguillo2'].includes(datasetId)) {
+      await openTamarguilloTab(datasetId);
     }
   };
 
@@ -265,15 +257,8 @@ const Model3DLayer = () => {
           setTableVisible(true);
         } else if (showTableType === 'tamarguillo') {
           // Tamarguillo: mostrar por defecto la tabla GENERAL INFORMATION y el selector
-          let tamarguilloGeneralData = samplingDataTamarguillo3;
-          if (!tamarguilloGeneralData || tamarguilloGeneralData.length === 0) {
-            await loadTamarguilloGeneralData();
-            await new Promise(resolve => setTimeout(resolve, 200));
-            tamarguilloGeneralData = useMapStore.getState().samplingDataTamarguillo3;
-          }
-          setTableData(Array.isArray(tamarguilloGeneralData) ? tamarguilloGeneralData : []);
-          setCurrentDatasetType('tamarguillo');
-          setActiveTamarguilloTab('tamarguillo1');
+          // Siempre abrir la tabla de Tamarguillo en el tab 'general' y sincronizar datos
+          await openTamarguilloTab('general');
           setTableVisible(true);
         } else {
           setTableData(Array.isArray(samplingData?.features) ? samplingData.features.map(f => ({ ...f.properties, coordinates: `${f.geometry.coordinates[0]};${f.geometry.coordinates[1]}` })) : []);
@@ -810,7 +795,7 @@ const Model3DLayer = () => {
           data={tableData}
           isTamarguillo={true}
           activeDataset={activeTamarguilloTab}
-          onDatasetChange={handleDatasetChangeFromTable}
+          onDatasetChange={openTamarguilloTab}
         />
       )}
       {['italy-ciraa','italy-ciraa2','italy-ciraa3'].includes(currentDatasetType) && (
