@@ -1,3 +1,17 @@
+    // Cargar datos generales de Tamarguillo (Sampling Tamarguillo Park)
+    const loadTamarguilloGeneralData = async () => {
+        try {
+            setIsLoadingGeoData(true);
+            setGeoDataError(null);
+            // Llama al endpoint correspondiente del backend
+            const response = await geoDataService.makeRequest('/sampling/tamarguillo3');
+            setSamplingDataTamarguillo3(response.data);
+        } catch (error) {
+            setGeoDataError(error.message);
+        } finally {
+            setIsLoadingGeoData(false);
+        }
+    };
 import { useEffect } from 'react';
 import { useMapStore } from '../store/mapStore';
 import geoDataService from '../services/geospatial/geoDataService';
@@ -555,9 +569,10 @@ export const useGeoData = () => {
     isLoadingGeoData,
     samplingDataTamarguillo1,
     samplingDataTamarguillo2,
-    // samplingDataTamarguillo3, // No longer used
+    samplingDataTamarguillo3,
     loadTamarguilloDepth0_25Data,
     loadTamarguilloDepth25_50Data,
+    loadTamarguilloGeneralData,
         geoDataError,
         layersVisibility,
 
