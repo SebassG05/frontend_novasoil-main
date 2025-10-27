@@ -1,10 +1,23 @@
 // Use Vite env variable VITE_API_URL if provided (should include /api),
+// Use Vite env variable VITE_API_URL if provided (should include /api),
 // otherwise fallback to localhost for development.
 const API_BASE_URL = import.meta.env.VITE_API_URL
     ? import.meta.env.VITE_API_URL
     : 'http://localhost:3000/api/geo';
 
 class GeoDataService {
+    
+     // Tamarguillo General (Sampling Tamarguillo Park.csv)
+    async getTamarguilloGeneral() {
+        try {
+            const response = await this.makeRequest('/sampling/tamarguillo3');
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo Tamarguillo General:', error);
+            throw error;
+        }
+    }
+
     /**
      * Obtiene la tabla Tamarguillo 1
      */
