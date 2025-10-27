@@ -224,18 +224,18 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    let exportFileName = 'tamarguillo';
+    // Asignar nombre de archivo según el país/dataset
     if (isAsajaTable) {
       link.setAttribute('download', `ASAJA_Case_Study_Olive_Integrated_Production.csv`);
     } else if (isTamarguillo) {
       if (activeDataset === 'tamarguillo1') {
-        link.setAttribute('download', 'Tamarguillo_Case_Study_Ecosystem_Service.csv');
+        link.setAttribute('download', 'Tamarguillo_Case_Study_Depth_25_50_cm.csv');
       } else if (activeDataset === 'tamarguillo2') {
         link.setAttribute('download', 'Tamarguillo_Case_Study_Depth_25_50_cm.csv');
       } else if (activeDataset === 'tamarguillo3') {
         link.setAttribute('download', 'Tamarguillo_Case_Study_Depth_0_25_cm.csv');
       } else {
-        link.setAttribute('download', 'tamarguillo.csv');
+        link.setAttribute('download', 'Tamarguillo_Case_Study_General_Information.csv');
       }
     } else if (isGermany) {
       link.setAttribute('download', 'TUM_Case_Study_CO2_LAND_Initiative.csv');
@@ -257,8 +257,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
       link.setAttribute('download', 'ZSA_Case_Study_DIH_System.csv');
     } else if (isMadrid) {
       link.setAttribute('download', 'UPM_Case_Study_Madrid.csv');
-    }
-    else if (isEstonia) {
+    } else if (isEstonia) {
       link.setAttribute('download', 'METK_Case_Study_Integrated_Production.csv');
     } else if (sampleData.length > 0 && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined)) {
       link.setAttribute('download', 'UPM_Case_Study_Organic_Vineyards.csv');
