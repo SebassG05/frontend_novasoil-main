@@ -689,14 +689,14 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
   {isTamarguillo && !isItalyCiraa && (
     <div className={styles.datasetSwitcher}>
       <button
-        onClick={() => handleDatasetChange('tamarguillo1')}
-        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo1' ? styles.datasetButtonActive : ''}`}
+        onClick={() => handleDatasetChange('general')}
+        className={`${styles.datasetButton} ${activeDataset === 'general' ? styles.datasetButtonActive : ''}`}
       >
         🟢 General Information
       </button>
       <button
-        onClick={() => handleDatasetChange('tamarguillo3')}
-        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo3' ? styles.datasetButtonActive : ''}`}
+        onClick={() => handleDatasetChange('tamarguillo1')}
+        className={`${styles.datasetButton} ${activeDataset === 'tamarguillo1' ? styles.datasetButtonActive : ''}`}
       >
         🟣 Depth 0 - 25 cm
       </button>
