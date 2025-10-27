@@ -99,21 +99,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     ];
     const isGermany = sampleData.length > 0 && (sampleData[0].co2_land_novasoil_id !== undefined || sampleData[0].CO2_land_Novasoil_ID !== undefined);
     const isBulgaria = sampleData.length > 0 && (sampleData[0]['Soil name (BG classification)'] !== undefined || sampleData[0]['Soil name (WRB 2014)'] !== undefined);
-    const isMadrid = sampleData.length > 0 && (
-      (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined) &&
-      (sampleData[0]['Latitude'] !== undefined || sampleData[0]['latitude'] !== undefined) &&
-      (sampleData[0]['Longitude'] !== undefined || sampleData[0]['longitude'] !== undefined)
-    );
-    const isItaly = sampleData.length > 0 && (
-      sampleData[0]['Nitrogen (N) ‰'] !== undefined || 
-      sampleData[0]['Cation exchange capacity(mEq/100g)'] !== undefined ||
-      sampleData[0]['nitrogen_n_permille'] !== undefined ||
-      sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
-    );
-    const isLetonia = sampleData.length > 0 && !isMadrid && !isItaly && (
-      (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
-      (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
-    );
+    // Usar la misma lógica robusta de isLetonia
     let csvContent;
     if (isAsajaTable) {
       // Exportar todos los campos presentes en el CSV original de Asaja
@@ -174,14 +160,13 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         )
       ].join('\n');
     } else if (isLetonia) {
-      // ...código Letonia...
-        // Letonia: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
-        csvContent = [
-          visibleColumns.map(col => col.label).join(';'),
-          ...processedData.map(row =>
-            visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
-          )
-        ].join('\n');
+      // Letonia: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
+      csvContent = [
+        visibleColumns.map(col => col.label).join(';'),
+        ...processedData.map(row =>
+          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
+        )
+      ].join('\n');
     } else if (isMadrid) {
       // Madrid: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
