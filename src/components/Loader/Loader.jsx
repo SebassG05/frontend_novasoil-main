@@ -5,7 +5,7 @@ const Loader = () => (
   <div className={styles.loaderBackdrop}>
     <div className={styles.loaderContainer}>
       <div className={styles.loaderSpinner}></div>
-      <div className={styles.loaderText}>Cargando capa de tipos de suelo...</div>
+      <div className={styles.loaderText}>Loading soil type layer...</div>
     </div>
   </div>
 );
