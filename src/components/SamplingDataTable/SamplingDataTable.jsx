@@ -84,9 +84,10 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     sampleData[0]['nitrogen_n_permille'] !== undefined ||
     sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
   );
-  const isLetonia = sampleData.length > 0 && !isMadrid && !isItaly && (
-    (sampleData[0]['case_study_id'] !== undefined || sampleData[0]['Case Study ID'] !== undefined) &&
-    (sampleData[0]['coord_lat__long'] !== undefined || sampleData[0]['Coord (Lat & Long)'] !== undefined)
+  // Letonia: robusto, busca "let" en cualquier valor de la primera fila o en alguna key
+  const isLetonia = sampleData.length > 0 && (
+    Object.values(sampleData[0]).some(v => typeof v === 'string' && v.toLowerCase().includes('let')) ||
+    Object.keys(sampleData[0]).some(k => k.toLowerCase().includes('leto'))
   );
   const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined);
 
