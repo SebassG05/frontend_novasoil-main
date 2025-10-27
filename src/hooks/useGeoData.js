@@ -375,13 +375,20 @@ export const useGeoData = () => {
     // Efecto para cargar los datos cuando el mapa esté listo
     useEffect(() => {
         if (map && isLoaded && !isLoadingGeoData) {
+            // Cargar primero los datos esenciales de forma inmediata
             loadGeoData();
-            loadGermanyData();
-            loadBulgariaData();
-            loadEstoniaData();
-            loadLetoniaData();
-            loadMadridData();
-            loadAsajaData();
+
+            // Cargar otros datasets de forma escalonada para no saturar CPU/Red en portátiles
+            const timers = [];
+            // Esperar un poco antes de lanzar cargas adicionales
+            timers.push(setTimeout(() => { try { loadMadridData(); } catch (e) { console.warn(e); } }, 1500));
+            timers.push(setTimeout(() => { try { loadGermanyData(); } catch (e) { console.warn(e); } }, 3000));
+            timers.push(setTimeout(() => { try { loadBulgariaData(); } catch (e) { console.warn(e); } }, 4500));
+            timers.push(setTimeout(() => { try { loadEstoniaData(); } catch (e) { console.warn(e); } }, 6000));
+            timers.push(setTimeout(() => { try { loadLetoniaData(); } catch (e) { console.warn(e); } }, 7500));
+            timers.push(setTimeout(() => { try { loadAsajaData(); } catch (e) { console.warn(e); } }, 9000));
+
+            return () => timers.forEach(t => clearTimeout(t));
         }
     }, [map, isLoaded]);
 

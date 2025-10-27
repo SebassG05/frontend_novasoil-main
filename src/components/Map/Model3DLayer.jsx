@@ -286,7 +286,10 @@ const Model3DLayer = () => {
 
     // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
     const coordinates = [-5.911, 37.406];
-    const ZOOM_THRESHOLD = 6; // Zoom donde cambia del círculo al modelo 3D (menor = aparece antes)
+  const ZOOM_THRESHOLD = 6; // Zoom donde cambia del círculo al modelo 3D (menor = aparece antes)
+  // Detectar si el dispositivo tiene recursos suficientes para 3D (simple heurística)
+  const hardwareConcurrency = (typeof navigator !== 'undefined' && navigator.hardwareConcurrency) ? navigator.hardwareConcurrency : 2;
+  const enable3D = hardwareConcurrency >= 4; // permitir 3D solo en dispositivos con >=4 núcleos
 
     // Recibe pulseTimers como argumento para evitar hooks en funciones auxiliares
     const createPulseLayer = (id, color, coordinates, timersRef) => {
@@ -366,7 +369,7 @@ const Model3DLayer = () => {
           properties: { 'pulse-radius': pulseRadius, 'pulse-opacity': Math.max(0, pulseOpacity) }
         });
       }
-    }, 55); // ciclo más lento
+    }, 300); // reducir frecuencia para ahorrar CPU/GPU (antes 55ms)
   };
 
   // Crear marcador como capa de Mapbox (círculo rojo con pulse)
@@ -599,9 +602,26 @@ const Model3DLayer = () => {
 
     // Función para manejar el cambio de zoom
     const handleZoomChange = () => {
-      const currentZoom = map.getZoom();
-      
-      if (currentZoom >= ZOOM_THRESHOLD) {
+        const currentZoom = map.getZoom();
+
+        // Si el dispositivo no soporta 3D, siempre mantener la versión simplificada (marcadores)
+        if (!enable3D) {
+          // Asegurar que el modelo 3D esté removido
+          if (markersRef.current.model3D) {
+            if (map.getLayer('3d-model-layer')) {
+              map.removeLayer('3d-model-layer');
+            }
+            markersRef.current.model3D = null;
+          }
+          if (!markersRef.current.htmlMarker) {
+            markersRef.current.htmlMarker = createHtmlMarker();
+          }
+          createYellowMarker();
+          markersRef.current.currentZoom = currentZoom;
+          return;
+        }
+
+        if (currentZoom >= ZOOM_THRESHOLD) {
         // Zoom alto: mostrar modelo 3D, ocultar solo los marcadores custom, NO los puntos de muestreo
         if (markersRef.current.htmlMarker) {
           // Eliminar pulse y circle antes de la source
@@ -659,12 +679,22 @@ const Model3DLayer = () => {
         
         // Inicializar con el marcador apropiado según el zoom actual
         handleZoomChange();
-        
-        // Escuchar cambios de zoom
-        map.on('zoom', handleZoomChange);
-        map.on('zoomend', handleZoomChange);
 
-        console.log('Sistema de marcadores dinámico iniciado en Parque Tamarguillo:', coordinates);
+        // Escuchar cambios de zoom
+        // Solo intentaremos crear el modelo 3D si el dispositivo lo permite
+        if (enable3D) {
+          map.on('zoom', handleZoomChange);
+          map.on('zoomend', handleZoomChange);
+        } else {
+          // En dispositivos débiles, evitar crear el modelo 3D y mantener sólo los marcadores HTML
+          // Asegurarnos de que las versiones simplificadas de los marcadores estén presentes
+          if (!markersRef.current.htmlMarker) {
+            markersRef.current.htmlMarker = createHtmlMarker();
+          }
+          createYellowMarker();
+        }
+
+  // log removed: sistema de marcadores iniciado (noisy in console)
       }, 100);
     };
 

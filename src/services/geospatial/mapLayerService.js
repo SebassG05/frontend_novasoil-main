@@ -10,7 +10,7 @@ class MapLayerService {
             window.setHoveredSample && window.setHoveredSample(null);
         });
         try {
-            console.log('[Asaja] Intentando añadir capa de puntos de muestreo...');
+            // removed noisy log
             if (!map) {
                 console.error('[Asaja] El objeto map no está disponible');
                 return;
@@ -23,7 +23,7 @@ class MapLayerService {
                 map.removeSource(this.SOURCE_IDS.ASAJA);
             }
             let geojsonData;
-            console.log('[Asaja] Datos recibidos:', asajaData);
+            // removed noisy log
             if (asajaData && Array.isArray(asajaData)) {
                 geojsonData = {
                     type: 'FeatureCollection',
@@ -57,7 +57,7 @@ class MapLayerService {
             } else {
                 geojsonData = asajaData;
             }
-            console.log('[Asaja] GeoJSON generado:', geojsonData);
+            // removed noisy log
             if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
                 console.warn('[Asaja] No hay datos válidos para los puntos de muestreo de Asaja');
                 return;
@@ -102,7 +102,7 @@ class MapLayerService {
                 map.getCanvas().style.cursor = '';
                 window.setHoveredSample && window.setHoveredSample(null);
             });
-            console.log('[Asaja] Capa de puntos de Asaja añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('[Asaja] Error añadiendo capa de puntos de muestreo de Asaja:', error);
         }
@@ -192,7 +192,7 @@ class MapLayerService {
             window.setHoveredSample && window.setHoveredSample(null);
         });
         try {
-            console.log('[Madrid] Intentando añadir capa de puntos de muestreo...');
+            // removed noisy log
             if (!map) {
                 console.error('[Madrid] El objeto map no está disponible');
                 return;
@@ -205,7 +205,7 @@ class MapLayerService {
                 map.removeSource(this.SOURCE_IDS.MADRID);
             }
             let geojsonData;
-            console.log('[Madrid] Datos recibidos:', madridData);
+            // removed noisy log
                 if (madridData && Array.isArray(madridData)) {
                     geojsonData = {
                         type: 'FeatureCollection',
@@ -243,7 +243,7 @@ class MapLayerService {
             } else {
                 geojsonData = madridData;
             }
-            console.log('[Madrid] GeoJSON generado:', geojsonData);
+            // removed noisy log
             if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
                 console.warn('[Madrid] No hay datos válidos para los puntos de muestreo de Madrid');
                 return;
@@ -288,7 +288,7 @@ class MapLayerService {
                 map.getCanvas().style.cursor = '';
                 window.setHoveredSample && window.setHoveredSample(null);
             });
-            console.log('[Madrid] Capa de puntos de Madrid añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('[Madrid] Error añadiendo capa de puntos de muestreo de Madrid:', error);
         }
@@ -304,7 +304,7 @@ class MapLayerService {
             window.setHoveredSample && window.setHoveredSample(null);
         });
         try {
-            console.log('[Letonia] Intentando añadir capa de puntos de muestreo...');
+            // removed noisy log
             if (!map) {
                 console.error('[Letonia] El objeto map no está disponible');
                 return;
@@ -317,15 +317,15 @@ class MapLayerService {
                 map.removeSource(this.SOURCE_IDS.LETONIA);
             }
             let geojsonData;
-            console.log('[Letonia] Datos recibidos:', letoniaData);
+            // removed noisy log
             if (letoniaData && Array.isArray(letoniaData)) {
                 geojsonData = {
                     type: 'FeatureCollection',
                     features: letoniaData.map(row => {
                         const lat = parseFloat(row.lat);
                         const lon = parseFloat(row.lon);
-                        console.log('[Letonia][DEBUG] row:', row);
-                        console.log(`[Letonia][DEBUG] lat: ${lat}, lon: ${lon}`);
+                        // removed noisy debug log
+                        // removed noisy debug log
                         if (!isNaN(lat) && !isNaN(lon)) {
                             const feature = {
                                 type: 'Feature',
@@ -335,7 +335,7 @@ class MapLayerService {
                                 },
                                 properties: row
                             };
-                            console.log('[Letonia][DEBUG] GeoJSON feature:', feature);
+                            // removed noisy debug log
                             return feature;
                         }
                         return null;
@@ -344,7 +344,7 @@ class MapLayerService {
             } else {
                 geojsonData = letoniaData;
             }
-            console.log('[Letonia] GeoJSON generado:', geojsonData);
+            // removed noisy log
             if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
                 console.warn('[Letonia] No hay datos válidos para los puntos de muestreo de Letonia');
                 return;
@@ -389,7 +389,7 @@ class MapLayerService {
                 map.getCanvas().style.cursor = '';
                 window.setHoveredSample && window.setHoveredSample(null);
             });
-            console.log('[Letonia] Capa de puntos de Letonia añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('[Letonia] Error añadiendo capa de puntos de muestreo de Letonia:', error);
         }
@@ -401,7 +401,7 @@ class MapLayerService {
                 window.setHoveredSample && window.setHoveredSample(null);
             });
         try {
-            console.log('[Estonia] Intentando añadir capa de puntos de muestreo...');
+            // removed noisy log
             if (!map) {
                 console.error('[Estonia] El objeto map no está disponible');
                 return;
@@ -414,7 +414,7 @@ class MapLayerService {
                 map.removeSource(this.SOURCE_IDS.ESTONIA);
             }
             let geojsonData;
-            console.log('[Estonia] Datos recibidos:', estoniaData);
+            // removed noisy log
             if (estoniaData && Array.isArray(estoniaData)) {
                 geojsonData = {
                     type: 'FeatureCollection',
@@ -437,7 +437,7 @@ class MapLayerService {
             } else {
                 geojsonData = estoniaData;
             }
-            console.log('[Estonia] GeoJSON generado:', geojsonData);
+            // removed noisy log
             if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
                 console.warn('[Estonia] No hay datos válidos para los puntos de muestreo de Estonia');
                 return;
@@ -482,7 +482,7 @@ class MapLayerService {
                 map.getCanvas().style.cursor = '';
                 window.setHoveredSample && window.setHoveredSample(null);
             });
-            console.log('[Estonia] Capa de puntos de Estonia añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('[Estonia] Error añadiendo capa de puntos de muestreo de Estonia:', error);
         }
@@ -494,7 +494,7 @@ class MapLayerService {
                 window.setHoveredSample && window.setHoveredSample(null);
             });
         try {
-            console.log('[Bulgaria] Intentando añadir capa de puntos de muestreo...');
+            // removed noisy log
             if (!map) {
                 console.error('[Bulgaria] El objeto map no está disponible');
                 return;
@@ -507,7 +507,7 @@ class MapLayerService {
                 map.removeSource(this.SOURCE_IDS.BULGARIA);
             }
             let geojsonData;
-            console.log('[Bulgaria] Datos recibidos:', bulgariaData);
+            // removed noisy log
             if (bulgariaData && Array.isArray(bulgariaData)) {
                 geojsonData = {
                     type: 'FeatureCollection',
@@ -530,7 +530,7 @@ class MapLayerService {
             } else {
                 geojsonData = bulgariaData;
             }
-            console.log('[Bulgaria] GeoJSON generado:', geojsonData);
+            // removed noisy log
             if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
                 console.warn('[Bulgaria] No hay datos válidos para los puntos de muestreo de Bulgaria');
                 return;
@@ -575,7 +575,7 @@ class MapLayerService {
                 map.getCanvas().style.cursor = '';
                 window.setHoveredSample && window.setHoveredSample(null);
             });
-            console.log('[Bulgaria] Capa de puntos de Bulgaria añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('[Bulgaria] Error añadiendo capa de puntos de muestreo de Bulgaria:', error);
         }
@@ -584,7 +584,7 @@ class MapLayerService {
 
     addGermanySamplingPointsLayer(map, germanyData) {
         try {
-            console.log('[Alemania] Intentando añadir capa de puntos de muestreo...');
+            // removed noisy log
             if (!map) {
                 console.error('[Alemania] El objeto map no está disponible');
                 return;
@@ -597,21 +597,21 @@ class MapLayerService {
                 map.removeSource(this.SOURCE_IDS.GERMANY);
             }
             let geojsonData;
-            console.log('[Alemania] Datos recibidos:', germanyData);
+            // removed noisy log
             if (germanyData && Array.isArray(germanyData)) {
                 geojsonData = {
                     type: 'FeatureCollection',
                     features: germanyData.map(row => {
                         let lat = null, lon = null;
                         const coordRaw = row["coord_lat__long"] || row["coord_(lat_&_long)"] || row["coord"] || row["coord (lat & long)"] || "";
-                        console.log('[Alemania] Procesando fila:', row, 'Coord:', coordRaw);
+                        // removed noisy log
                         if (coordRaw.includes(';')) {
                             const [latStr, lonStr] = coordRaw.split(';');
                             lat = this.parseDMS(latStr);
                             // Para Alemania, la longitud debe ser positiva (Este)
                             lon = this.parseDMS(lonStr);
                             if (lon < 0) lon = Math.abs(lon); // Forzar positivo
-                            console.log('[Alemania] DMS a decimal:', lat, lon);
+                            // removed noisy log
                         }
                         if (lat && lon) {
                             // Mapbox espera [longitud, latitud]
@@ -630,7 +630,7 @@ class MapLayerService {
             } else {
                 geojsonData = germanyData;
             }
-            console.log('[Alemania] GeoJSON generado:', geojsonData);
+            // removed noisy log
             if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
                 console.warn('[Alemania] No hay datos válidos para los puntos de muestreo de Alemania');
                 return;
@@ -677,7 +677,7 @@ class MapLayerService {
                 window.setHoveredSample && window.setHoveredSample(null);
             });
             // No ajustar la vista automáticamente, la vista inicial será Europa
-            console.log('[Alemania] Capa de puntos de Alemania añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('[Alemania] Error añadiendo capa de puntos de muestreo de Alemania:', error);
         }
@@ -717,7 +717,7 @@ class MapLayerService {
                 },
                 minzoom: 6
             });
-            console.log('Shapefile layer añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('Error añadiendo capa de shapefile:', error);
         }
@@ -781,7 +781,7 @@ class MapLayerService {
                 },
                 minzoom: 10
             });
-            console.log('Sampling points layer añadida correctamente');
+            // removed noisy log
         } catch (error) {
             console.error('Error añadiendo capa de puntos de muestreo:', error);
         }

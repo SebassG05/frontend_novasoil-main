@@ -25,7 +25,8 @@ const MapContainer = () => {
         mapStyle,
         setMap,
         setIsLoaded,
-        selectedWMSLayers
+        selectedWMSLayers,
+        enableWMS
     } = useMapStore();
     // Leer opacidades de window para cada capa WMS
     const [wmsOpacities, setWmsOpacities] = useState({});
@@ -38,9 +39,28 @@ const MapContainer = () => {
         return () => window.removeEventListener('wmsOpacitiesChanged', handler);
     }, []);
 
-    // Agregar todas las capas WMS seleccionadas al mapa (superpuestas)
+    // Agregar/Eliminar capas WMS según flag enableWMS y selección
     useEffect(() => {
         if (!map) return;
+
+        // Si las WMS están desactivadas globalmente, eliminar cualquier capa/source WMS existente
+        if (!enableWMS) {
+            try {
+                const style = map.getStyle();
+                const allLayerIds = (style && style.layers) ? style.layers.map(l => l.id) : [];
+                allLayerIds.forEach(id => {
+                    if (id && id.startsWith('wms-layer-')) {
+                        const name = id.replace('wms-layer-', '');
+                        if (map.getLayer(id)) map.removeLayer(id);
+                        const sourceId = `wms-source-${name}`;
+                        if (map.getSource(sourceId)) map.removeSource(sourceId);
+                    }
+                });
+            } catch (err) {
+                // Ignorar errores de acceso al estilo si el mapa no está listo
+            }
+            return;
+        }
 
         function addWMSLayersIfReady() {
             if (!map.isStyleLoaded()) return;
@@ -100,7 +120,7 @@ const MapContainer = () => {
         return () => {
             map.off && map.off('styledata', addWMSLayersIfReady);
         };
-    }, [map, selectedWMSLayers, wmsOpacities]);
+    }, [map, selectedWMSLayers, wmsOpacities, enableWMS]);
 
     // Usar el hook de datos geoespaciales
     const { isLoadingGeoData } = useGeoData();

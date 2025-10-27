@@ -27,6 +27,9 @@ export const useMapStore = create((set, get) => ({
     // Controles UI
     showControls: true,
     selectedTool: null,
+    // Flag global para activar/desactivar capas WMS (false por defecto para desactivar)
+    enableWMS: false,
+    setEnableWMS: (enabled) => set({ enableWMS: enabled }),
 
     // Datos geoespaciales
     shapefileData: null,

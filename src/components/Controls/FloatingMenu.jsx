@@ -112,9 +112,12 @@ const FloatingMenu = () => {
     const [showLoader, setShowLoader] = useState(false);
     const addWMSLayer = useMapStore((state) => state.addWMSLayer);
     const map = useMapStore((state) => state.map);
+    const enableWMS = useMapStore((state) => state.enableWMS);
+    const setEnableWMS = useMapStore((state) => state.setEnableWMS);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
     const bubblesRef = useRef(null);
+    const opacityDebounceRef = useRef({});
     // Estado para la pestaña activa de la leyenda WMS (siempre visible)
     const wmsLayersForLegend = useMapStore((state) => state.selectedWMSLayers);
     const [activeLegendTab, setActiveLegendTab] = useState(wmsLayersForLegend[0]?.name);
@@ -134,7 +137,15 @@ const FloatingMenu = () => {
         setWmsOpacities(prev => {
             const updated = { ...prev, [layerName]: value };
             window.wmsOpacities = updated;
-            window.dispatchEvent(new Event('wmsOpacitiesChanged'));
+            // Debounce global dispatch per layer to avoid flooding map with rapid updates
+            if (opacityDebounceRef.current[layerName]) clearTimeout(opacityDebounceRef.current[layerName]);
+            opacityDebounceRef.current[layerName] = setTimeout(() => {
+                try {
+                    window.dispatchEvent(new Event('wmsOpacitiesChanged'));
+                } catch (e) {
+                    // ignore
+                }
+            }, 200); // 200ms debounce
             return updated;
         });
     };
@@ -245,7 +256,8 @@ const FloatingMenu = () => {
     useEffect(() => {
         if (!map || !loadingWMS) return;
         const onSourceData = (e) => {
-            if (e.sourceId === 'wms-source' && e.isSourceLoaded) {
+            // Soporte para fuentes dinámicas con id `wms-source-<name>`
+            if (e.sourceId && e.sourceId.startsWith('wms-source') && e.isSourceLoaded) {
                 setLoadingWMS(false);
                 setSuccessWMS(true);
                 setShowLegend(true);
@@ -678,19 +690,34 @@ const FloatingMenu = () => {
                                     <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></svg>
                                     Real WMS Layers
                                 </h3>
-                                <button
-                                    onClick={handleClosePanel}
-                                    className="text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 
-                                             rounded-full p-1.5 transition-colors duration-200"
-                                    aria-label="Cerrar panel"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                                        strokeLinejoin="round">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
+                                    <div className="flex items-center gap-3">
+                                        {/* Toggle para activar/desactivar WMS globalmente (estilizado) */}
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-sm text-gray-700 font-medium">WMS</span>
+                                            <button
+                                                onClick={() => setEnableWMS(!enableWMS)}
+                                                className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors duration-200 focus:outline-none ${enableWMS ? 'bg-green-500' : 'bg-gray-300'}`}
+                                                aria-pressed={enableWMS}
+                                                aria-label="Activar o desactivar WMS"
+                                                title={enableWMS ? 'WMS activado' : 'WMS desactivado'}
+                                            >
+                                                <span className={`inline-block h-5 w-5 transform bg-white rounded-full shadow transition-transform duration-200 ${enableWMS ? 'translate-x-5' : 'translate-x-1'}`} />
+                                            </button>
+                                        </div>
+                                        <button
+                                            onClick={handleClosePanel}
+                                            className="text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 
+                                                     rounded-full p-1.5 transition-colors duration-200"
+                                            aria-label="Cerrar panel"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                                strokeLinejoin="round">
+                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             <div className="overflow-auto max-h-[60vh]">
                                 <ul className="space-y-2">
