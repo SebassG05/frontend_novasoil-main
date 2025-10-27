@@ -84,11 +84,16 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     sampleData[0]['nitrogen_n_permille'] !== undefined ||
     sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
   );
-  // Letonia: robusto, busca "let" en cualquier valor de la primera fila o en alguna key
-  // Letonia: robusto, busca "let" o "latvia" en cualquier valor de la primera fila o en alguna key
+  // Letonia: robusto, soporta claves normalizadas (sin espacios, minúsculas, guiones bajos)
   const isLetonia = sampleData.length > 0 && (
-    Object.values(sampleData[0]).some(v => typeof v === 'string' && (v.toLowerCase().includes('let') || v.toLowerCase().includes('latvia'))) ||
-    Object.keys(sampleData[0]).some(k => k.toLowerCase().includes('leto') || k.toLowerCase().includes('latvia'))
+    Object.keys(sampleData[0]).some(k =>
+      k.replace(/[_\s]+/g, '').toLowerCase().includes('letonia') ||
+      k.replace(/[_\s]+/g, '').toLowerCase().includes('latvia') ||
+      k.replace(/[_\s]+/g, '').toLowerCase().includes('casestudyid')
+    ) ||
+    Object.values(sampleData[0]).some(v => typeof v === 'string' && (
+      v.toLowerCase().includes('let') || v.toLowerCase().includes('latvia')
+    ))
   );
   const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined);
 
@@ -360,9 +365,30 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     visibleColumns = visibleColumns.map(c => ({ ...c, label: formatHeaderLabel(c.key) }));
   }
 
-  // Para Letonia y Estonia forzar labels formateados
+  // Para Letonia y Estonia forzar labels formateados y mapear headers normalizados a headers legibles
   if ((isLetonia || isEstonia) && Array.isArray(visibleColumns)) {
-    visibleColumns = visibleColumns.map(c => ({ ...c, label: formatHeaderLabel(c.key) }));
+    // Mapeo de headers normalizados de Letonia a headers legibles
+    const letoniaHeaderMap = {
+      casestudyid: 'Case Study ID',
+      coordlatlong: 'Coord Lat Long',
+      soilsamplingdate: 'Soil Sampling Date',
+      soilsampledepth: 'Soil Sample Depth',
+      nitratesmgkg: 'Nitrates Mgkg',
+      phosphorusmgkg: 'Phosphorus Mgkg',
+      potassiumkmgkg: 'Potassium K Mgkg',
+      ph: 'Ph',
+      organicmatterww: 'Organic Matter Ww',
+      organiccarbonmgha: 'Organic Carbon Mgha',
+      clay: 'Clay',
+      silt: 'Silt',
+      sand: 'Sand',
+      lat: 'Lat',
+      lon: 'Lon'
+    };
+    visibleColumns = visibleColumns.map(c => ({
+      ...c,
+      label: isLetonia && letoniaHeaderMap[c.key] ? letoniaHeaderMap[c.key] : formatHeaderLabel(c.key)
+    }));
   }
 
   // Preprocesar sampleData para coordX/coordY si existen
