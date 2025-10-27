@@ -256,7 +256,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     } else if (isLetonia) {
       link.setAttribute('download', 'ZSA_Case_Study_DIH_System.csv');
     } else if (isMadrid) {
-      link.setAttribute('download', 'Organic Vineyards.csv');
+      link.setAttribute('download', 'UPM_Case_Study_Madrid.csv');
     }
     else if (isEstonia) {
       link.setAttribute('download', 'METK_Case_Study_Integrated_Production.csv');
