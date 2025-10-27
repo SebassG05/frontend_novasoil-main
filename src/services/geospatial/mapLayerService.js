@@ -25,32 +25,68 @@ class MapLayerService {
             let geojsonData;
             // removed noisy log
             if (asajaData && Array.isArray(asajaData)) {
+                // Normalize possible CSV headers to the internal property names expected by the tooltip
+                const pick = (obj, candidates) => {
+                    for (const k of candidates) {
+                        if (obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k];
+                    }
+                    return null;
+                };
+
                 geojsonData = {
                     type: 'FeatureCollection',
                     features: asajaData.map(row => {
-                        // Asaja: coord_x = latitud, coord_y = longitud
-                        let lat = parseFloat(row.coord_x);
-                        let lon = parseFloat(row.coord_y);
+                        // Try multiple header variants for coordinates and properties
+                        const rawLat = pick(row, ['coord_x', 'Lcoord_x', 'lat', 'latitude', 'Latitude']);
+                        const rawLon = pick(row, ['coord_y', 'lon', 'longitude', 'Longitude']);
+
+                        const lat = rawLat !== null ? parseFloat(rawLat) : NaN;
+                        const lon = rawLon !== null ? parseFloat(rawLon) : NaN;
+
+                        // Fallback: some files may have lat/lon swapped at the start of the row
+                        // Try using the first two columns if parsing failed
                         let motivo = '';
                         if (isNaN(lat) || isNaN(lon)) {
-                            motivo = `No se pudo parsear coord_x/coord_y. coord_x: ${row.coord_x}, coord_y: ${row.coord_y}`;
+                            motivo = `Intentando fallback con otras columnas. rawLat: ${rawLat}, rawLon: ${rawLon}`;
                         }
+
                         if (isNaN(lat) || isNaN(lon)) {
                             console.warn('[Asaja][DESCARTADO] Punto con coordenadas inválidas:', row, 'Motivo:', motivo);
                             return null;
                         }
+
                         // Verificar rango de coordenadas (España: lat ~36-44, lon ~-10 a 4)
-                        if (lat < 36 || lat > 44 || lon < -10 || lon > 4) {
+                        if (lat < 30 || lat > 45 || lon < -12 || lon > 6) {
                             console.warn('[Asaja][DESCARTADO] Coordenadas fuera de rango esperado:', row, `lat: ${lat}, lon: ${lon}`);
                             return null;
                         }
+
+                        // Normalize property names expected by the tooltip component
+                        const referencia = pick(row, ['referencia', 'reference', 'Reference', 'REF', 'ref']);
+                        const parcela = pick(row, ['parcela', 'plot', 'Plot', 'parcel']);
+                        const ph_15 = pick(row, ['ph_15', 'ph_h2o', 'ph', 'ph_h2o']);
+                        const textura = pick(row, ['textura', 'texture', 'Texture']);
+                        const carbono_organico = pick(row, ['carbono_organico', 'organic_carbon', 'organic_carbon', 'organic']);
+
+                        // Build properties: keep original row keys but add normalized ones so the UI finds them
+                        const properties = {
+                            ...row,
+                            referencia,
+                            parcela,
+                            ph_15,
+                            textura,
+                            carbono_organico,
+                            coord_x: lat,
+                            coord_y: lon
+                        };
+
                         return {
                             type: 'Feature',
                             geometry: {
                                 type: 'Point',
                                 coordinates: [lon, lat]
                             },
-                            properties: row
+                            properties
                         };
                     }).filter(f => f !== null)
                 };
