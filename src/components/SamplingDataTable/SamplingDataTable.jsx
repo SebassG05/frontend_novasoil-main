@@ -85,9 +85,10 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
   );
   // Letonia: robusto, busca "let" en cualquier valor de la primera fila o en alguna key
+  // Letonia: robusto, busca "let" o "latvia" en cualquier valor de la primera fila o en alguna key
   const isLetonia = sampleData.length > 0 && (
-    Object.values(sampleData[0]).some(v => typeof v === 'string' && v.toLowerCase().includes('let')) ||
-    Object.keys(sampleData[0]).some(k => k.toLowerCase().includes('leto'))
+    Object.values(sampleData[0]).some(v => typeof v === 'string' && (v.toLowerCase().includes('let') || v.toLowerCase().includes('latvia'))) ||
+    Object.keys(sampleData[0]).some(k => k.toLowerCase().includes('leto') || k.toLowerCase().includes('latvia'))
   );
   const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined);
 
@@ -161,12 +162,17 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
       ].join('\n');
     } else if (isLetonia) {
       // Letonia: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
-      csvContent = [
-        visibleColumns.map(col => col.label).join(';'),
-        ...processedData.map(row =>
-          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
-        )
-      ].join('\n');
+      if (processedData.length > 0) {
+        csvContent = [
+          visibleColumns.map(col => col.label).join(';'),
+          ...processedData.map(row =>
+            visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
+          )
+        ].join('\n');
+      } else {
+        // Si no hay datos, exportar solo los headers visibles
+        csvContent = visibleColumns.map(col => col.label).join(';');
+      }
     } else if (isMadrid) {
       // Madrid: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       csvContent = [
