@@ -291,3 +291,31 @@
 .table tr:last-child td {
 	border-bottom: none;
 }
+
+/* Responsive: ensure the Soil Health table modal aligns to the right on tablet/small desktop
+	 viewports (<= 1180px) using CSS modules only. This avoids inline styles and !important. */
+@media (max-width: 1180px) {
+	.overlay {
+		margin-top: 10% !important;
+		width: 85% !important;
+		margin-left: 36% !important;
+		justify-content: flex-end;
+		align-items: flex-start;
+		padding-top: 3vh;
+		padding-right: 1rem;
+		padding-left: 0.75rem;
+	}
+
+	.closeBtn{
+		margin-right: 3% !important;
+	}
+
+	.header {
+		padding-right: 1rem;
+	}
+
+	.cardGridWrapper {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}

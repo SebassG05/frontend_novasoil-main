@@ -85,7 +85,11 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     sampleData[0]['cation_exchange_capacity_meq100g'] !== undefined
   );
   // Letonia: robusto, soporta claves normalizadas (sin espacios, minúsculas, guiones bajos)
-  const isLetonia = sampleData.length > 0 && (
+  const isEstonia = sampleData.length > 0 && (
+    (sampleData[0]['Field name'] !== undefined || sampleData[0]['Field Name'] !== undefined) &&
+    (sampleData[0]['Field ID'] !== undefined || sampleData[0]['Field Id'] !== undefined)
+  );
+  const isLetonia = sampleData.length > 0 && !isEstonia && (
     Object.keys(sampleData[0]).some(k =>
       k.replace(/[_\s]+/g, '').toLowerCase().includes('letonia') ||
       k.replace(/[_\s]+/g, '').toLowerCase().includes('latvia') ||
@@ -95,7 +99,6 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
       v.toLowerCase().includes('let') || v.toLowerCase().includes('latvia')
     ))
   );
-  const isEstonia = sampleData.length > 0 && !isMadrid && !isItaly && !isLetonia && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined);
 
   // Función para exportar datos a CSV
   const exportToCSV = () => {
@@ -107,7 +110,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
     const isBulgaria = sampleData.length > 0 && (sampleData[0]['Soil name (BG classification)'] !== undefined || sampleData[0]['Soil name (WRB 2014)'] !== undefined);
     // Usar la misma lógica robusta de isLetonia
     let csvContent;
-    if (isAsajaTable) {
+  if (isAsajaTable) {
       // Exportar todos los campos presentes en el CSV original de Asaja
       const asajaHeaders = allKeys;
       csvContent = [
@@ -132,7 +135,7 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
           visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
         )
       ].join('\n');
-    } else if (isItaly) {
+  } else if (isItaly) {
       // Headers específicos para Italia
       const italyHeaders = [
         'Case Study ID',
@@ -165,6 +168,14 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
           italyHeaders.map(h => sample[h] !== undefined ? sample[h] : sample[h.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase()] || '').join(',')
         )
       ].join('\n');
+    } else if (isMadrid) {
+      // Madrid: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
+      csvContent = [
+        visibleColumns.map(col => col.label).join(';'),
+        ...processedData.map(row =>
+          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
+        )
+      ].join('\n');
     } else if (isLetonia) {
       // Letonia: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
       if (processedData.length > 0) {
@@ -178,14 +189,6 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
         // Si no hay datos, exportar solo los headers visibles
         csvContent = visibleColumns.map(col => col.label).join(';');
       }
-    } else if (isMadrid) {
-      // Madrid: exportar exactamente lo que se ve en la tabla (columnas visibles y datos procesados)
-      csvContent = [
-        visibleColumns.map(col => col.label).join(';'),
-        ...processedData.map(row =>
-          visibleColumns.map(col => row[col.key] !== undefined ? row[col.key] : '').join(';')
-        )
-      ].join('\n');
     } else if (isItalyCiraa) {
       // CIRAA: exportar todas las columnas presentes en los datos
       const ciraaHeaders = Object.keys(sampleData[0] || {}).filter(key => 
@@ -250,16 +253,18 @@ const SamplingDataTable = ({ visible, onClose, data, isItalyCiraa = false, isTam
       } else {
         link.setAttribute('download', 'italy_ciraa.csv');
       }
-    } else if (isLetonia) {
-      link.setAttribute('download', 'ZSA_Case_Study_DIH_System.csv');
     } else if (isMadrid) {
+      // Siempre exportar la tabla de Madrid con el nombre correcto
       link.setAttribute('download', 'UPM_Case_Study_Madrid.csv');
     } else if (isEstonia) {
       link.setAttribute('download', 'METK_Case_Study_Integrated_Production.csv');
+    } else if (isLetonia) {
+      link.setAttribute('download', 'ZSA_Case_Study_DIH_System.csv');
     } else if (sampleData.length > 0 && (sampleData[0]['Case Study ID'] !== undefined || sampleData[0]['case_study_id'] !== undefined)) {
+      // Si no es Madrid pero tiene Case Study ID, usar el nombre de viñedos
       link.setAttribute('download', 'UPM_Case_Study_Organic_Vineyards.csv');
     } else {
-      link.setAttribute('download', 'Olive groves Integrated Production.csv');
+      link.setAttribute('download', 'NBU_Case_Study_Organic_Vineyards.csv');
     }
     link.style.visibility = 'hidden';
     document.body.appendChild(link);

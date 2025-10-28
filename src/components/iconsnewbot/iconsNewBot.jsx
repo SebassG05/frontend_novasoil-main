@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './iconsNewBot.css';
 import IndicatorInfoModal from '../IndicatorInfoModal/IndicatorInfoModal';
 import InfoSoilThreat from '../InfoSoilThreat/InfoSoilThreat';
@@ -50,6 +50,14 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
   const [infoModal, setInfoModal] = useState({ open: false, indicator: '' });
   const [transitioning, setTransitioning] = useState(false);
   const [soilThreatModal, setSoilThreatModal] = useState({ open: false, indicator: '' });
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsSmallScreen(window.innerWidth <= 1180);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // Si el modal informativo está abierto, solo mostrarlo
   if ((!visible && !closing) || (infoModal.open && !transitioning)) {
@@ -113,7 +121,10 @@ const SoilHealthTable = ({ visible, onClose, empty }) => {
 
   return (
     <div className={`overlay`}>
-      <div className={`container ${closing ? 'soilHealthFadeOut' : 'soilHealthFadeIn'}`}>
+      <div
+        className={`container ${closing ? 'soilHealthFadeOut' : 'soilHealthFadeIn'}`}
+        style={isSmallScreen ? { marginLeft: 'auto', marginRight: '1.2rem' } : undefined}
+      >
         <div className={`header`}>
           {empty ? (
             <h2 className={`title`}>Soil Threat Indicators</h2>

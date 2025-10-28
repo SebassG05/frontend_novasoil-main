@@ -1,3 +1,9 @@
+@media (max-width: 1180px) {
+	.cardGeincardGridWrapper{
+		margin-left: 40% !important;
+	}
+}
+
 .cardGridUnified {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -288,4 +294,34 @@
 }
 .table tr:last-child td {
 	border-bottom: none;
+}
+
+/* Ensure small-screen modal appears to the right rather than centered/left
+   Placed at the end to override earlier rules and ensure it takes effect. */
+@media (max-width: 1180px) {
+	.overlay {
+		justify-content: flex-end !important;
+		align-items: flex-start !important;
+		padding-top: 2.2rem !important; /* push modal down from top a bit */
+		padding-right: 1rem !important;
+	}
+	.overlay .container {
+		width: 92vw !important;
+		max-width: 92vw !important;
+		margin: 0 !important;
+		border-radius: 14px !important;
+	}
+	.overlay .container {
+		transform: none !important; /* ensure no centering transform interferes */
+	}
+	.overlay .container {
+		margin-right: 1.2rem !important;
+	}
+	.overlay .container .cardGridUnified {
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+		gap: 1rem 1rem !important;
+		max-height: 68vh !important;
+		padding-left: 0.6rem !important;
+		padding-right: 0.6rem !important;
+	}
 }
