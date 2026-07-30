@@ -17,11 +17,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
 import { useGeoData } from '../../hooks/useGeoData';
-import { create } from 'zustand';
 
 const Model3DLayer = () => {
   const { map, setSelectedAreaName, samplingData, samplingDataGermany, samplingDataBulgaria, samplingDataEstonia, samplingDataLetonia, samplingDataMadrid, samplingDataItaly, samplingDataItalyCiraa, samplingDataItalyCiraa2, samplingDataItalyCiraa3, samplingDataTamarguilloGeneral, samplingDataTamarguillo1, samplingDataTamarguillo2, samplingDataTamarguillo3, samplingDataAsaja } = useMapStore();
-  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadMadridArea, loadAsajaData, loadTamarguilloGeneralData, loadTamarguilloDepth0_25Data, loadTamarguilloDepth25_50Data } = useGeoData();
+  const { loadGermanyData, loadBulgariaData, loadEstoniaData, loadLetoniaData, loadMadridData, loadItalyData, loadItalyCiraaData, loadItalyCiraa2Data, loadItalyCiraa3Data, loadAsajaData, loadTamarguilloGeneralData, loadTamarguilloDepth0_25Data, loadTamarguilloDepth25_50Data } = useGeoData();
   const markersRef = useRef({
     htmlMarker: null,
     model3D: null,
@@ -277,19 +276,18 @@ const Model3DLayer = () => {
     if (!map) return;
 
     // Cargar automáticamente los puntos de muestreo y el shape de Madrid al iniciar el mapa
-  loadLetoniaData();
-  loadEstoniaData();
-  loadMadridData();
-  loadItalyData();
-  loadMadridArea(); // <-- Mostrar el shape de Madrid
-  loadAsajaData(); // <-- Mostrar puntos de Asaja igual que los demás
-
     // Coordenadas del centro del Parque Tamarguillo (calculadas a partir de las muestras)
     const coordinates = [-5.911, 37.406];
   const ZOOM_THRESHOLD = 6; // Zoom donde cambia del círculo al modelo 3D (menor = aparece antes)
   // Detectar si el dispositivo tiene recursos suficientes para 3D (simple heurística)
-  const hardwareConcurrency = (typeof navigator !== 'undefined' && navigator.hardwareConcurrency) ? navigator.hardwareConcurrency : 2;
-  const enable3D = hardwareConcurrency >= 4; // permitir 3D solo en dispositivos con >=4 núcleos
+  const hardwareConcurrency = navigator.hardwareConcurrency || 2;
+  const deviceMemory = navigator.deviceMemory;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lowPowerDevice =
+    hardwareConcurrency <= 4 ||
+    (deviceMemory !== undefined && deviceMemory <= 4) ||
+    prefersReducedMotion;
+  const enable3D = !lowPowerDevice;
 
     // Recibe pulseTimers como argumento para evitar hooks en funciones auxiliares
     const createPulseLayer = (id, color, coordinates, timersRef) => {
@@ -343,6 +341,9 @@ const Model3DLayer = () => {
         }
       }, `${id}-circle`); // debajo del círculo base
     }
+    // En hardware modesto conservamos el marcador, pero evitamos mutar nueve
+    // fuentes GeoJSON varias veces por segundo.
+    if (lowPowerDevice) return;
     // Inicializar propiedades animadas
     let pulseRadius = 18;
     let pulseOpacity = 0.85;
@@ -595,7 +596,6 @@ const Model3DLayer = () => {
           this.camera.projectionMatrix = m.multiply(l);
           this.renderer.resetState();
           this.renderer.render(this.scene, this.camera);
-          this.map.triggerRepaint();
         }
       };
     };

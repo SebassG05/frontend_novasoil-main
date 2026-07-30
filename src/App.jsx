@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MapContainer from './components/Map/MapContainer';
-import FloatingMenu from './components/Controls/FloatingMenu';
 import SplashScreen from './components/SplashScreen/SplashScreen';
 import Welcome from './components/Welcome/Welcome';
 import useWelcome from './components/Welcome/useWelcome';
-import Model3DLayer from './components/Map/Model3DLayer';
 import './App.css';
+
+const FloatingMenu = React.lazy(() => import('./components/Controls/FloatingMenu'));
+const Model3DLayer = React.lazy(() => import('./components/Map/Model3DLayer'));
 
 const theme = createTheme({
   palette: {
@@ -69,8 +70,12 @@ function App() {
           </span>
         </div>
         <MapContainer />
-        <Model3DLayer />
-        <FloatingMenu />
+        {!splashVisible && (
+          <Suspense fallback={null}>
+            <Model3DLayer />
+            <FloatingMenu />
+          </Suspense>
+        )}
         <SplashScreen onFinish={() => setSplashVisible(false)} />
         <Welcome visible={showWelcome} onClose={() => setShowWelcome(false)} />
       </div>

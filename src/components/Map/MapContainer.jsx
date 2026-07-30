@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useMapStore } from '../../store/mapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { useGeoData } from '../../hooks/useGeoData';
 import { MAPBOX_TOKEN } from '../../config/mapbox';
 import MiniMap from '../Controls/MiniMap';
@@ -27,7 +28,16 @@ const MapContainer = () => {
         setIsLoaded,
         selectedWMSLayers,
         enableWMS
-    } = useMapStore();
+    } = useMapStore(useShallow((state) => ({
+        map: state.map,
+        viewport: state.viewport,
+        mapStyle: state.mapStyle,
+        setMap: state.setMap,
+        setIsLoaded: state.setIsLoaded,
+        selectedWMSLayers: state.selectedWMSLayers,
+        enableWMS: state.enableWMS
+    })));
+    const hoveredSample = useMapStore((state) => state.hoveredSample);
     // Leer opacidades de window para cada capa WMS
     const [wmsOpacities, setWmsOpacities] = useState({});
     useEffect(() => {
@@ -56,7 +66,7 @@ const MapContainer = () => {
                         if (map.getSource(sourceId)) map.removeSource(sourceId);
                     }
                 });
-            } catch (err) {
+        } catch {
                 // Ignorar errores de acceso al estilo si el mapa no está listo
             }
             return;
@@ -123,7 +133,7 @@ const MapContainer = () => {
     }, [map, selectedWMSLayers, wmsOpacities, enableWMS]);
 
     // Usar el hook de datos geoespaciales
-    const { isLoadingGeoData } = useGeoData();
+    useGeoData();
 
     useEffect(() => {
         if (!mapContainer.current) return;
@@ -133,7 +143,9 @@ const MapContainer = () => {
             style: mapStyle,
             center: [viewport.longitude, viewport.latitude],
             zoom: viewport.zoom,
-            attributionControl: false
+            attributionControl: false,
+            antialias: false,
+            fadeDuration: 150
         });
 
         // Exponer setHoveredSample para los eventos de Alemania
@@ -173,21 +185,21 @@ const MapContainer = () => {
             <div ref={mapContainer} className="w-full h-full" />
             {/* Solo mostrar un pop-up según el tipo de punto */}
             {/* Mostrar pop-up de Sevilla solo si hoveredSample existe y no es de Alemania ni Bulgaria */}
-            {useMapStore.getState().hoveredSample && !useMapStore.getState().hoveredSample._germany && !useMapStore.getState().hoveredSample._bulgaria && !useMapStore.getState().hoveredSample._estonia && !useMapStore.getState().hoveredSample._letonia && !useMapStore.getState().hoveredSample._madrid && !useMapStore.getState().hoveredSample._asaja && <SampleHoverInfo />}
+            {hoveredSample && !hoveredSample._germany && !hoveredSample._bulgaria && !hoveredSample._estonia && !hoveredSample._letonia && !hoveredSample._madrid && !hoveredSample._asaja && !hoveredSample._italy && <SampleHoverInfo />}
             {/* Mostrar pop-up de Alemania solo si hoveredSample existe y es de Alemania */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._germany && <GermanyHoverInfo />}
+            {hoveredSample?._germany && <GermanyHoverInfo />}
             {/* Mostrar pop-up de Bulgaria solo si hoveredSample existe y es de Bulgaria */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._bulgaria && <BulgariaHoverInfo />}
+            {hoveredSample?._bulgaria && <BulgariaHoverInfo />}
             {/* Mostrar pop-up de Estonia solo si hoveredSample existe y es de Estonia */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._estonia && <EstoniaHoverInfo />}
+            {hoveredSample?._estonia && <EstoniaHoverInfo />}
             {/* Mostrar pop-up de Letonia solo si hoveredSample existe y es de Letonia */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._letonia && <LetoniaHoverInfo />}
+            {hoveredSample?._letonia && <LetoniaHoverInfo />}
             {/* Mostrar pop-up de Madrid solo si hoveredSample existe y es de Madrid */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._madrid && <MadridHoverInfo />}
+            {hoveredSample?._madrid && <MadridHoverInfo />}
             {/* Mostrar pop-up de Italy Ciraa3 solo si hoveredSample existe y es de Italy Ciraa3 */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._italy && <ItalyCiraa3HoverInfo />}
+            {hoveredSample?._italy && <ItalyCiraa3HoverInfo />}
             {/* Mostrar pop-up de Asaja solo si hoveredSample existe y es de Asaja */}
-            {useMapStore.getState().hoveredSample && useMapStore.getState().hoveredSample._asaja && <AsajaHoverInfo />}
+            {hoveredSample?._asaja && <AsajaHoverInfo />}
             {/* Cargar datos geoespaciales */}
             <GeoDataLoader />
             <MiniMap />

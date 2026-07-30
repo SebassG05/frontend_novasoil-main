@@ -6,16 +6,17 @@ import { MAPBOX_TOKEN } from '../../config/mapbox';
 const MiniMap = () => {
     const miniMapRef = useRef(null);
     const miniMapInstance = useRef(null);
-    const { map } = useMapStore();
+    const map = useMapStore((state) => state.map);
+    const deviceMemory = navigator.deviceMemory;
+    const isLowPowerDevice =
+        (navigator.hardwareConcurrency || 2) <= 4 ||
+        (deviceMemory !== undefined && deviceMemory <= 4) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     useEffect(() => {
-        if (!map || !miniMapRef.current) {
-            console.log('MiniMap: Esperando mapa principal o ref...');
+        if (isLowPowerDevice || !map || !miniMapRef.current) {
             return;
         }
-
-        console.log('MiniMap: Inicializando minimapa...');
-        console.log('Token disponible:', !!MAPBOX_TOKEN);
 
         // Configurar token
         mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -27,7 +28,10 @@ const MiniMap = () => {
             center: map.getCenter(),
             zoom: Math.max(map.getZoom() - 4, 0),
             interactive: false,
-            attributionControl: false
+            attributionControl: false,
+            antialias: false,
+            fadeDuration: 0,
+            preserveDrawingBuffer: false
         });
 
         // Manejar errores
@@ -37,7 +41,6 @@ const MiniMap = () => {
 
         // Eliminar logo de Mapbox
         miniMapInstance.current.on('load', () => {
-            console.log('MiniMap: Cargado exitosamente');
             const logoElements = miniMapRef.current.querySelectorAll('.mapboxgl-ctrl-logo');
             logoElements.forEach(el => {
                 el.style.display = 'none';
@@ -82,11 +85,18 @@ const MiniMap = () => {
         });
 
         // Sincronizar con mapa principal
+        let animationFrame = null;
         const updateMiniMap = () => {
-            if (miniMapInstance.current) {
-                miniMapInstance.current.setCenter(map.getCenter());
-                miniMapInstance.current.setZoom(Math.max(map.getZoom() - 4, 0));
-            }
+            if (animationFrame !== null) return;
+            animationFrame = requestAnimationFrame(() => {
+                animationFrame = null;
+                if (!miniMapInstance.current) return;
+                miniMapInstance.current.jumpTo({
+                    center: map.getCenter(),
+                    zoom: Math.max(map.getZoom() - 4, 0)
+                });
+                updateViewportRectangle();
+            });
         };
 
         // Actualizar el rectángulo de viewport
@@ -113,21 +123,18 @@ const MiniMap = () => {
 
         // Escuchar cambios del mapa principal
         map.on('move', updateMiniMap);
-        map.on('zoom', updateMiniMap);
-        map.on('move', updateViewportRectangle);
-        map.on('zoom', updateViewportRectangle);
 
         // Cleanup
         return () => {
             if (miniMapInstance.current) {
                 map.off('move', updateMiniMap);
-                map.off('zoom', updateMiniMap);
-                map.off('move', updateViewportRectangle);
-                map.off('zoom', updateViewportRectangle);
+                if (animationFrame !== null) cancelAnimationFrame(animationFrame);
                 miniMapInstance.current.remove();
             }
         };
-    }, [map]);
+    }, [isLowPowerDevice, map]);
+
+    if (isLowPowerDevice) return null;
 
     return (
         <div className="absolute bottom-4 right-4 w-[240px] h-[220px] sm:w-[300px] sm:h-[250px] md:w-[340px] md:h-[280px] z-40 shadow-lg overflow-hidden rounded-lg bg-white">
